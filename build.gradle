@@ -1,0 +1,33 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group = 'kekolab'
+version = '1.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.2-beta1'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0-rc2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.36'    
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'    
+}
+
+task sourceJar(type: Jar) {
+  from sourceSets.main.allJava
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '7.3.3'
+}
