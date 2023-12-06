@@ -28,6 +28,7 @@ task sourceJar(type: Jar) {
   from sourceSets.main.allJava
 }
 
-task wrapper(type: Wrapper) {
+wrapper {
     gradleVersion = '7.3.3'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }
