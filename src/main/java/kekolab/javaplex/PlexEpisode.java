@@ -31,7 +31,11 @@ public class PlexEpisode extends PlexVideo<PlexShowSection> {
 	@JsonIgnore
 	private FieldEditor<List<PlexTag>> writerEditor;
 	@JsonIgnore
+	private FieldEditor<Boolean> writerLockEditor;
+	@JsonIgnore
 	private FieldEditor<List<PlexTag>> directorEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> directorLockEditor;
 
 	public PlexEpisode() {
 		art = new UriProvider(this::uri);
@@ -44,7 +48,9 @@ public class PlexEpisode extends PlexVideo<PlexShowSection> {
 		grandchild = new GrandchildDelegate<>(this::server, this::getClient, this::getToken);
 
 		writerEditor = new TagListFieldEditor("writer", this::getWriters);
+		writerLockEditor = new BooleanFieldEditor("writer.locked", this::isWritersLocked);
 		directorEditor = new TagListFieldEditor("director", this::getDirectors);
+		directorLockEditor = new BooleanFieldEditor("director.locked", this::isDirectorsLocked);
 	}
 
 	@Override
@@ -411,6 +417,14 @@ public class PlexEpisode extends PlexVideo<PlexShowSection> {
 		this.thumb.setValue(thumb);
 	}
 
+	public boolean isWritersLocked() {
+		return isLocked("writer");
+	}
+
+	public boolean isDirectorsLocked() {
+		return isLocked("director");
+	}
+
 	@Override
 	public int typeId() {
 		return TYPE_ID;
@@ -420,15 +434,25 @@ public class PlexEpisode extends PlexVideo<PlexShowSection> {
 		editTaglist(writerEditor, writers);
 	}
 
+	public void editWritersLock(boolean locked) {
+		writerLockEditor.setValue(locked);
+	}
+
 	public void editDirectors(List<PlexTag> directors) {
 		editTaglist(directorEditor, directors);
+	}
+
+	public void editDirectorsLock(boolean locked) {
+		directorLockEditor.setValue(locked);
 	}
 
 	@Override
 	protected List<FieldEditor<?>> fieldEditors() {
 		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
 		fieldEditors.add(directorEditor);
+		fieldEditors.add(directorLockEditor);
 		fieldEditors.add(writerEditor);
+		fieldEditors.add(writerLockEditor);
 		return fieldEditors;
 	}
 }

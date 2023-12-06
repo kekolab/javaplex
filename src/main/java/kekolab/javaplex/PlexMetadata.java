@@ -159,7 +159,7 @@ public abstract class PlexMetadata extends PlexDirectory {
 
 	public abstract URI ratingKey();
 
-	protected Boolean isLocked(String field) {
+	protected boolean isLocked(String field) {
 		return getFields().stream().filter(f -> f.getName().equals(field)).map(PlexField::getLocked)
 				.findAny().orElse(false);
 	}

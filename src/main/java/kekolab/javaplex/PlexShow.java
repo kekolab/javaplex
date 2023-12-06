@@ -46,6 +46,7 @@ public class PlexShow extends PlexMediatag<PlexShowSection> {
 
 	@JsonIgnore
 	private FieldEditor<List<PlexTag>> genreEditor;
+	@JsonIgnore private FieldEditor<Boolean> genreLockEditor;
 
 	public PlexShow() {
 		art = new UriProvider(this::uri);
@@ -60,6 +61,7 @@ public class PlexShow extends PlexMediatag<PlexShowSection> {
 		thumb = new UriProvider(this::uri);
 
 		genreEditor = new TagListFieldEditor("genre", this::getGenres);
+		genreLockEditor = new BooleanFieldEditor("genre.locked", this::isGenresLocked);
 	}
 
 	@Override
@@ -371,6 +373,10 @@ public class PlexShow extends PlexMediatag<PlexShowSection> {
 		this.thumb.setValue(thumb);
 	}
 
+	public boolean isGenresLocked() {
+		return isLocked("genre");
+	}
+
 	@Override
 	public int typeId() {
 		return TYPE_ID;
@@ -380,10 +386,15 @@ public class PlexShow extends PlexMediatag<PlexShowSection> {
 		editTaglist(genreEditor, genres);
 	}
 
+	public void editGenresLock(boolean locked) {
+		genreLockEditor.setValue(locked);
+	}
+
 	@Override
 	protected List<FieldEditor<?>> fieldEditors() {
 		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
 		fieldEditors.add(genreEditor);
+		fieldEditors.add(genreLockEditor);
 		return fieldEditors;
 	}
 }
