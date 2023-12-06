@@ -29,9 +29,9 @@ public class PlexEpisode extends PlexVideo<PlexShowSection> {
 	private UriProvider art, thumb;
 
 	@JsonIgnore
-	private TagListFieldEditor writerEditor;
+	private FieldEditor<List<PlexTag>> writerEditor;
 	@JsonIgnore
-	private TagListFieldEditor directorEditor;
+	private FieldEditor<List<PlexTag>> directorEditor;
 
 	public PlexEpisode() {
 		art = new UriProvider(this::uri);

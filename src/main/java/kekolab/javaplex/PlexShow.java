@@ -45,7 +45,7 @@ public class PlexShow extends PlexMediatag<PlexShowSection> {
 	private UriProvider thumb;
 
 	@JsonIgnore
-	private TagListFieldEditor genreEditor;
+	private FieldEditor<List<PlexTag>> genreEditor;
 
 	public PlexShow() {
 		art = new UriProvider(this::uri);

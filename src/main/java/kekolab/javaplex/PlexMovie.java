@@ -44,15 +44,15 @@ public class PlexMovie extends PlexVideo<PlexMovieSection> {
 	private UriProvider art, thumb;
 
 	@JsonIgnore
-	private TagListFieldEditor countryEditor;
+	private FieldEditor<List<PlexTag>> countryEditor;
 	@JsonIgnore
-	private TagListFieldEditor directorEditor;
+	private FieldEditor<List<PlexTag>> directorEditor;
 	@JsonIgnore
-	private TagListFieldEditor genreEditor;
+	private FieldEditor<List<PlexTag>> genreEditor;
 	@JsonIgnore
-	private TagListFieldEditor writerEditor;
+	private FieldEditor<List<PlexTag>> writerEditor;
 	@JsonIgnore
-	private TagListFieldEditor producerEditor;
+	private FieldEditor<List<PlexTag>> producerEditor;
 
 	public PlexMovie() {
 		art = new UriProvider(this::uri);

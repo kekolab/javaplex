@@ -206,7 +206,7 @@ public abstract class PlexMediatag<S extends PlexSection<?, ?>> extends PlexSect
 		}
 	}
 
-	protected void editTaglist(TagListFieldEditor editor, List<PlexTag> value) {
+	protected void editTaglist(FieldEditor<List<PlexTag>> editor, List<PlexTag> value) {
 		editor.setValue(value);
 	}
 }

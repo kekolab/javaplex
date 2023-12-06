@@ -3,6 +3,7 @@ package kekolab.javaplex;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.hc.core5.net.URIBuilder;
@@ -30,15 +31,25 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> {
 	private UriProvider art, thumb;
 
 	@JsonIgnore
-	private TagListFieldEditor countryEditor;
+	private FieldEditor<List<PlexTag>> countryEditor;
 	@JsonIgnore
-	private TagListFieldEditor genreEditor;
+	private FieldEditor<Boolean> countryLockEditor;
 	@JsonIgnore
-	private TagListFieldEditor moodEditor;
+	private FieldEditor<List<PlexTag>> genreEditor;
 	@JsonIgnore
-	private TagListFieldEditor similarEditor;
+	private FieldEditor<Boolean> genreLockEditor;
 	@JsonIgnore
-	private TagListFieldEditor styleEditor;
+	private FieldEditor<List<PlexTag>> moodEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> moodLockEditor;
+	@JsonIgnore
+	private FieldEditor<List<PlexTag>> similarEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> similarLockEditor;
+	@JsonIgnore
+	private FieldEditor<List<PlexTag>> styleEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> styleLockEditor;
 
 	public PlexArtist() {
 		art = new UriProvider(this::uri);
@@ -51,10 +62,15 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> {
 		thumb = new UriProvider(this::uri);
 
 		countryEditor = new TagListFieldEditor("country", this::getCountries);
+		countryLockEditor = new BooleanFieldEditor("country.locked", this::isCountriesLocked);
 		genreEditor = new TagListFieldEditor("genre", this::getGenres);
+		genreLockEditor = new BooleanFieldEditor("genre.locked", this::isGenresLocked);
 		moodEditor = new TagListFieldEditor("mood", this::getMoods);
+		moodLockEditor = new BooleanFieldEditor("mood.locked", this::isMoodsLocked);
 		similarEditor = new TagListFieldEditor("similar", this::getSimilars);
+		similarLockEditor = new BooleanFieldEditor("similar.locked", this::isSimilarsLocked);
 		styleEditor = new TagListFieldEditor("style", this::getStyles);
+		styleLockEditor = new BooleanFieldEditor("style.locked", this::isStylesLocked);
 	}
 
 	@Override
@@ -220,34 +236,72 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> {
 		return TYPE_ID;
 	}
 
+	public boolean isCountriesLocked() {
+		return isLocked("country");
+	}
+
+	public boolean isGenresLocked() {
+		return isLocked("genre");
+	}
+
+	public boolean isSimilarsLocked() {
+		return isLocked("similar");
+	}
+
+	public boolean isMoodsLocked() {
+		return isLocked("mood");
+	}
+
+	public boolean isStylesLocked() {
+		return isLocked("style");
+	}
+
 	public void editCountries(List<PlexTag> countries) {
 		editTaglist(countryEditor, countries);
+	}
+
+	public void editCountriesLock(boolean locked) {
+		countryLockEditor.setValue(locked);
 	}
 
 	public void editMoods(List<PlexTag> moods) {
 		editTaglist(moodEditor, moods);
 	}
 
+	public void editMoodsLock(boolean locked) {
+		moodLockEditor.setValue(locked);
+	}
+
 	public void editSimilars(List<PlexTag> similars) {
 		editTaglist(similarEditor, similars);
+	}
+
+	public void editSimilarsLock(boolean locked) {
+		similarLockEditor.setValue(locked);
 	}
 
 	public void editStyles(List<PlexTag> styles) {
 		editTaglist(styleEditor, styles);
 	}
 
+	public void editStylesLock(boolean locked) {
+		styleLockEditor.setValue(locked);
+	}
+
 	public void editGenres(List<PlexTag> genres) {
 		editTaglist(genreEditor, genres);
+	}
+
+	public void editGenresLock(boolean locked) {
+		genreLockEditor.setValue(locked);
 	}
 
 	@Override
 	protected List<FieldEditor<?>> fieldEditors() {
 		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.add(countryEditor);
-		fieldEditors.add(genreEditor);
-		fieldEditors.add(moodEditor);
-		fieldEditors.add(styleEditor);
-		fieldEditors.add(similarEditor);
+		fieldEditors.addAll(Arrays.asList(countryEditor, countryLockEditor, genreEditor,
+				genreLockEditor, moodEditor, moodLockEditor, styleEditor, styleLockEditor,
+				similarEditor, similarLockEditor));
 		return fieldEditors;
 	}
 }

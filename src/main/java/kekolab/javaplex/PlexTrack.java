@@ -30,7 +30,7 @@ public class PlexTrack extends PlexMediatag<PlexMusicSection> {
 	private GrandchildDelegate<PlexAlbum, PlexArtist> grandchild;
 
 	@JsonIgnore
-	private TagListFieldEditor moodEditor;
+	private FieldEditor<List<PlexTag>> moodEditor;
 
 	public PlexTrack() {
 		createdAtAccuracy = new ArrayList<>();
