@@ -2,6 +2,7 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -36,11 +37,17 @@ public class PlexAlbum extends PlexMediatag<PlexMusicSection> {
 	private ChildDelegate<PlexArtist> child;
 
 	@JsonIgnore
-	private TagListFieldEditor genreEditor;
+	private FieldEditor<List<PlexTag>> genreEditor;
 	@JsonIgnore
-	private TagListFieldEditor moodEditor;
+	private FieldEditor<Boolean> genreLockEditor;
 	@JsonIgnore
-	private TagListFieldEditor styleEditor;
+	private FieldEditor<List<PlexTag>> moodEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> moodLockEditor;
+	@JsonIgnore
+	private FieldEditor<List<PlexTag>> styleEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> styleLockEditor;
 
 	public PlexAlbum() {
 		art = new UriProvider(this::uri);
@@ -53,8 +60,11 @@ public class PlexAlbum extends PlexMediatag<PlexMusicSection> {
 		thumb = new UriProvider(this::uri);
 		child = new ChildDelegate<>(this::server, this::getClient, this::getToken);
 		genreEditor = new TagListFieldEditor("genre", this::getGenres);
+		genreLockEditor = new BooleanFieldEditor("genre.locked", this::isGenresLocked);
 		moodEditor = new TagListFieldEditor("mood", this::getMoods);
+		moodLockEditor = new BooleanFieldEditor("mood.locked", this::isMoodsLocked);
 		styleEditor = new TagListFieldEditor("style", this::getStyles);
+		styleLockEditor = new BooleanFieldEditor("style.locked", this::isStylesLocked);
 	}
 
 	@Override
@@ -364,6 +374,18 @@ public class PlexAlbum extends PlexMediatag<PlexMusicSection> {
 		this.thumb.setValue(thumb);
 	}
 
+	public boolean isGenresLocked() {
+		return isLocked("genre");
+	}
+
+	public boolean isMoodsLocked() {
+		return isLocked("mood");
+	}
+
+	public boolean isStylesLocked() {
+		return isLocked("style");
+	}
+
 	@Override
 	public int typeId() {
 		return TYPE_ID;
@@ -373,20 +395,31 @@ public class PlexAlbum extends PlexMediatag<PlexMusicSection> {
 		editTaglist(moodEditor, moods);
 	}
 
+	public void editMoodsLock(boolean locked) {
+		moodLockEditor.setValue(locked);
+	}
+
 	public void editStyles(List<PlexTag> styles) {
 		editTaglist(styleEditor, styles);
+	}
+
+		public void editStylesLock(boolean locked) {
+		styleLockEditor.setValue(locked);
 	}
 
 	public void editGenres(List<PlexTag> genres) {
 		editTaglist(genreEditor, genres);
 	}
 
+	public void editGenresLock(boolean locked) {
+		genreLockEditor.setValue(locked);
+	}
+
 	@Override
 	protected List<FieldEditor<?>> fieldEditors() {
 		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.add(genreEditor);
-		fieldEditors.add(styleEditor);
-		fieldEditors.add(moodEditor);
+		fieldEditors.addAll(Arrays.asList(genreEditor, genreLockEditor, styleEditor, styleLockEditor, moodEditor, moodLockEditor));
 		return fieldEditors;
 	}
+
 }

@@ -2,6 +2,7 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class PlexTrack extends PlexMediatag<PlexMusicSection> {
 
 	@JsonIgnore
 	private FieldEditor<List<PlexTag>> moodEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> moodLockEditor;
 
 	public PlexTrack() {
 		createdAtAccuracy = new ArrayList<>();
@@ -38,6 +41,7 @@ public class PlexTrack extends PlexMediatag<PlexMusicSection> {
 		moods = new ArrayList<>();
 		grandchild = new GrandchildDelegate<>(this::server, this::getClient, this::getToken);
 		moodEditor = new TagListFieldEditor("mood", this::getMoods);
+		moodLockEditor = new BooleanFieldEditor("mood.locked", this::isMoodsLocked);
 	}
 
 	@Override
@@ -358,6 +362,10 @@ public class PlexTrack extends PlexMediatag<PlexMusicSection> {
 		grandchild.setGrandparentYear(year);
 	}
 
+	public boolean isMoodsLocked() {
+		return isLocked("mood");
+	}
+
 	@Override
 	public int typeId() {
 		return TYPE_ID;
@@ -367,10 +375,14 @@ public class PlexTrack extends PlexMediatag<PlexMusicSection> {
 		editTaglist(moodEditor, moods);
 	}
 
+	public void editMoodsLock(boolean locked) {
+		moodLockEditor.setValue(locked);
+	}
+
 	@Override
 	protected List<FieldEditor<?>> fieldEditors() {
 		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.add(moodEditor);
+		fieldEditors.addAll(Arrays.asList(moodEditor, moodLockEditor));
 		return fieldEditors;
 	}
 }
