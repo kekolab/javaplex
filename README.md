@@ -2,7 +2,8 @@
 
 A Java library to interact with Plex Media Server.
 
-The library can only  _query_  the server and not upload, edit or delete the items of the server.
+The library can _query_ the server and _edit_ the items on the server (at least the media items). The library _does not_ and not upload, or delete the items of the server, although it has the capability to delete playlists and collections.
+
 It works both with remotely-available (public) servers and local servers
 
 ## Creating a client
@@ -189,3 +190,18 @@ artist.commitEdits();
 ## More examples
 
 Please see the tests for more use-cases.
+
+## TO-DO
+
+- [ ] Delete media items on the server:
+  - [ ] Artist
+  - [ ] Album
+  - [ ] Track
+  - [ ] Movie
+  - [ ] Photoalbum
+  - [ ] Photo
+  - [ ] Clip
+  - [ ] Show
+  - [ ] Season
+  - [ ] Episode
+  
