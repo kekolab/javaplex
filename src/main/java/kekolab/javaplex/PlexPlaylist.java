@@ -161,10 +161,6 @@ public abstract class PlexPlaylist<M extends PlexMediatag<?>> extends PlexMetada
 		return null;
 	}
 
-	public void delete() {
-		new GenericCollectionsHelper(this).delete();
-	}
-
 	public void add(M mediatag) {
 		new GenericCollectionsHelper(this).add(mediatag);
 	}

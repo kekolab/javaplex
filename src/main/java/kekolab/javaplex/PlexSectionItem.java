@@ -157,5 +157,4 @@ public abstract class PlexSectionItem<S extends PlexSection<?, ?>> extends PlexM
     public void commitEdits() {
         new AttributeEditor(this).commit();
     }
-
 }

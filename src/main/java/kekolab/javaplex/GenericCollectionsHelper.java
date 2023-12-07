@@ -13,7 +13,6 @@ public class GenericCollectionsHelper {
 	private String token;
 	private PlexHTTPClient client;
 	private Consumer<BaseItem> updateCallback;
-	private Runnable clearCallback;
 	private PlexMediaServer server;
 
 	protected GenericCollectionsHelper(PlexPlaylist<?> target) {
@@ -22,7 +21,6 @@ public class GenericCollectionsHelper {
 		this.server = target.server();
 		this.token = target.getToken();
 		this.updateCallback = target::update;
-		this.clearCallback = target::clear;
 	}
 
 	protected GenericCollectionsHelper(PlexCollection<?, ?> target) {
@@ -31,7 +29,6 @@ public class GenericCollectionsHelper {
 		this.server = target.server();
 		this.token = target.getToken();
 		this.updateCallback = target::update;
-		this.clearCallback = target::clear;
 	}
 
 	protected void add(PlexMediatag<?> mediatag) {
@@ -46,11 +43,6 @@ public class GenericCollectionsHelper {
 		client.executeAndUpdateFromResponse(request, container, token);
 		PlexMetadata collection = container.getMetadata().get(0);
 		updateCallback.accept(collection);
-	}
-
-	protected void delete() {
-		client.execute(ClassicRequestBuilder.delete(target.ratingKey()).build(), token);
-		clearCallback.run();
 	}
 
 	protected void remove(URI uri) {

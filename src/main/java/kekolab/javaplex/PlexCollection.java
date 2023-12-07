@@ -164,10 +164,6 @@ public abstract class PlexCollection<M extends PlexMediatag<S>, S extends PlexSe
 		new GenericCollectionsHelper(this).remove(uri);
 	}
 
-	public void delete() {
-		new GenericCollectionsHelper(this).delete();
-	}
-
 	public String getArt() {
 		fetchDetailedIfNullOrEmpty(art.getValue());
 		return (String) art.getValue();

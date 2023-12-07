@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -162,5 +164,10 @@ public abstract class PlexMetadata extends PlexDirectory {
 	protected boolean isLocked(String field) {
 		return getFields().stream().filter(f -> f.getName().equals(field)).map(PlexField::getLocked)
 				.findAny().orElse(false);
+	}
+
+	public void delete() {
+		getClient().execute(ClassicRequestBuilder.delete(ratingKey()).build(), getToken());
+		clear();
 	}
 }
