@@ -28,6 +28,24 @@ public class PlexStream extends MediatagAttribute { // TODO abstract?
 	private String extendedDisplayTitle;
 	private String title;
 	private Integer streamIdentifier;
+	private String decision;
+	private String location;
+
+	public String getDecision() {
+		return decision;
+	}
+
+	public void setDecision(String decision) {
+		this.decision = decision;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
 	public PlexStream() {
 		requiredBandwidths = new ArrayList<>();

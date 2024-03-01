@@ -143,9 +143,7 @@ The On-Deck Content, instead, contains only videos, i.e. Episodes or Movies.
 
 You can navigate through the server using the methods provided. For example
 
-### Examples
-
-#### Getting all the artists of a Music Section
+### Getting all the artists of a Music Section
 
 ```java
 List<PlexArtist> artists = server.library()
@@ -158,7 +156,7 @@ List<PlexArtist> artists = server.library()
  .all(); // Get all the artists
 ```
 
-#### Getting a season of a TV show
+### Getting a season of a TV show
 
 ```java
 PlexSeason season = server.library()
@@ -174,7 +172,7 @@ PlexSeason season = server.library()
  .get(0); // Get the first
 ```
 
-#### Getting all the the episodes of a season
+### Getting all the the episodes of a season
 
 ```java
 List<PlexEpisode> episodes = season.children();
@@ -191,6 +189,26 @@ PlexArtist artist = ... // Retrieve the artist in some way
 artist.editTitle("editedTitle");
 artist.editSummary("editedSummary");
 artist.commitEdits();
+```
+
+## Session infos
+
+You can access information on ongoing sessions:
+
+```java
+PlexMediaServer server; // Get it somehow
+List<PlexMediatag<?>> mediatags = server.status().sessions(); // A list of all the items being streamed
+
+// The following lines need to have a session ongoing
+PlexMediatag<?> mediatag = mediatags.get(0);
+PlexSession session = mediatag.getSession(); // session will have info on the session
+mediatag.getSessionKey();
+mediatag.getPlayer();
+
+// The following lines need to have an active transcoding session
+PlexTranscodeSession transcodeSession = mediatags.stream().map(PlexMediatag::getTranscodeSession).findAny().get(); // transcodeSession will have info on the transcoding session
+transcodeSession;
+transcodeSession.getKey();
 ```
 
 ## More examples

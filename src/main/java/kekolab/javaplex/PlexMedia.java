@@ -14,7 +14,7 @@ public class PlexMedia extends MediatagAttribute { // TODO Forse sarebbe opportu
 	private Integer width;
 	private Integer height;
 	private Integer audioChannels;
-	private Integer optimizedForStreaming;
+	private Boolean optimizedForStreaming;
 	private Integer orientation;
 	private Integer iso;
 	private String audioCodec;
@@ -35,6 +35,24 @@ public class PlexMedia extends MediatagAttribute { // TODO Forse sarebbe opportu
 	private Long duration;
 	private Long size;
 	private Double aspectRatio;
+	private String protocol;
+	private Boolean selected;
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
+	public Boolean getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
+	}
 
 	public Integer getId() {
 		getParentTag().fetchDetailedIfNullOrEmpty(id);
@@ -114,7 +132,7 @@ public class PlexMedia extends MediatagAttribute { // TODO Forse sarebbe opportu
 		this.parts = parts;
 	}
 
-	public Integer getOptimizedForStreaming() {
+	public Boolean getOptimizedForStreaming() {
 		getParentTag().fetchDetailedIfNullOrEmpty(optimizedForStreaming);
 		return optimizedForStreaming;
 	}
@@ -129,7 +147,7 @@ public class PlexMedia extends MediatagAttribute { // TODO Forse sarebbe opportu
 		return has64bitOffsets;
 	}
 
-	public void setOptimizedForStreaming(Integer optimizedForStreaming) {
+	public void setOptimizedForStreaming(Boolean optimizedForStreaming) {
 		this.optimizedForStreaming = optimizedForStreaming;
 	}
 

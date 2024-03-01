@@ -28,6 +28,17 @@ public abstract class PlexMediatag<S extends PlexSection<?, ?>> extends PlexSect
 	private Double userRating;
 	private Long viewOffset;
 
+	// Properties returned only when querying /status/sessions
+	@JsonProperty("User")
+	private PlexUser user;
+	@JsonProperty("Player")
+	private PlexPlayer player;
+	@JsonProperty("Session")
+	private PlexSession session;
+	@JsonProperty("TranscodeSession")
+	private PlexTranscodeSession transcodeSession;
+	private Integer sessionKey;
+
 	public PlexMediatag() {
 		collections = new ArrayList<>();
 		guids = new ArrayList<>();
@@ -46,6 +57,11 @@ public abstract class PlexMediatag<S extends PlexSection<?, ?>> extends PlexSect
 		skipCount = null;
 		userRating = null;
 		viewOffset = null;
+		user = null;
+		player = null;
+		session = null;
+		transcodeSession = null;
+		sessionKey = null;
 	}
 
 	@Override
@@ -64,6 +80,11 @@ public abstract class PlexMediatag<S extends PlexSection<?, ?>> extends PlexSect
 			skipCount = mediatag.skipCount;
 			userRating = mediatag.userRating;
 			viewOffset = mediatag.viewOffset;
+			user = mediatag.user;
+			player = mediatag.player;
+			session = mediatag.session;
+			transcodeSession = mediatag.transcodeSession;
+			sessionKey = mediatag.sessionKey;			
 		} else
 			throw new ClassCastException("Cannot cast item to PlexMediatag");
 	}
@@ -188,6 +209,49 @@ public abstract class PlexMediatag<S extends PlexSection<?, ?>> extends PlexSect
 			}
 		return null;
 	}
+
+	public PlexUser getUser() {
+		return user;
+	}
+
+	public void setUser(PlexUser user) {
+		this.user = user;
+	}
+
+	public PlexPlayer getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(PlexPlayer player) {
+		this.player = player;
+	}
+
+	public PlexSession getSession() {
+		return session;
+	}
+
+	public void setSession(PlexSession session) {
+		this.session = session;
+	}
+
+	public PlexTranscodeSession getTranscodeSession() {
+		if (transcodeSession != null)
+			transcodeSession.initialise(server(), uri(), getClient(), getToken());
+		return transcodeSession;
+	}
+
+	public void setTranscodeSession(PlexTranscodeSession transcodeSession) {
+		this.transcodeSession = transcodeSession;
+	}
+	
+	public Integer getSessionKey() {
+		return sessionKey;
+	}
+
+	public void setSessionKey(Integer sessionKey) {
+		this.sessionKey = sessionKey;
+	}
+
 
 	@Override
 	protected void fetchDetailedIfNullOrEmpty(Object argument) {

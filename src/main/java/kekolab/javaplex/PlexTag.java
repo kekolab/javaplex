@@ -9,6 +9,15 @@ public class PlexTag extends MediatagAttribute {
 	private String tag;
 	private String path;
 	private String tagKey;
+	private Integer count;
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 
 	private UriProvider thumb;
 

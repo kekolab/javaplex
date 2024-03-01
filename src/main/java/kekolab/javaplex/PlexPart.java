@@ -31,6 +31,51 @@ public class PlexPart extends MediatagAttribute {
 	private Boolean exists;
 	private Integer deepAnalysisVersion;
 	private UriProvider key;
+	private Integer height;
+	private Integer width;
+	private String protocol;
+	private String decision;
+	private Boolean selected;
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
+	public String getDecision() {
+		return decision;
+	}
+
+	public void setDecision(String decision) {
+		this.decision = decision;
+	}
+
+	public Boolean getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
+	}
 
 	public PlexPart() {
 		streams = new ArrayList<>();

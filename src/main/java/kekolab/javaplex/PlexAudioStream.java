@@ -15,6 +15,15 @@ public class PlexAudioStream extends PlexStream {
 	private Double loudness;
 	private Double lra;
 	private Double peak;
+	private String bitrateMode;
+
+	public String getBitrateMode() {
+		return bitrateMode;
+	}
+
+	public void setBitrateMode(String bitrateMode) {
+		this.bitrateMode = bitrateMode;
+	}
 
 	public Double getAlbumGain() {
 		getParentTag().fetchDetailedIfNullOrEmpty(albumGain);

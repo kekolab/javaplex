@@ -4,6 +4,15 @@ public class PlexRating extends MediatagAttribute {
 	private String image;
 	private Double value;
 	private String type;
+	private Integer count;
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 
 	public String getImage() {
 		getParentTag().fetchDetailedIfNullOrEmpty(image);

@@ -892,6 +892,14 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
+	public PlexStatus status() {
+		try {
+			return new PlexStatus(this, client(), token());
+		} catch (URISyntaxException e) {
+			throw new PlexException(e);
+		}
+	}
+
 	public List<PlexPlaylist<?>> playlists() {
 		URI uri;
 		try {
