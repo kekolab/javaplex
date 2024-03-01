@@ -8,21 +8,10 @@ It works both with remotely-available (public) servers and local servers
 
 ## Integration
 
-You can use jitpack.io.
+You can use jitpack.io. Click on the following badge for instructions for several building tools.
 
-1. Add the jitpack.io maven repository
+[![](https://jitpack.io/v/kekolab/javaplex.svg)](https://jitpack.io/#kekolab/javaplex)
 
-```java
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-```
-
-2. Add the dependency
-
-```java
-implementation 'com.github.kekolab:javaplex:3.0.0'
-```
 
 ## Creating a client
 
