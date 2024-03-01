@@ -10,11 +10,6 @@ build
 /.classpath
 /gradle.properties
 
-# Ignore Gradle wrapper
-gradle/
-gradlew
-gradlew.bat
-
 # Ignore configuration files
 src/test/resources/testVariables.properties
 src/test/resources/simplelogger.properties
