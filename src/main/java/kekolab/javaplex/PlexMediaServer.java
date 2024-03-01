@@ -900,6 +900,14 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
+	public PlexTranscode transcode() {
+		try {
+			return new PlexTranscode(this, client(), token());
+		} catch (URISyntaxException e) {
+			throw new PlexException(e);
+		}
+	}
+
 	public List<PlexPlaylist<?>> playlists() {
 		URI uri;
 		try {

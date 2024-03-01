@@ -23,10 +23,14 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 	@JsonDeserialize(contentUsing = DirectoryDeserializer.class)
 	private List<D> directories;
 
+	@JsonProperty("TranscodeSession")
+	private List<PlexTranscodeSession> transcodeSessions;
+
 	public MetadataContainer(URI uri, PlexHTTPClient client, String token, PlexMediaServer server) {
 		super(uri, client, token, server);
 		metadata = new ArrayList<>();
 		searchResults = new ArrayList<>();
+		transcodeSessions = new ArrayList<>();
 	}
 
 	@Override
@@ -34,6 +38,7 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 		super.clear();
 		metadata.clear();
 		searchResults.clear();
+		transcodeSessions.clear();
 	}
 
 	@Override
@@ -46,6 +51,8 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 			directories.addAll((Collection<? extends D>) metadataContainer.directories);
 			searchResults.clear();
 			searchResults.addAll(metadataContainer.searchResults);
+			transcodeSessions.clear();
+			transcodeSessions.addAll(metadataContainer.transcodeSessions);
 		} else
 			throw new ClassCastException("Cannot cast source to MetadataContainer");
 	}
@@ -72,6 +79,16 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 
 	public void setSearchResults(List<PlexSearchResult> searchResults) {
 		this.searchResults = searchResults;
+	}
+
+	public List<PlexTranscodeSession> getTranscodeSessions() {
+		fetch();
+		initialiseItems(transcodeSessions);
+		return transcodeSessions;
+	}
+
+	public void setTranscodeSessions(List<PlexTranscodeSession> transcodeSessions) {
+		this.transcodeSessions = transcodeSessions;
 	}
 
 	public List<D> getDirectories() {

@@ -207,8 +207,28 @@ mediatag.getPlayer();
 
 // The following lines need to have an active transcoding session
 PlexTranscodeSession transcodeSession = mediatags.stream().map(PlexMediatag::getTranscodeSession).findAny().get(); // transcodeSession will have info on the transcoding session
-transcodeSession;
 transcodeSession.getKey();
+```
+
+All and only the transcoding sessions can also be listed in a different way
+
+```java
+PlexMediaServer server; // Get it somehow
+
+List<PlexTranscodeSession> transcodeSessions = server.transcode().sessions(); // All the transcode sessions
+
+// The following lines need to have an active transcoding session
+PlexTranscodeSession transcodeSession = transcodeSessions.get(0); // The first transcode session
+transcodeSession.getKey(); // Accessing a generic property of a transcoding session
+```
+
+To kill a transcoding session:
+
+```java
+PlexMediaServer server;
+PlexTranscode transcode = server.transcode();
+PlexTranscodeSession transcodeSession = transcode.sessions().get(0);
+transcode.killSession(transcodeSession);
 ```
 
 ## More examples

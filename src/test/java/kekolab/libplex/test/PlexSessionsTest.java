@@ -1,12 +1,14 @@
 package kekolab.libplex.test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import kekolab.javaplex.PlexMediatag;
+import kekolab.javaplex.PlexTranscode;
 import kekolab.javaplex.PlexTranscodeSession;
 
 public class PlexSessionsTest extends PlexTests {
@@ -23,8 +25,30 @@ public class PlexSessionsTest extends PlexTests {
         assertNotNull(mediatag.getPlayer());
 
         // The following assertions need to have an active transcoding session
-        PlexTranscodeSession transcodeSession = mediatags.stream().map(PlexMediatag::getTranscodeSession).findAny().get();
+        PlexTranscodeSession transcodeSession = mediatags.stream().map(PlexMediatag::getTranscodeSession).findAny()
+                .get();
         assertNotNull(transcodeSession);
         assertNotNull(transcodeSession.getKey());
-    }    
+    }
+
+    @Test
+    public void listTranscodeSessions() {
+        List<PlexTranscodeSession> transcodeSessions = getServer().transcode().sessions();
+        assertNotNull(transcodeSessions);
+
+        // The following assertions need to have an active transcoding session
+        PlexTranscodeSession transcodeSession = transcodeSessions.get(0);
+        assertNotNull(transcodeSession);
+        assertNotNull(transcodeSession.getKey());
+    }
+
+    @Test
+    public void killTranscodeSession() {
+        PlexTranscode transcode = getServer().transcode();
+        List<PlexTranscodeSession> transcodeSessions = transcode.sessions();
+
+        // The following assertions need to have an active transcoding session
+        transcodeSessions.forEach(transcode::killSession);
+        assertTrue(transcode.sessions().isEmpty());
+    }
 }
