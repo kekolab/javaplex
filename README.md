@@ -12,7 +12,6 @@ You can use jitpack.io. Click on the following badge for instructions for severa
 
 [![](https://jitpack.io/v/kekolab/javaplex.svg)](https://jitpack.io/#kekolab/javaplex)
 
-
 ## Creating a client
 
 The first step to use this library is to create a `PlexHTTPClient`. The most basic way to do it is
