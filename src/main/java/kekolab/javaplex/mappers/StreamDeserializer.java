@@ -19,19 +19,25 @@ public class StreamDeserializer extends ObjectNodeDeserializer<PlexStream> {
 
 	@Override
 	protected Class<? extends PlexStream> chooseDeserializingClass(ObjectNode node) throws IOException {
-		int type = extractIntegerFieldValueFromObjectNode(node, "streamType");
-		switch (type) {
-		case PlexVideoStream.TYPE_ID:
-			return PlexVideoStream.class;
-		case PlexAudioStream.TYPE_ID:
-			return PlexAudioStream.class;
-		case PlexTextStream.TYPE_ID:
-			return PlexTextStream.class;
-		case PlexLyricsStream.TYPE_ID:
-			return PlexLyricsStream.class;
-		default:
-			throw new IOException("Cannot determine deserializing class for stream with streamType " + type);
+		if (node.has("streamType")) {
+			int type = extractIntegerFieldValueFromObjectNode(node, "streamType");
+			switch (type) {
+				case PlexVideoStream.TYPE_ID:
+					return PlexVideoStream.class;
+				case PlexAudioStream.TYPE_ID:
+					return PlexAudioStream.class;
+				case PlexTextStream.TYPE_ID:
+					return PlexTextStream.class;
+				case PlexLyricsStream.TYPE_ID:
+					return PlexLyricsStream.class;
+				default:
+					// TODO Log that we could not find a subclass of PlexStream to deserialize to
+			}
+		} else {
+			// TODO Log that we could not find a subclass of PlexStream to deserialize to
 		}
 
+		// TODO Log that we are using the default implementation of PlexStream
+		return PlexStream.class;
 	}
 }

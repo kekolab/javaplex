@@ -37,32 +37,43 @@ public class MetadataDeserializer extends ObjectNodeDeserializer<PlexMetadata> {
 	}
 
 	protected Class<? extends PlexMetadata> chooseDeserializingClass(ObjectNode node) throws IOException {
-		String type = extractTextFieldValueFromObjectNode(node, "type");
-		if (type.equals(PlexArtist.TYPE_DESCRIPTION))
-			return PlexArtist.class;
-		if (type.equals(PlexAlbum.TYPE_DESCRIPTION))
-			return PlexAlbum.class;
-		if (type.equals(PlexTrack.TYPE_DESCRIPTION))
-			return PlexTrack.class;
-		if (type.equals(PlexShow.TYPE_DESCRIPTION))
-			return PlexShow.class;
-		if (type.equals(PlexSeason.TYPE_DESCRIPTION))
-			return PlexSeason.class;
-		if (type.equals(PlexEpisode.TYPE_DESCRIPTION))
-			return PlexEpisode.class;
-		if (type.equals(PlexMovie.TYPE_DESCRIPTION))
-			return PlexMovie.class;
-		if (type.equals(PlexClip.TYPE_DESCRIPTION))
-			return PlexClip.class;
-		if (type.equals(PlexPhoto.TYPE_DESCRIPTION) || (type.equals(PlexPhotoalbum.TYPE_DESCRIPTION))) // They're
-																										// actually the
-																										// same
-			return chooseDeserializingClassForPhotoMetadataType(node);
-		if (type.equals(PlexPlaylist.TYPE_DESCRIPTION))
-			return chooseDeserializingClassForPlaylist(node);
-		if (type.equals(PlexCollection.TYPE_DESCRIPTION))
-			return chooseDeserializingClassForCollection(node);
-		throw new IOException("Cannot determine the right class to deserialize metadata with type " + type);
+		if (node.has("type")) {
+			String type = extractTextFieldValueFromObjectNode(node, "type");
+			if (type.equals(PlexArtist.TYPE_DESCRIPTION))
+				return PlexArtist.class;
+			if (type.equals(PlexAlbum.TYPE_DESCRIPTION))
+				return PlexAlbum.class;
+			if (type.equals(PlexTrack.TYPE_DESCRIPTION))
+				return PlexTrack.class;
+			if (type.equals(PlexShow.TYPE_DESCRIPTION))
+				return PlexShow.class;
+			if (type.equals(PlexSeason.TYPE_DESCRIPTION))
+				return PlexSeason.class;
+			if (type.equals(PlexEpisode.TYPE_DESCRIPTION))
+				return PlexEpisode.class;
+			if (type.equals(PlexMovie.TYPE_DESCRIPTION))
+				return PlexMovie.class;
+			if (type.equals(PlexClip.TYPE_DESCRIPTION))
+				return PlexClip.class;
+			if (type.equals(PlexPhoto.TYPE_DESCRIPTION) || (type.equals(PlexPhotoalbum.TYPE_DESCRIPTION))) // They're
+																											// actually
+																											// the
+																											// same
+				return chooseDeserializingClassForPhotoMetadataType(node);
+			if (type.equals(PlexPlaylist.TYPE_DESCRIPTION))
+				return chooseDeserializingClassForPlaylist(node);
+			if (type.equals(PlexCollection.TYPE_DESCRIPTION))
+				return chooseDeserializingClassForCollection(node);
+			// TODO Log that it was impossible to deserialize the PlexMetadata with this
+			// type
+			throw new IOException("Cannot determine the right class to deserialize metadata with type " + type);
+		}
+		throw new IOException(
+				"Cannot determine the right class to deserialize metadata. PlexMetadata has no `type` attribute");
+		/*
+		 * TODO Should we think about a default implementation for PlexMetadata (just
+		 * like with PlexDirectory)? Right now PlexMetadata is abstract
+		 */
 	}
 
 	private Class<? extends PlexMediatag<?>> chooseDeserializingClassForPhotoMetadataType(ObjectNode node) {

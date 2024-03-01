@@ -18,21 +18,26 @@ public class DirectoryDeserializer extends ObjectNodeDeserializer<PlexDirectory>
 	}
 
 	protected Class<? extends PlexDirectory> chooseDeserializingClass(ObjectNode node) throws IOException {
-		String composite = extractTextFieldValueFromObjectNode(node, "composite");
-		if (composite.contains("sections")) {
-			String type = extractTextFieldValueFromObjectNode(node, "type");
-			if (type.equalsIgnoreCase(PlexShowSection.TYPE_DESCRIPTION))
-				return PlexShowSection.class;
-			if (type.equalsIgnoreCase(PlexMovieSection.TYPE_DESCRIPTION))
-				return PlexMovieSection.class;
-			if (type.equalsIgnoreCase(PlexMusicSection.TYPE_DESCRIPTION))
-				return PlexMusicSection.class;
-			if (type.equalsIgnoreCase(PlexPhotoSection.TYPE_DESCRIPTION))
-				return PlexPhotoSection.class;
-			throw new IOException("Cannot determine the right class to deserialize directory with type " + type);
+		if (node.has("composite")) {
+			String composite = extractTextFieldValueFromObjectNode(node, "composite");
+			if (composite.contains("sections")) {
+				String type = extractTextFieldValueFromObjectNode(node, "type");
+				if (type.equalsIgnoreCase(PlexShowSection.TYPE_DESCRIPTION))
+					return PlexShowSection.class;
+				if (type.equalsIgnoreCase(PlexMovieSection.TYPE_DESCRIPTION))
+					return PlexMovieSection.class;
+				if (type.equalsIgnoreCase(PlexMusicSection.TYPE_DESCRIPTION))
+					return PlexMusicSection.class;
+				if (type.equalsIgnoreCase(PlexPhotoSection.TYPE_DESCRIPTION))
+					return PlexPhotoSection.class;
+					// TODO Log that it was impossible to deserialize this type of section
+				throw new IOException("Cannot determine the right class to deserialize directory with type " + type);
+			} else {
+				// TODO Log that it was impossible to deserialize a node with composite set to something different from "composite"
+			}
 		}
 
-		// TODO Log something?
+		// TODO Log that we're deserializing to the default implementation of PlexDirectory
 		return PlexDirectory.class;
 	}
 }
