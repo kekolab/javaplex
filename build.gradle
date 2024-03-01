@@ -33,3 +33,11 @@ wrapper {
     gradleVersion = '7.3.3'
     distributionUrl = distributionUrl.replace("bin", "all")
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+		    from components.java
+        }
+    }
+}
