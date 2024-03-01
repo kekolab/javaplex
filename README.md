@@ -2,9 +2,27 @@
 
 A Java library to interact with Plex Media Server.
 
-The library can _query_ the server, _edit_ and _delete_ the items on the server (Playlists, Collections, Artists, Album, Track, ...). The library _does not_ and not upload, or delete the items of the server, although it has the capability to delete playlists and collections.
+The library can _query_ the server, _edit_ and _delete_ the items on the server (Playlists, Collections, Artists, Album, Track, ...). The library _does not_ upload or delete the items of the server, although it has the capability to delete playlists and collections.
 
 It works both with remotely-available (public) servers and local servers
+
+## Integration
+
+You can use jitpack.io.
+
+1. Add the jitpack.io maven repository
+
+```java
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+
+2. Add the dependency
+
+```java
+implementation 'com.github.kekolab:javaplex:3.0.0'
+```
 
 ## Creating a client
 
