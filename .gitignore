@@ -6,6 +6,7 @@ build
 /.project
 /.settings
 /.vscode/
+/.idea/
 /bin/
 /.classpath
 /gradle.properties
