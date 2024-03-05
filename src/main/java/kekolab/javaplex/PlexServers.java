@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import java.net.URISyntaxException;
 import java.util.List;
-import static kekolab.javaplex.PlexHTTPClient.PARAMETER_X_PLEX_TOKEN;
 import org.apache.hc.core5.net.URIBuilder;
 
 public class PlexServers extends ServerMediaContainer
@@ -26,7 +25,7 @@ public class PlexServers extends ServerMediaContainer
 
 	public PlexServers(PlexMediaServer server, PlexHTTPClient client, String token) throws URISyntaxException
 	{
-		super(new URIBuilder("https://plex.tv/api/servers").addParameter(PARAMETER_X_PLEX_TOKEN, token).build(), client, token, server);
+		super(new URIBuilder("https://plex.tv/api/servers").build(), client, token, server);
 	}
 
 	@Override
@@ -51,7 +50,7 @@ public class PlexServers extends ServerMediaContainer
 		}
 		else
 		{
-			throw new ClassCastException("Cannot cast source to PlexResources");
+			throw new ClassCastException("Cannot cast source to PlexServers");
 		}
 	}
 
