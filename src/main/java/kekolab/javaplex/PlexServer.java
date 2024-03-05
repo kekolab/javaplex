@@ -1,89 +1,139 @@
 package kekolab.javaplex;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import static kekolab.javaplex.PlexHTTPClient.PARAMETER_X_PLEX_TOKEN;
-import org.apache.hc.core5.net.URIBuilder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Date;
+import kekolab.javaplex.mappers.TimestampDeserializer;
 
-public class PlexServer extends PlexMediaContainer
+public class PlexServer extends BaseItem
 {
-	@JsonIgnore
-	private static URI uri;
-	private static String plexServerToken;
-	String friendlyName;
-	String identifier;
-	String machineIdentifier;
-	int size;
-	@JsonProperty("Server")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<PlexServersServer> plexServersServers;
-
-	public List<PlexServersServer> getServers()
-	{
-		fetch();
-		plexServersServers.stream().filter(PlexServer.class::isInstance).map(PlexServer.class::cast);
-		return plexServersServers;
-	}
-
-	public PlexServer(PlexHTTPClient client, String token)
-	{
-		super(buildUri(), client, token);
-		plexServerToken = token;
-		plexServersServers = new ArrayList<>();
-	}
+	private String accessToken;
+	private String name;
+	private String address;
+	private String port;
+	private String version;
+	private String scheme;
+	private String host;
+	private String localAddresses;
+	private String machineIdentifier;
+	@JsonDeserialize(using = TimestampDeserializer.class)
+	private Date createdAt;
+	@JsonDeserialize(using = TimestampDeserializer.class)
+	private Date updatedAt;
+	private String owned;
+	private String synced;
 
 	@Override
 	protected void clear()
 	{
 		super.clear();
-		friendlyName = null;
-		identifier = null;
+		accessToken = null;
+		address = null;
+		createdAt = null;
+		port = null;
+		version = null;
+		scheme = null;
+		host = null;
+		name = null;
+		localAddresses = null;
+		owned = null;
 		machineIdentifier = null;
-		size = 0;
-		plexServersServers.clear();
+		updatedAt = null;
 	}
 
 	@Override
 	protected void update(BaseItem source)
 	{
 		super.update(source);
-		if (source instanceof PlexServer plexServer)
+		if (source instanceof PlexServer plexServersServer)
 		{
-			plexServersServers.clear();
-			plexServersServers.addAll(plexServer.plexServersServers);
+			accessToken = plexServersServer.accessToken;
+			address = plexServersServer.address;
+			createdAt = plexServersServer.createdAt;
+			port = plexServersServer.port;
+			version = plexServersServer.version;
+			scheme = plexServersServer.scheme;
+			host = plexServersServer.host;
+			name = plexServersServer.name;
+			localAddresses = plexServersServer.localAddresses;
+			owned = plexServersServer.owned;
+			machineIdentifier = plexServersServer.machineIdentifier;
+			updatedAt = plexServersServer.updatedAt;
+
 		}
 		else
 		{
-			throw new ClassCastException("Cannot cast source to PlexResources");
+			throw new ClassCastException("Cannot cast source to PlexServersServer");
 		}
 	}
 
-	public String getFriendlyName()
+	public String getAccessToken()
 	{
-		return friendlyName;
+		return accessToken;
 	}
 
-	public void setFriendlyName(String friendlyName)
+	public void setAccessToken(String accessToken)
 	{
-		this.friendlyName = friendlyName;
+		this.accessToken = accessToken;
 	}
 
-	public String getIdentifier()
+	public String getName()
 	{
-		return identifier;
+		return name;
 	}
 
-	public void setIdentifier(String identifier)
+	public void setName(String name)
 	{
-		this.identifier = identifier;
+		this.name = name;
+	}
+
+	public String getPort()
+	{
+		return port;
+	}
+
+	public void setPort(String port)
+	{
+		this.port = port;
+	}
+
+	public String getVersion()
+	{
+		return version;
+	}
+
+	public void setVersion(String version)
+	{
+		this.version = version;
+	}
+
+	public String getScheme()
+	{
+		return scheme;
+	}
+
+	public void setScheme(String scheme)
+	{
+		this.scheme = scheme;
+	}
+
+	public String getHost()
+	{
+		return host;
+	}
+
+	public void setHost(String host)
+	{
+		this.host = host;
+	}
+
+	public String getLocalAddresses()
+	{
+		return localAddresses;
+	}
+
+	public void setLocalAddresses(String localAddresses)
+	{
+		this.localAddresses = localAddresses;
 	}
 
 	public String getMachineIdentifier()
@@ -96,31 +146,53 @@ public class PlexServer extends PlexMediaContainer
 		this.machineIdentifier = machineIdentifier;
 	}
 
-	public Integer getSize()
+	public Date getCreatedAt()
 	{
-		return size;
+		return createdAt;
 	}
 
-	public void setSize(int size)
+	public void setCreatedAt(Date createdAt)
 	{
-		this.size = size;
+		this.createdAt = createdAt;
 	}
 
-	private static URI buildUri()
+	public Date getUpdatedAt()
 	{
-		if (uri == null)
-		{
-			try
-			{
-				uri = new URIBuilder("https://plex.tv/api/servers/")
-					.addParameter(PARAMETER_X_PLEX_TOKEN, plexServerToken)
-					.build();
-			}
-			catch (URISyntaxException e)
-			{
-				throw new PlexException(e);
-			}
-		}
-		return uri;
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt)
+	{
+		this.updatedAt = updatedAt;
+	}
+
+	public String getOwned()
+	{
+		return owned;
+	}
+
+	public void setOwned(String owned)
+	{
+		this.owned = owned;
+	}
+
+	public String getSynced()
+	{
+		return synced;
+	}
+
+	public void setSynced(String synced)
+	{
+		this.synced = synced;
+	}
+
+	public String getAddress()
+	{
+		return address;
+	}
+
+	public void setAddress(String address)
+	{
+		this.address = address;
 	}
 }
