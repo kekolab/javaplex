@@ -2,9 +2,12 @@ package kekolab.javaplex;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import static kekolab.javaplex.PlexHTTPClient.PARAMETER_X_PLEX_TOKEN;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.net.URIBuilder;
 
 public class PlexServersSharedServers extends ServerMediaContainer
@@ -28,6 +31,15 @@ public class PlexServersSharedServers extends ServerMediaContainer
 		fetch();
 		plexSharedServers.stream().filter(PlexSharedServer.class::isInstance).map(PlexSharedServer.class::cast);
 		return plexSharedServers;
+	}
+
+	// todo wrap this up some how
+	public void sendInvite(PlexSharedServer sharedServer)
+	{
+		fetch();
+//		ClassicHttpRequest request = ClassicRequestBuilder
+//			.post(uri()).addParameter(sharedServer.friendRequestBuilder(sharedServer.getPlexServersSharedServersSections(), ))
+//			.build();
 	}
 
 	public PlexServersSharedServers(PlexMediaServer server, PlexHTTPClient client, String token) throws URISyntaxException

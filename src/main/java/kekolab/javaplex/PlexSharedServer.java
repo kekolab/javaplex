@@ -297,4 +297,27 @@ public class PlexSharedServer extends BaseItem
 	{
 		this.filterTelevision = filterTelevision;
 	}
+
+	public List<PlexServersSharedServersSection> getPlexServersSharedServersSections()
+	{
+		return plexServersSharedServersSections;
+	}
+
+	// todo wrap this up some how
+	public String friendRequestBuilder(List<String> sections, String email, String allowSync, String allowCameraUpload, String allowChannels, String filterMovies, String filterTelevision, String filterMusic)
+	{
+		return "{" +
+			"  \"server_id\": \"\"," +
+			"  \"shared_server\": {\"library_section_ids\" : " + sections.toString() + ", \"invited_email\": \"" + email + "\"}," +
+			"  \"sharing_settings\":" +
+			"  {" +
+			"    \"allowSync\": \"" + allowSync + "\"," +
+			"    \"allowCameraUpload\": \"" + allowCameraUpload+ "\"," +
+			"    \"allowChannels\": \""+allowChannels+"\"," +
+			"    \"filterMovies\": "+filterMovies+"," +
+			"    \"filterTelevision\": "+filterTelevision+"," +
+			"    \"filterMusic\": "+filterMusic+
+			"  }" +
+			"}";
+	}
 }
