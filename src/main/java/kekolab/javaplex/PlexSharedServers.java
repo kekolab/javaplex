@@ -13,7 +13,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 public class PlexSharedServers extends PlexMediaContainer {
 	@JsonProperty("SharedServer")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<PlexSharedServer> sharedServers; // TODO Is it always one (we call it woth the machineIdentifier) or is it a list depending on the shares?
+	private List<PlexSharedServer> sharedServers; // TODO Is it always one (we call it woth the machineIdentifier) or is
+													// it a list depending on the shares?
 	private String friendlyName;
 	private String identifier;
 	private String machineIdentifier;
@@ -23,11 +24,12 @@ public class PlexSharedServers extends PlexMediaContainer {
 		return sharedServers;
 	}
 
-		// TODO What is this call supposed to return?
-	public BaseItem inviteFriend(String email, List<PlexServer.Section> sections, InviteRequest.SharingSettings sharingSettings) {
+	// TODO The post returns a MediaContainer with a SharedServer Element
+	public BaseItem inviteFriend(String email, List<PlexServer.Section> sections,
+			InviteRequest.SharingSettings sharingSettings) {
 		InviteRequest inviteRequestEntity = new InviteRequest();
 		inviteRequestEntity.setServerId(getMachineIdentifier());
-		
+
 		InviteRequest.SharedServer sharedServer = new InviteRequest.SharedServer();
 		sharedServer.setInvitedEmail(email);
 		sharedServer.setLibrarySectionIds(sections.stream().map(PlexServer.Section::getId).toList());
@@ -35,11 +37,15 @@ public class PlexSharedServers extends PlexMediaContainer {
 
 		inviteRequestEntity.setSharingSettings(sharingSettings);
 
-		return client().executeAndCreateFromResponse(ClassicRequestBuilder.post(uri()), inviteRequestEntity, "application/json", BaseItem.class, token());
+		// TODO pass the right class to deserialize the response to
+		return client().executeAndCreateFromResponse(
+				ClassicRequestBuilder.post(uri()).setHeader("Content-Type", "application/json"), inviteRequestEntity,
+				"application/json", BaseItem.class, token());
 	}
 
 	public PlexSharedServers(String machineIdentifier, PlexHTTPClient client, String token) throws URISyntaxException {
-		super(new URIBuilder("https://plex.tv/api/servers").appendPath(machineIdentifier).appendPath("shared_servers").build(), client, token);
+		super(new URIBuilder("https://plex.tv/api/servers").appendPath(machineIdentifier).appendPath("shared_servers")
+				.build(), client, token);
 		sharedServers = new ArrayList<>();
 	}
 

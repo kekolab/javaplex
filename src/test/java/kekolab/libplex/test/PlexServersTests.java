@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,9 +33,9 @@ public class PlexServersTests extends PlexTests {
         sharingSettings.setAllowCameraUpload(true);
         sharingSettings.setAllowChannels(false);
         sharingSettings.setAllowSync(true);
-        sharingSettings.setFilterMovies(new ArrayList<String>()); // TODO
-        sharingSettings.setFilterMusic(new ArrayList<String>()); // TODO
-        sharingSettings.setFilterTelevision(new ArrayList<String>()); // TODO
+        sharingSettings.setFilterMovies(new HashMap<String, List<String>>()); // TODO
+        sharingSettings.setFilterMusic(new HashMap<String, List<String>>()); // TODO
+        sharingSettings.setFilterTelevision(new HashMap<String, List<String>>()); // TODO
         InviteRequest.SharedServer ss = new InviteRequest.SharedServer();
         ss.setInvitedEmail(email);
         ss.setLibrarySectionIds(sharedServers.getSharedServers().get(0).getSections().stream().map(section -> section.getId()).toList());
