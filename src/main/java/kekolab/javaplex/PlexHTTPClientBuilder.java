@@ -2,6 +2,8 @@ package kekolab.javaplex;
 
 import java.net.URISyntaxException;
 import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
 
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -9,9 +11,10 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.EntityDetails;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.protocol.HttpContext;
 
-public class PlexHTTPClientBuilder {		
+public class PlexHTTPClientBuilder {
 	private String plexClientIdentifier;
 	private String plexDevice;
 	private String plexDeviceName;
@@ -21,7 +24,7 @@ public class PlexHTTPClientBuilder {
 	private String plexProductVersion;
 	private List<String> plexProvides;
 	private HttpClientBuilder clientBuilder;
-	
+
 	private static final Logger LOGGER = Logger.getLogger("kekolab.javaplex");
 
 	public PlexHTTPClientBuilder() {
@@ -70,14 +73,14 @@ public class PlexHTTPClientBuilder {
 	public PlexHTTPClientBuilder withPlexProvides(List<String> plexProvides) {
 		this.plexProvides = plexProvides;
 		return this;
-	}		
+	}
 
 	public PlexHTTPClient build() {
 		return new PlexHTTPClient(buildHttpClient());
 	}
 
-	private CloseableHttpClient buildHttpClient() {					
-		clientBuilder.addRequestInterceptorFirst((request, entity, context) -> { 
+	private CloseableHttpClient buildHttpClient() {
+		clientBuilder.addRequestInterceptorFirst((request, entity, context) -> {
 			request.setHeader("Accept", "application/json");
 			if (plexProduct != null)
 				request.setHeader(PlexHTTPClient.HEADER_X_PLEX_PRODUCT, plexProduct);
@@ -97,7 +100,7 @@ public class PlexHTTPClientBuilder {
 				request.setHeader(PlexHTTPClient.HEADER_X_PLEX_PROVIDES, String.join(",", plexProvides));
 			}
 		})
-		.addRequestInterceptorLast(this::logRequest);
+				.addRequestInterceptorLast(this::logRequest);
 		return clientBuilder.build();
 	}
 
@@ -107,16 +110,28 @@ public class PlexHTTPClientBuilder {
 					.append(request.getMethod())
 					.append(" ")
 					.append(request.getUri().toString()
-//							new URIBuilder(request.getUri()).removeParameter(PlexHTTPClient.PARAMETER_X_PLEX_TOKEN).build().toString()
-							)
+					// new
+					// URIBuilder(request.getUri()).removeParameter(PlexHTTPClient.PARAMETER_X_PLEX_TOKEN).build().toString()
+					)
 					.append(System.lineSeparator());
 			for (Header header : request.getHeaders()) {
 				msg.append(header.getName()).append(" : ").append(header.getValue())
-				.append(System.lineSeparator());
+						.append(System.lineSeparator());
+			}
+			if (entity != null && entity instanceof StringEntity stringEntity) {
+				try (InputStream is = stringEntity.getContent()) {
+					byte[] chunk = new byte[4196];
+					int read = 0;
+					while ((read = is.read(chunk)) != -1) {
+						msg.append(new String(chunk, 0, read));
+					}
+				} catch (IOException e) {
+					e.printStackTrace(); // TODO
+				}
 			}
 			LOGGER.info(msg.toString());
 		} catch (URISyntaxException e) {
 			LOGGER.warning(e.toString());
 		}
-	}	
+	}
 }

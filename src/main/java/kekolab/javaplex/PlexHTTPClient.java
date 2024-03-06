@@ -12,9 +12,13 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.ProtocolException;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import org.apache.hc.core5.http.io.entity.BasicHttpEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.protocol.BasicHttpContext;
 import org.apache.hc.core5.net.URIBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -49,6 +53,16 @@ public class PlexHTTPClient {
 		} catch (IOException e) {
 			throw new PlexException(e);
 		}
+	}
+
+	<A> A executeAndCreateFromResponse(ClassicRequestBuilder builder, BaseItem body, String contentType, Class<A> cls, String token) {
+		ObjectMapper mapper = contentType.toLowerCase().contains("xml") ? xmlMapper : jsonMapper;
+		try {
+			builder.setEntity(mapper.writeValueAsString(body));
+		} catch (JsonProcessingException e) {
+			throw new PlexException(e); // TODO Maybe something better
+		}
+		return executeAndCallResponseHandler(builder.build(), token, (response) -> parseIntoNewObject(response, cls));
 	}
 
 	<A> A executeAndCreateFromResponse(ClassicHttpRequest request, Class<A> cls, String token) {

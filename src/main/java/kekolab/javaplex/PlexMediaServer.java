@@ -908,22 +908,6 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
-	public PlexServers plexServer() {
-		try {
-			return new PlexServers(this, client(), token());
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-	}
-
-	public PlexServersSharedServers plexServersSharedServers() {
-		try {
-			return new PlexServersSharedServers(this, client(), token());
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-	}
-
 	public List<PlexPlaylist<?>> playlists() {
 		URI uri;
 		try {

@@ -19,7 +19,7 @@ public class BooleanDeserializer extends StdDeserializer<Boolean> {
 		String value = p.getText();
 		if (value == null)
 			return null;
-		if (value.equals("0"))
+		if (value.equals("0") || value.isEmpty())
 			return Boolean.FALSE;
 		if (value.equals("1"))
 			return Boolean.TRUE;

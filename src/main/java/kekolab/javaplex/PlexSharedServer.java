@@ -1,10 +1,13 @@
 package kekolab.javaplex;
 
+import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import java.util.Date;
-import java.util.List;
+
+import kekolab.javaplex.mappers.BooleanDeserializer;
 import kekolab.javaplex.mappers.TimestampDeserializer;
 
 public class PlexSharedServer extends BaseItem
@@ -19,22 +22,28 @@ public class PlexSharedServer extends BaseItem
 	private Date acceptedAt;
 	@JsonDeserialize(using = TimestampDeserializer.class)
 	private Date invitedAt;
-	private String allowSync;
-	private String allowCameraUpload;
-	private String allowChannels;
-	private String allowTuners;
-	private String allowSubtitleAdmin;
-	private String owned;
-	private String allLibraries;
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean allowSync;
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean allowCameraUpload;
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean allowChannels;
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean allowTuners;
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean allowSubtitleAdmin;
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean owned;
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean allLibraries;
 	private String filterAll;
 	private String filterMovies;
 	private String filterMusic;
 	private String filterPhotos;
 	private String filterTelevision;
-
 	@JsonProperty("Section")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<PlexServersSharedServersSection> plexServersSharedServersSections;
+	private List<PlexServer.Section> sections;
 
 	@Override
 	protected void clear()
@@ -60,37 +69,37 @@ public class PlexSharedServer extends BaseItem
 		filterMusic = null;
 		filterPhotos = null;
 		filterTelevision = null;
-		plexServersSharedServersSections.clear();
+		sections.clear();
 	}
 
 	@Override
 	protected void update(BaseItem source)
 	{
 		super.update(source);
-		if (source instanceof PlexSharedServer plexServersServer)
+		if (source instanceof PlexSharedServer plexSharedServer)
 		{
-			plexServersSharedServersSections.clear();
-			plexServersSharedServersSections.addAll(plexServersServer.plexServersSharedServersSections);
-			id = plexServersServer.id;
-			username = plexServersServer.username;
-			email = plexServersServer.email;
-			userID = plexServersServer.userID;
-			accessToken = plexServersServer.accessToken;
-			name = plexServersServer.name;
-			acceptedAt = plexServersServer.acceptedAt;
-			invitedAt = plexServersServer.invitedAt;
-			allowSync = plexServersServer.allowSync;
-			allowCameraUpload = plexServersServer.allowCameraUpload;
-			allowChannels = plexServersServer.allowChannels;
-			allowTuners = plexServersServer.allowTuners;
-			allowSubtitleAdmin = plexServersServer.allowSubtitleAdmin;
-			owned = plexServersServer.owned;
-			allLibraries = plexServersServer.allLibraries;
-			filterAll = plexServersServer.filterAll;
-			filterMovies = plexServersServer.filterMovies;
-			filterMusic = plexServersServer.filterMusic;
-			filterPhotos = plexServersServer.filterPhotos;
-			filterTelevision = plexServersServer.filterTelevision;
+			sections.clear();
+			sections.addAll(plexSharedServer.sections);
+			id = plexSharedServer.id;
+			username = plexSharedServer.username;
+			email = plexSharedServer.email;
+			userID = plexSharedServer.userID;
+			accessToken = plexSharedServer.accessToken;
+			name = plexSharedServer.name;
+			acceptedAt = plexSharedServer.acceptedAt;
+			invitedAt = plexSharedServer.invitedAt;
+			allowSync = plexSharedServer.allowSync;
+			allowCameraUpload = plexSharedServer.allowCameraUpload;
+			allowChannels = plexSharedServer.allowChannels;
+			allowTuners = plexSharedServer.allowTuners;
+			allowSubtitleAdmin = plexSharedServer.allowSubtitleAdmin;
+			owned = plexSharedServer.owned;
+			allLibraries = plexSharedServer.allLibraries;
+			filterAll = plexSharedServer.filterAll;
+			filterMovies = plexSharedServer.filterMovies;
+			filterMusic = plexSharedServer.filterMusic;
+			filterPhotos = plexSharedServer.filterPhotos;
+			filterTelevision = plexSharedServer.filterTelevision;
 		}
 		else
 		{
@@ -178,72 +187,72 @@ public class PlexSharedServer extends BaseItem
 		this.invitedAt = invitedAt;
 	}
 
-	public String getAllowSync()
+	public Boolean getAllowSync()
 	{
 		return allowSync;
 	}
 
-	public void setAllowSync(String allowSync)
+	public void setAllowSync(Boolean allowSync)
 	{
 		this.allowSync = allowSync;
 	}
 
-	public String getAllowCameraUpload()
+	public Boolean getAllowCameraUpload()
 	{
 		return allowCameraUpload;
 	}
 
-	public void setAllowCameraUpload(String allowCameraUpload)
+	public void setAllowCameraUpload(Boolean allowCameraUpload)
 	{
 		this.allowCameraUpload = allowCameraUpload;
 	}
 
-	public String getAllowChannels()
+	public Boolean getAllowChannels()
 	{
 		return allowChannels;
 	}
 
-	public void setAllowChannels(String allowChannels)
+	public void setAllowChannels(Boolean allowChannels)
 	{
 		this.allowChannels = allowChannels;
 	}
 
-	public String getAllowTuners()
+	public Boolean getAllowTuners()
 	{
 		return allowTuners;
 	}
 
-	public void setAllowTuners(String allowTuners)
+	public void setAllowTuners(Boolean allowTuners)
 	{
 		this.allowTuners = allowTuners;
 	}
 
-	public String getAllowSubtitleAdmin()
+	public Boolean getAllowSubtitleAdmin()
 	{
 		return allowSubtitleAdmin;
 	}
 
-	public void setAllowSubtitleAdmin(String allowSubtitleAdmin)
+	public void setAllowSubtitleAdmin(Boolean allowSubtitleAdmin)
 	{
 		this.allowSubtitleAdmin = allowSubtitleAdmin;
 	}
 
-	public String getOwned()
+	public Boolean getOwned()
 	{
 		return owned;
 	}
 
-	public void setOwned(String owned)
+	public void setOwned(Boolean owned)
 	{
 		this.owned = owned;
 	}
 
-	public String getAllLibraries()
+	public Boolean getAllLibraries()
 	{
 		return allLibraries;
 	}
 
-	public void setAllLibraries(String allLibraries)
+	public void setAllLibraries(Boolean allLibraries)
 	{
 		this.allLibraries = allLibraries;
 	}
@@ -298,9 +307,9 @@ public class PlexSharedServer extends BaseItem
 		this.filterTelevision = filterTelevision;
 	}
 
-	public List<PlexServersSharedServersSection> getPlexServersSharedServersSections()
+	public List<PlexServer.Section> getSections()
 	{
-		return plexServersSharedServersSections;
+		return sections;
 	}
 
 	// todo wrap this up some how

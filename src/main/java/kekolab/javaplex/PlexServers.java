@@ -1,97 +1,78 @@
 package kekolab.javaplex;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import java.net.URISyntaxException;
 import java.util.List;
-import static kekolab.javaplex.PlexHTTPClient.PARAMETER_X_PLEX_TOKEN;
+import java.util.ArrayList;
+
 import org.apache.hc.core5.net.URIBuilder;
 
-public class PlexServers extends ServerMediaContainer
-{
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
+public class PlexServers extends PlexMediaContainer {
 	String friendlyName;
 	String identifier;
 	String machineIdentifier;
-	int size;
 	@JsonProperty("Server")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<PlexServer> plexServersServers;
+	private List<PlexServer> servers;
 
-	public List<PlexServer> getServers()
-	{
+	public List<PlexServer> getServers() {
 		fetch();
-		plexServersServers.stream().filter(PlexServers.class::isInstance).map(PlexServers.class::cast);
-		return plexServersServers;
+		return servers;
 	}
 
-	public PlexServers(PlexMediaServer server, PlexHTTPClient client, String token) throws URISyntaxException
-	{
-		super(new URIBuilder("https://plex.tv/api/servers").addParameter(PARAMETER_X_PLEX_TOKEN, token).build(), client, token, server);
+	public PlexServers(PlexHTTPClient client, String token) throws URISyntaxException {
+		super(new URIBuilder("https://plex.tv/api/servers").build(), client, token);
+		servers = new ArrayList<>();
 	}
 
 	@Override
-	protected void clear()
-	{
+	protected void clear() {
 		super.clear();
 		friendlyName = null;
 		identifier = null;
 		machineIdentifier = null;
-		size = 0;
-		plexServersServers.clear();
+		servers.clear();
 	}
 
 	@Override
-	protected void update(BaseItem source)
-	{
+	protected void update(BaseItem source) {
 		super.update(source);
-		if (source instanceof PlexServers plexServers)
-		{
-			plexServersServers.clear();
-			plexServersServers.addAll(plexServers.plexServersServers);
-		}
-		else
-		{
-			throw new ClassCastException("Cannot cast source to PlexResources");
+		if (source instanceof PlexServers plexServers) {
+			friendlyName = plexServers.friendlyName;
+			identifier = plexServers.identifier;
+			machineIdentifier = plexServers.machineIdentifier;
+			servers.addAll(plexServers.servers);
+		} else {
+			throw new ClassCastException("Cannot cast source to PlexServers");
 		}
 	}
 
-	public String getFriendlyName()
-	{
+	public String getFriendlyName() {
+		fetch();
 		return friendlyName;
 	}
 
-	public void setFriendlyName(String friendlyName)
-	{
+	public void setFriendlyName(String friendlyName) {
 		this.friendlyName = friendlyName;
 	}
 
-	public String getIdentifier()
-	{
+	public String getIdentifier() {
+		fetch();
 		return identifier;
 	}
 
-	public void setIdentifier(String identifier)
-	{
+	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
 
-	public String getMachineIdentifier()
-	{
+	public String getMachineIdentifier() {
+		fetch();
 		return machineIdentifier;
 	}
 
-	public void setMachineIdentifier(String machineIdentifier)
-	{
+	public void setMachineIdentifier(String machineIdentifier) {
 		this.machineIdentifier = machineIdentifier;
-	}
-
-	public Integer getSize()
-	{
-		return size;
-	}
-
-	public void setSize(int size)
-	{
-		this.size = size;
 	}
 }
