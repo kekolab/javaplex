@@ -900,6 +900,22 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
+	public PlexServers getServers() {
+		try {
+			return new PlexServers(client(), token());
+		} catch (URISyntaxException e) {
+			throw new PlexException(e);
+		}
+	}
+	public PlexSharedServers getSharedServers() {
+		try {
+			return new PlexSharedServers(this, client(), token());
+		} catch (URISyntaxException e) {
+			throw new PlexException(e);
+		}
+	}
+
+
 	public PlexTranscode transcode() {
 		try {
 			return new PlexTranscode(this, client(), token());
