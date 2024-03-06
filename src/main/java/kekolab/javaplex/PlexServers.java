@@ -22,9 +22,18 @@ public class PlexServers extends PlexMediaContainer {
 		return servers;
 	}
 
-	public PlexServers(PlexHTTPClient client, String token) throws URISyntaxException {
-		super(new URIBuilder("https://plex.tv/api/servers").build(), client, token);
+	public PlexServers(String machineIdentifier, PlexHTTPClient client, String token) throws URISyntaxException {
+		super(new URIBuilder("https://plex.tv/api/servers").appendPath(machineIdentifier)
+			.build(), client, token);
 		servers = new ArrayList<>();
+	}
+
+	public PlexServers(PlexSharedServers server, PlexHTTPClient client, String token) throws URISyntaxException {
+		this(server.getMachineIdentifier(), client, token);
+	}
+
+	public PlexServers(PlexMediaServer server, PlexHTTPClient client, String token) throws URISyntaxException {
+		this(server.getMachineIdentifier(), client, token);
 	}
 
 	@Override

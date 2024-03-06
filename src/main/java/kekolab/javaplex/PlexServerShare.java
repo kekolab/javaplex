@@ -10,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import kekolab.javaplex.mappers.BooleanDeserializer;
 import kekolab.javaplex.mappers.TimestampDeserializer;
 
-public class PlexSharedServer extends BaseItem
+public class PlexServerShare extends BaseItem
 {
 	private String id;
 	private String username;
@@ -76,34 +76,34 @@ public class PlexSharedServer extends BaseItem
 	protected void update(BaseItem source)
 	{
 		super.update(source);
-		if (source instanceof PlexSharedServer plexSharedServer)
+		if (source instanceof PlexServerShare plexServerShare)
 		{
 			sections.clear();
-			sections.addAll(plexSharedServer.sections);
-			id = plexSharedServer.id;
-			username = plexSharedServer.username;
-			email = plexSharedServer.email;
-			userID = plexSharedServer.userID;
-			accessToken = plexSharedServer.accessToken;
-			name = plexSharedServer.name;
-			acceptedAt = plexSharedServer.acceptedAt;
-			invitedAt = plexSharedServer.invitedAt;
-			allowSync = plexSharedServer.allowSync;
-			allowCameraUpload = plexSharedServer.allowCameraUpload;
-			allowChannels = plexSharedServer.allowChannels;
-			allowTuners = plexSharedServer.allowTuners;
-			allowSubtitleAdmin = plexSharedServer.allowSubtitleAdmin;
-			owned = plexSharedServer.owned;
-			allLibraries = plexSharedServer.allLibraries;
-			filterAll = plexSharedServer.filterAll;
-			filterMovies = plexSharedServer.filterMovies;
-			filterMusic = plexSharedServer.filterMusic;
-			filterPhotos = plexSharedServer.filterPhotos;
-			filterTelevision = plexSharedServer.filterTelevision;
+			sections.addAll(plexServerShare.sections);
+			id = plexServerShare.id;
+			username = plexServerShare.username;
+			email = plexServerShare.email;
+			userID = plexServerShare.userID;
+			accessToken = plexServerShare.accessToken;
+			name = plexServerShare.name;
+			acceptedAt = plexServerShare.acceptedAt;
+			invitedAt = plexServerShare.invitedAt;
+			allowSync = plexServerShare.allowSync;
+			allowCameraUpload = plexServerShare.allowCameraUpload;
+			allowChannels = plexServerShare.allowChannels;
+			allowTuners = plexServerShare.allowTuners;
+			allowSubtitleAdmin = plexServerShare.allowSubtitleAdmin;
+			owned = plexServerShare.owned;
+			allLibraries = plexServerShare.allLibraries;
+			filterAll = plexServerShare.filterAll;
+			filterMovies = plexServerShare.filterMovies;
+			filterMusic = plexServerShare.filterMusic;
+			filterPhotos = plexServerShare.filterPhotos;
+			filterTelevision = plexServerShare.filterTelevision;
 		}
 		else
 		{
-			throw new ClassCastException("Cannot cast source to PlexSharedServer");
+			throw new ClassCastException("Cannot cast source to PlexServerShare	");
 		}
 	}
 

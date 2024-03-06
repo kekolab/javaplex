@@ -13,13 +13,13 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 public class PlexSharedServers extends PlexMediaContainer {
 	@JsonProperty("SharedServer")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<PlexSharedServer> sharedServers; // TODO Is it always one (we call it woth the machineIdentifier) or is
+	private List<PlexServerShare> sharedServers; // TODO Is it always one (we call it woth the machineIdentifier) or is
 													// it a list depending on the shares?
 	private String friendlyName;
 	private String identifier;
 	private String machineIdentifier;
 
-	public List<PlexSharedServer> getSharedServers() {
+	public List<PlexServerShare> getSharedServers() {
 		fetch();
 		return sharedServers;
 	}

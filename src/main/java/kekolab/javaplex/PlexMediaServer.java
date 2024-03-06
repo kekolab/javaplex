@@ -902,7 +902,7 @@ public class PlexMediaServer extends PlexMediaContainer {
 
 	public PlexServers getServers() {
 		try {
-			return new PlexServers(client(), token());
+			return new PlexServers(this, client(), token());
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
