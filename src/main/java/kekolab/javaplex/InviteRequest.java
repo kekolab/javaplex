@@ -43,7 +43,6 @@ public class InviteRequest extends BaseItem {
 
 	public static class SharedServer {
 		@JsonProperty("library_section_ids")
-		@JsonSerialize(using = IntegerListSerializer.class) 
 		private List<Integer> librarySectionIds; 
 		@JsonProperty("invited_email")
 		private String invitedEmail;
