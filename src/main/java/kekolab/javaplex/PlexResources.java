@@ -11,6 +11,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
+
+/**
+ * Deprecated. Please use {@link PlexApi#devices()}
+ */
+@Deprecated(forRemoval = true)
 public class PlexResources extends PlexMediaContainer {
 	@JsonIgnore
 	private static URI uri;

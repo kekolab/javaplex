@@ -10,8 +10,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import kekolab.javaplex.mappers.BooleanDeserializer;
 import kekolab.javaplex.mappers.TimestampDeserializer;
 
-public class PlexSharedServer extends BaseItem
-{
+public class PlexServerShare extends BaseItem {
+	// TODO Delete a PlexServerShare. To do so, send a DELETE to the endpoint https://clients.plex.tv/api/v2/shared_servers/{id}
+
 	private String id;
 	private String username;
 	private String email;
@@ -46,8 +47,7 @@ public class PlexSharedServer extends BaseItem
 	private List<PlexServer.Section> sections;
 
 	@Override
-	protected void clear()
-	{
+	protected void clear() {
 		super.clear();
 		id = null;
 		username = null;
@@ -57,11 +57,6 @@ public class PlexSharedServer extends BaseItem
 		name = null;
 		acceptedAt = null;
 		invitedAt = null;
-		allowSync = null;
-		allowCameraUpload = null;
-		allowChannels = null;
-		allowTuners = null;
-		allowSubtitleAdmin = null;
 		owned = null;
 		allLibraries = null;
 		filterAll = null;
@@ -73,242 +68,197 @@ public class PlexSharedServer extends BaseItem
 	}
 
 	@Override
-	protected void update(BaseItem source)
-	{
+	protected void update(BaseItem source) {
 		super.update(source);
-		if (source instanceof PlexSharedServer plexSharedServer)
-		{
+		if (source instanceof PlexServerShare serverShare) {
+			id = serverShare.id;
+			username = serverShare.username;
+			email = serverShare.email;
+			userID = serverShare.userID;
+			accessToken = serverShare.accessToken;
+			name = serverShare.name;
+			acceptedAt = serverShare.acceptedAt;
+			invitedAt = serverShare.invitedAt;
+			allowSync = serverShare.allowSync;
+			allowCameraUpload = serverShare.allowCameraUpload;
+			allowChannels = serverShare.allowChannels;
+			allowTuners = serverShare.allowTuners;
+			allowSubtitleAdmin = serverShare.allowSubtitleAdmin;
+			owned = serverShare.owned;
+			allLibraries = serverShare.allLibraries;
+			filterAll = serverShare.filterAll;
+			filterMovies = serverShare.filterMovies;
+			filterMusic = serverShare.filterMusic;
+			filterPhotos = serverShare.filterPhotos;
+			filterTelevision = serverShare.filterTelevision;
 			sections.clear();
-			sections.addAll(plexSharedServer.sections);
-			id = plexSharedServer.id;
-			username = plexSharedServer.username;
-			email = plexSharedServer.email;
-			userID = plexSharedServer.userID;
-			accessToken = plexSharedServer.accessToken;
-			name = plexSharedServer.name;
-			acceptedAt = plexSharedServer.acceptedAt;
-			invitedAt = plexSharedServer.invitedAt;
-			allowSync = plexSharedServer.allowSync;
-			allowCameraUpload = plexSharedServer.allowCameraUpload;
-			allowChannels = plexSharedServer.allowChannels;
-			allowTuners = plexSharedServer.allowTuners;
-			allowSubtitleAdmin = plexSharedServer.allowSubtitleAdmin;
-			owned = plexSharedServer.owned;
-			allLibraries = plexSharedServer.allLibraries;
-			filterAll = plexSharedServer.filterAll;
-			filterMovies = plexSharedServer.filterMovies;
-			filterMusic = plexSharedServer.filterMusic;
-			filterPhotos = plexSharedServer.filterPhotos;
-			filterTelevision = plexSharedServer.filterTelevision;
-		}
-		else
-		{
-			throw new ClassCastException("Cannot cast source to PlexSharedServer");
+			sections.addAll(serverShare.sections);
+		} else {
+			throw new ClassCastException("Cannot cast source to PlexServerShare");
 		}
 	}
 
-	public String getId()
-	{
+	public String getId() {
 		return id;
 	}
 
-	public void setId(String id)
-	{
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getUsername()
-	{
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username)
-	{
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	public String getEmail()
-	{
+	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email)
-	{
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getUserID()
-	{
+	public String getUserID() {
 		return userID;
 	}
 
-	public void setUserID(String userID)
-	{
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
 
-	public String getAccessToken()
-	{
+	public String getAccessToken() {
 		return accessToken;
 	}
 
-	public void setAccessToken(String accessToken)
-	{
+	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Date getAcceptedAt()
-	{
+	public Date getAcceptedAt() {
 		return acceptedAt;
 	}
 
-	public void setAcceptedAt(Date acceptedAt)
-	{
+	public void setAcceptedAt(Date acceptedAt) {
 		this.acceptedAt = acceptedAt;
 	}
 
-	public Date getInvitedAt()
-	{
+	public Date getInvitedAt() {
 		return invitedAt;
 	}
 
-	public void setInvitedAt(Date invitedAt)
-	{
+	public void setInvitedAt(Date invitedAt) {
 		this.invitedAt = invitedAt;
 	}
 
-	public Boolean getAllowSync()
-	{
+	public Boolean getAllowSync() {
 		return allowSync;
 	}
 
-	public void setAllowSync(Boolean allowSync)
-	{
+	public void setAllowSync(Boolean allowSync) {
 		this.allowSync = allowSync;
 	}
 
-	public Boolean getAllowCameraUpload()
-	{
+	public Boolean getAllowCameraUpload() {
 		return allowCameraUpload;
 	}
 
-	public void setAllowCameraUpload(Boolean allowCameraUpload)
-	{
+	public void setAllowCameraUpload(Boolean allowCameraUpload) {
 		this.allowCameraUpload = allowCameraUpload;
 	}
 
-	public Boolean getAllowChannels()
-	{
+	public Boolean getAllowChannels() {
 		return allowChannels;
 	}
 
-	public void setAllowChannels(Boolean allowChannels)
-	{
+	public void setAllowChannels(Boolean allowChannels) {
 		this.allowChannels = allowChannels;
 	}
 
-	public Boolean getAllowTuners()
-	{
+	public Boolean getAllowTuners() {
 		return allowTuners;
 	}
 
-	public void setAllowTuners(Boolean allowTuners)
-	{
+	public void setAllowTuners(Boolean allowTuners) {
 		this.allowTuners = allowTuners;
 	}
 
-	public Boolean getAllowSubtitleAdmin()
-	{
+	public Boolean getAllowSubtitleAdmin() {
 		return allowSubtitleAdmin;
 	}
 
-	public void setAllowSubtitleAdmin(Boolean allowSubtitleAdmin)
-	{
+	public void setAllowSubtitleAdmin(Boolean allowSubtitleAdmin) {
 		this.allowSubtitleAdmin = allowSubtitleAdmin;
 	}
 
-	public Boolean getOwned()
-	{
+	public Boolean getOwned() {
 		return owned;
 	}
 
-	public void setOwned(Boolean owned)
-	{
+	public void setOwned(Boolean owned) {
 		this.owned = owned;
 	}
 
-	public Boolean getAllLibraries()
-	{
+	public Boolean getAllLibraries() {
 		return allLibraries;
 	}
 
-	public void setAllLibraries(Boolean allLibraries)
-	{
+	public void setAllLibraries(Boolean allLibraries) {
 		this.allLibraries = allLibraries;
 	}
 
-	public String getFilterAll()
-	{
+	public String getFilterAll() {
 		return filterAll;
 	}
 
-	public void setFilterAll(String filterAll)
-	{
+	public void setFilterAll(String filterAll) {
 		this.filterAll = filterAll;
 	}
 
-	public String getFilterMovies()
-	{
+	public String getFilterMovies() {
 		return filterMovies;
 	}
 
-	public void setFilterMovies(String filterMovies)
-	{
+	public void setFilterMovies(String filterMovies) {
 		this.filterMovies = filterMovies;
 	}
 
-	public String getFilterMusic()
-	{
+	public String getFilterMusic() {
 		return filterMusic;
 	}
 
-	public void setFilterMusic(String filterMusic)
-	{
+	public void setFilterMusic(String filterMusic) {
 		this.filterMusic = filterMusic;
 	}
 
-	public String getFilterPhotos()
-	{
+	public String getFilterPhotos() {
 		return filterPhotos;
 	}
 
-	public void setFilterPhotos(String filterPhotos)
-	{
+	public void setFilterPhotos(String filterPhotos) {
 		this.filterPhotos = filterPhotos;
 	}
 
-	public String getFilterTelevision()
-	{
+	public String getFilterTelevision() {
 		return filterTelevision;
 	}
 
-	public void setFilterTelevision(String filterTelevision)
-	{
+	public void setFilterTelevision(String filterTelevision) {
 		this.filterTelevision = filterTelevision;
 	}
 
-	public List<PlexServer.Section> getSections()
-	{
+	public List<PlexServer.Section> getSections() {
 		return sections;
 	}
 }

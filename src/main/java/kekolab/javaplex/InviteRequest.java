@@ -1,18 +1,11 @@
 package kekolab.javaplex;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-import kekolab.javaplex.mappers.BooleanSerializer;
+import kekolab.javaplex.mappers.SharingSettings;
 
 public class InviteRequest extends BaseItem {
     @JsonProperty("server_id")
@@ -20,7 +13,7 @@ public class InviteRequest extends BaseItem {
     @JsonProperty("shared_server")
     private InviteRequest.SharedServer sharedServer;
     @JsonProperty("sharing_settings")
-    private InviteRequest.SharingSettings sharingSettings;
+    private SharingSettings sharingSettings;
 
     public String getServerId() {
         return serverId;
@@ -38,11 +31,11 @@ public class InviteRequest extends BaseItem {
         this.sharedServer = sharedServer;
     }
 
-    public InviteRequest.SharingSettings getSharingSettings() {
+    public SharingSettings getSharingSettings() {
         return sharingSettings;
     }
 
-    public void setSharingSettings(InviteRequest.SharingSettings sharingSettings) {
+    public void setSharingSettings(SharingSettings sharingSettings) {
         this.sharingSettings = sharingSettings;
     }
 
@@ -70,90 +63,6 @@ public class InviteRequest extends BaseItem {
 
         public SharedServer() {
             librarySectionIds = new ArrayList<>();
-        }
-    }
-
-    public static class SharingSettings {
-        @JsonSerialize(using = BooleanSerializer.class)
-        private Boolean allowSync;
-        @JsonSerialize(using = BooleanSerializer.class)
-        private Boolean allowCameraUpload;
-        @JsonSerialize(using = BooleanSerializer.class)
-        private Boolean allowChannels;
-        @JsonSerialize(using = FilterMapSerializer.class)
-        private Map<String, List<String>> filterMovies;
-        @JsonSerialize(using = FilterMapSerializer.class)
-        private Map<String, List<String>> filterTelevision;
-        @JsonSerialize(using = FilterMapSerializer.class)
-        private Map<String, List<String>> filterMusic;
-
-        public Map<String, List<String>> getFilterMovies() {
-            return filterMovies;
-        }
-
-        public void setFilterMovies(Map<String, List<String>> filterMovies) {
-            this.filterMovies = filterMovies;
-        }
-
-        public Map<String, List<String>> getFilterTelevision() {
-            return filterTelevision;
-        }
-
-        public void setFilterTelevision(Map<String, List<String>> filterTelevision) {
-            this.filterTelevision = filterTelevision;
-        }
-
-        public Map<String, List<String>> getFilterMusic() {
-            return filterMusic;
-        }
-
-        public void setFilterMusic(Map<String, List<String>> filterMusic) {
-            this.filterMusic = filterMusic;
-        }
-
-        public Boolean getAllowSync() {
-            return allowSync;
-        }
-
-        public void setAllowSync(Boolean allowSync) {
-            this.allowSync = allowSync;
-        }
-
-        public Boolean getAllowCameraUpload() {
-            return allowCameraUpload;
-        }
-
-        public void setAllowCameraUpload(Boolean allowCameraUpload) {
-            this.allowCameraUpload = allowCameraUpload;
-        }
-
-        public Boolean getAllowChannels() {
-            return allowChannels;
-        }
-
-        public void setAllowChannels(Boolean allowChannels) {
-            this.allowChannels = allowChannels;
-        }
-
-        public SharingSettings() {
-            filterMovies = new HashMap<>();
-            filterTelevision = new HashMap<>();
-            filterMusic = new HashMap<>();
-        }
-
-        public static class FilterMapSerializer extends StdSerializer<Map<String, List<String>>> {
-            public FilterMapSerializer() {
-                super((Class<Map<String, List<String>>>) null);
-            }
-
-            @Override
-            public void serialize(Map<String, List<String>> filterMap, JsonGenerator gen, SerializerProvider provider)
-                    throws IOException {
-                List<String> values = new ArrayList<>();
-                for (String key : filterMap.keySet())
-                    values.add(key + "=" + String.join(",", filterMap.get(key)));
-                gen.writeString(String.join("|", values));
-            }
         }
     }
 }
