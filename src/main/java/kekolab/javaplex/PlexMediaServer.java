@@ -85,7 +85,6 @@ public class PlexMediaServer extends PlexMediaContainer {
 		this(connection.uri(), client, token);
 	}
 
-
 	@Override
 	protected void clear() {
 		super.clear();
@@ -898,6 +897,14 @@ public class PlexMediaServer extends PlexMediaContainer {
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
+	}
+
+	public PlexServer toPlexServer() throws URISyntaxException {
+		return JunkMediaContainer.forPlexServer(client(), token(), getMachineIdentifier()).getServers().get(0);
+	}
+
+	public List<PlexServerShare> serverShares() throws URISyntaxException {
+		return toPlexServer().serverShares();
 	}
 
 	public PlexTranscode transcode() {
