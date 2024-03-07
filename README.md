@@ -234,3 +234,18 @@ transcode.killSession(transcodeSession);
 ## More examples
 
 Please see the tests for more use-cases.
+
+## Contributors ✨
+
+Thanks go to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="left" valign="top" width="14.28%"><a href="https://github.com/JZomDev"><img src="https://avatars.githubusercontent.com/u/14265490?v=4" width="100px;" alt="JZomDev"/><br /><sub><b>JZomDev</b></sub></a><br /><a href="https://github.com/kekolab/javaplex/commits?author=JZomDev" title="Documentation, Code">💻🤔</a></td>
+    </tr>
+  </tbody>
+</table>
