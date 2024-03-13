@@ -1,32 +1,40 @@
 package kekolab.javaplex;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
-import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import kekolab.javaplex.model.PlexPin;
 
-public class PlexAuthorizer {
-    private static final String URI_PIN_REQUEST = "https://plex.tv/pins.xml";
-    private static final String BASE_URI_PIN_VERIFICATION = "https://plex.tv/pins/";
-	
-	private PlexHTTPClient client;
+class PlexAuthorizer {
+	private static final URI URI_PIN_REQUEST;
+	private static final String URI_TEMPLATE_PIN_VERIFICATION = "https://plex.tv/pins/{pinId}.xml";
 
-	public PlexAuthorizer(PlexHTTPClient client) {
-		Objects.requireNonNull(client, "client cannot be null");
-		this.client = client;
+	static {
+		try {
+			URI_PIN_REQUEST = new URI("https://plex.tv/pins.xml");
+		} catch (URISyntaxException e) {
+			throw new PlexException("Unknown exception. See attached stacktrace", e);
+		}
+	}
+
+	private final PlexHTTPClient client;
+
+	PlexAuthorizer(PlexHTTPClient client) {
+		this.client = Objects.requireNonNull(client);
 	}
 
 	public PlexPin requestAuthenticationPin() {
-    	ClassicHttpRequest request = ClassicRequestBuilder
-    			.post(URI_PIN_REQUEST)
-    			.build();
-    	return client.executeAndCreateFromResponse(request, PlexPin.class, null);
-    }
-    
-	public PlexPin verify(PlexPin pin)  {
-		ClassicHttpRequest request = ClassicRequestBuilder
-				.get(BASE_URI_PIN_VERIFICATION + pin.getId() + ".xml")
-				.build();
-		return client.executeAndUpdateFromResponse(request, pin, null);
+		return client.requestPin(URI_PIN_REQUEST);
+	}
+
+	public PlexPin verify(PlexPin pin) {
+		URI uri;
+		try {
+			uri = new URI(URI_TEMPLATE_PIN_VERIFICATION.replace("{pinId}", Integer.toString(pin.getId())));
+		} catch (URISyntaxException e) {
+			throw new PlexException("Unknown exception. See attached stacktrace", e);
+		}
+		return client.verifyPin(uri);
 	}
 }

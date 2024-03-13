@@ -2,21 +2,24 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import kekolab.javaplex.mappers.DirectoryDeserializer;
-import kekolab.javaplex.mappers.MetadataDeserializer;
+import kekolab.javaplex.model.PlexDirectory;
+import kekolab.javaplex.model.PlexMetadata;
+import kekolab.javaplex.model.PlexSearchResult;
+import kekolab.javaplex.model.PlexTranscodeSession;
 
-public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> extends ServerMediaContainer {
+class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> extends ServerMediaContainer {
 	@JsonProperty("Metadata")
 	@JsonDeserialize(contentUsing = MetadataDeserializer.class)
 	private List<M> metadata;
 
 	@JsonProperty("SearchResult")
+	@JsonDeserialize(contentAs = SearchResult.class)
 	private List<PlexSearchResult> searchResults;
 
 	@JsonProperty("Directory")
@@ -24,46 +27,23 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 	private List<D> directories;
 
 	@JsonProperty("TranscodeSession")
+	@JsonDeserialize(contentAs = TranscodeSession.class)
 	private List<PlexTranscodeSession> transcodeSessions;
 
-	public MetadataContainer(URI uri, PlexHTTPClient client, String token, PlexMediaServer server) {
+	MetadataContainer(URI uri, PlexHTTPClient client, Optional<String> token, MediaServer server) {
 		super(uri, client, token, server);
 		metadata = new ArrayList<>();
 		searchResults = new ArrayList<>();
 		transcodeSessions = new ArrayList<>();
 	}
 
-	@Override
-	protected void clear() {
-		super.clear();
-		metadata.clear();
-		searchResults.clear();
-		transcodeSessions.clear();
-	}
-
-	@Override
-	protected void update(BaseItem source) {
-		super.update(source);
-		if (source instanceof MetadataContainer<?, ?> metadataContainer) {
-			metadata.clear();
-			metadata.addAll((Collection<? extends M>) metadataContainer.metadata);
-			directories.clear();
-			directories.addAll((Collection<? extends D>) metadataContainer.directories);
-			searchResults.clear();
-			searchResults.addAll(metadataContainer.searchResults);
-			transcodeSessions.clear();
-			transcodeSessions.addAll(metadataContainer.transcodeSessions);
-		} else
-			throw new ClassCastException("Cannot cast source to MetadataContainer");
-	}
-
 	private void initialiseItems(List<? extends InitialisableItem> list) {
-		list.stream().forEach(d -> d.initialise(server(), uri(), client(), token()));
+		list.stream().forEach(d -> d.initialise(server(), getUri(), getClient(), getToken()));
 	}
 
 	public List<M> getMetadata() {
-		fetch();
-		initialiseItems(metadata);
+		ensureFetched(metadata);
+		initialiseItems(metadata.stream().map(InitialisableItem.class::cast).toList());
 		return metadata;
 	}
 
@@ -72,8 +52,8 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 	}
 
 	public List<PlexSearchResult> getSearchResults() {
-		fetch();
-		initialiseItems(searchResults);
+		ensureFetched(searchResults);
+		initialiseItems(searchResults.stream().map(SearchResult.class::cast).toList());
 		return searchResults;
 	}
 
@@ -82,8 +62,8 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 	}
 
 	public List<PlexTranscodeSession> getTranscodeSessions() {
-		fetch();
-		initialiseItems(transcodeSessions);
+		ensureFetched(transcodeSessions);
+		initialiseItems(transcodeSessions.stream().map(TranscodeSession.class::cast).toList());
 		return transcodeSessions;
 	}
 
@@ -92,8 +72,8 @@ public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> 
 	}
 
 	public List<D> getDirectories() {
-		fetch();
-		initialiseItems(directories);
+		ensureFetched(directories);
+		initialiseItems(directories.stream().map(Directory.class::cast).toList());
 		return directories;
 	}
 

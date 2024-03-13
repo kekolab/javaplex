@@ -8,13 +8,13 @@ import java.util.function.Supplier;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 
-public class BooleanFieldEditor extends FieldEditor<Boolean> {
-    protected BooleanFieldEditor(String queryParameterKey, Supplier<Boolean> originalValueSupplier) {
+class BooleanFieldEditor extends FieldEditor<Boolean> {
+    BooleanFieldEditor(String queryParameterKey, Supplier<Boolean> originalValueSupplier) {
         super(queryParameterKey, originalValueSupplier, false);
     }
 
     @Override
-    protected List<NameValuePair> queryParameters() {
+    List<NameValuePair> queryParameters() {
         if (!isValueSet())
             return Collections.emptyList();
 

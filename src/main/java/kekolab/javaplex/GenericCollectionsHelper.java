@@ -2,31 +2,32 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.net.URIBuilder;
 
-public class GenericCollectionsHelper {
-	private PlexMetadata target;
-	private String token;
-	private PlexHTTPClient client;
-	private Consumer<BaseItem> updateCallback;
-	private PlexMediaServer server;
+import kekolab.javaplex.model.PlexMediatag;
 
-	protected GenericCollectionsHelper(PlexPlaylist<?> target) {
+class GenericCollectionsHelper {
+	private Metadata target;
+	private Optional<String> token;
+	private PlexHTTPClient client;
+	private Consumer<Playlist<?>> updateCallback;
+	private MediaServer server;
+
+	GenericCollectionsHelper(Playlist<?> target) {
 		this.target = target;
 		this.client = target.getClient();
-		this.server = target.server();
+		this.server = target.getServer();
 		this.token = target.getToken();
 		this.updateCallback = target::update;
 	}
 
-	protected GenericCollectionsHelper(PlexCollection<?, ?> target) {
+	GenericCollectionsHelper(Collection<?, ?> target) {
 		this.target = target;
 		this.client = target.getClient();
-		this.server = target.server();
+		this.server = target.getServer();
 		this.token = target.getToken();
 		this.updateCallback = target::update;
 	}
@@ -34,23 +35,18 @@ public class GenericCollectionsHelper {
 	protected void add(PlexMediatag<?> mediatag) {
 		URI uri;
 		try {
-			uri = new URIBuilder(target.key()).addParameter("uri", mediatag.serverSchemeUri().toString()).build();
+			uri = new URIBuilder(target.key()).addParameter("uri", mediatag.serverSchemeUri(server).toString()).build();
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		ClassicHttpRequest request = ClassicRequestBuilder.put(uri).build();
-		MetadataContainer<PlexMetadata, ?> container = new MetadataContainer<>(target.ratingKey(), client, token, server);
-		client.executeAndUpdateFromResponse(request, container, token);
-		PlexMetadata collection = container.getMetadata().get(0);
-		updateCallback.accept(collection);
+
+		client.put(uri, token, Optional.empty());
+		MetadataContainer<Playlist<?>, ?> container = new MetadataContainer<>(target.ratingKey(), client, token, server);
+		updateCallback.accept(container.getMetadata().get(0));
 	}
 
 	protected void remove(URI uri) {
-		MetadataContainer<PlexMetadata, ?> container = new MetadataContainer<>(uri, client, token, server);
-		ClassicHttpRequest request = ClassicRequestBuilder.delete(uri).build();
-		client.executeAndUpdateFromResponse(request, container, token);
-		container.fetched(true);
-		PlexMetadata collection = container.getMetadata().get(0);
-		updateCallback.accept(collection);
+		MetadataContainer<Playlist<?>, ?> container = new MetadataContainer<>(uri, client, token, server);
+		updateCallback.accept(client.delete(token, container).getMetadata().get(0));
 	}
 }

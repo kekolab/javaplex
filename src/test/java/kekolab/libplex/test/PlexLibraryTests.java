@@ -9,25 +9,24 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.PlexMediaServer;
-import kekolab.javaplex.PlexArtist;
-import kekolab.javaplex.PlexConnection;
-import kekolab.javaplex.PlexDevice;
-import kekolab.javaplex.PlexLibrary;
-import kekolab.javaplex.PlexMetadata;
-import kekolab.javaplex.PlexSearchResult;
-import kekolab.javaplex.PlexResources;
+import kekolab.javaplex.model.PlexArtist;
+import kekolab.javaplex.model.PlexConnection;
+import kekolab.javaplex.model.PlexDevice;
+import kekolab.javaplex.model.PlexLibrary;
+import kekolab.javaplex.model.PlexMediaServer;
+import kekolab.javaplex.model.PlexMetadata;
+import kekolab.javaplex.model.PlexSearchResult;
 
 public class PlexLibraryTests extends PlexTests {
 	private PlexLibrary library;
 
 	@BeforeEach
 	public void init() {
-		PlexDevice server = new PlexResources(getClient(), getToken()).getDevices().stream()
-				.filter(d -> d.getProvides().contains("server")).findAny().get();
+		PlexDevice server = getApi().getResources().list().stream().filter(d -> d.isServer()).findAny().get();
 		PlexConnection connection = server.getConnections().stream().filter(c -> c.getLocal() == 0).findAny()
 				.orElseThrow();
-		library = new PlexMediaServer(connection, getClient(), getToken()).library();
+		PlexMediaServer mediaServer = getApi().getMediaServer(connection);
+		library = mediaServer.library();
 	}
 
 	@Test

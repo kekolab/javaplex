@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 import org.apache.hc.core5.net.URIBuilder;
 
-public class UriProvider {
+class UriProvider {
 	private Object value;
 	private Supplier<URI> baseUri;
 
@@ -14,19 +14,19 @@ public class UriProvider {
 	 * 
 	 * @param baseUri. if null, the value will be returned as uri
 	 */
-	protected UriProvider(Supplier<URI> baseUri) {
+	UriProvider(Supplier<URI> baseUri) {
 		this.baseUri = baseUri;
 	}
 
-	protected void setValue(Object value) {
+	void setValue(Object value) {
 		this.value = value;
 	}
 
-	protected Object getValue() {
+	Object getValue() {
 		return value;
 	}
 
-	protected URI uri() {
+	URI uri() {
 		if (value == null)
 			return null;
 

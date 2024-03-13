@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import kekolab.javaplex.mappers.SharingSettings;
+import kekolab.javaplex.model.PlexSharingSettings;
 
-public class InviteRequest extends BaseItem {
+class InviteRequest extends BaseItem {
     @JsonProperty("server_id")
     private String serverId;
     @JsonProperty("shared_server")
     private InviteRequest.SharedServer sharedServer;
     @JsonProperty("sharing_settings")
-    private SharingSettings sharingSettings;
+    private PlexSharingSettings sharingSettings;
 
     public String getServerId() {
         return serverId;
@@ -31,11 +31,11 @@ public class InviteRequest extends BaseItem {
         this.sharedServer = sharedServer;
     }
 
-    public SharingSettings getSharingSettings() {
+    public PlexSharingSettings getSharingSettings() {
         return sharingSettings;
     }
 
-    public void setSharingSettings(SharingSettings sharingSettings) {
+    public void setSharingSettings(PlexSharingSettings sharingSettings) {
         this.sharingSettings = sharingSettings;
     }
 

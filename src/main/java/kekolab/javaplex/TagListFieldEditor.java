@@ -10,14 +10,16 @@ import java.util.stream.Collectors;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 
-public class TagListFieldEditor extends FieldEditor<List<PlexTag>> {
+import kekolab.javaplex.model.PlexTag;
 
-    protected TagListFieldEditor(String queryParameterKey, Supplier<List<PlexTag>> originalValueSupplier) {
+class TagListFieldEditor extends FieldEditor<List<PlexTag>> {
+
+    TagListFieldEditor(String queryParameterKey, Supplier<List<PlexTag>> originalValueSupplier) {
         super(queryParameterKey, originalValueSupplier, true);
     }
 
     @Override
-    protected List<NameValuePair> queryParameters() {
+    List<NameValuePair> queryParameters() {
         if (!isValueSet())
             return Collections.emptyList();
 

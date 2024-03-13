@@ -8,22 +8,22 @@ import java.util.function.Supplier;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 
-public class StringFieldEditor extends FieldEditor<String> {
+class StringFieldEditor extends FieldEditor<String> {
 
-    protected StringFieldEditor(String queryParameterKey, Supplier<String> originalValueSupplier,
+    StringFieldEditor(String queryParameterKey, Supplier<String> originalValueSupplier,
             boolean nullable) {
         super(queryParameterKey, originalValueSupplier, nullable);
     }
 
     @Override
-    protected void setValue(String value) {
+    void setValue(String value) {
         if (!isNullable() && value != null && value.isBlank())
             throw new PlexException("value cannot be a blank String");
         super.setValue(value);
     }
 
     @Override
-    protected List<NameValuePair> queryParameters() {
+    List<NameValuePair> queryParameters() {
         if (!isValueSet())
             return Collections.emptyList();
 

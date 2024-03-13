@@ -4,27 +4,26 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.net.URIBuilder;
 
-public class AttributeEditor {
-    private PlexMetadata source;
+class AttributeEditor {
+    private Metadata source;
     private URI editUri;
     private Supplier<List<FieldEditor<?>>> fieldEditors;
 
-    protected AttributeEditor(PlexPlaylist<?> source) {
+    AttributeEditor(Playlist<?> source) {
         this(source, source.editUri(), source::fieldEditors);
     }
 
-    protected AttributeEditor(PlexSectionItem<?> source) {
+    AttributeEditor(SectionItem<?> source) {
         this(source, source.editUri(), source::fieldEditors);
     }
 
-    private AttributeEditor(PlexMetadata source, URI editUri, Supplier<List<FieldEditor<?>>> fieldEditors) {
+    private AttributeEditor(Metadata source, URI editUri, Supplier<List<FieldEditor<?>>> fieldEditors) {
         this.source = source;
         this.editUri = editUri;
         this.fieldEditors = fieldEditors;
@@ -36,19 +35,18 @@ public class AttributeEditor {
         return joined;
     }
 
-    protected void commit() {
-        List<NameValuePair> queryParameters = fieldEditors.get().stream().map(FieldEditor::queryParameters).reduce(new ArrayList<>(), AttributeEditor::joinLists);
+    void commit() {
+        List<NameValuePair> queryParameters = fieldEditors.get().stream().map(FieldEditor::queryParameters)
+                .reduce(new ArrayList<>(), AttributeEditor::joinLists);
         if (queryParameters.size() > 0) {
             URIBuilder uri = new URIBuilder(this.editUri);
             uri.addParameters(queryParameters);
-            ClassicHttpRequest req;
             try {
-                req = ClassicRequestBuilder.put(uri.build()).build();
+                source.getClient().put(uri.build(), source.getToken(), Optional.empty());
+                source.ensureDetailed(null);
             } catch (URISyntaxException e) {
-                throw new PlexException(e);
+                throw new PlexException("Unknown error. See attached stacktrace", e);
             }
-            source.getClient().execute(req, source.getToken());
-            source.fetchDetailedIfNullOrEmpty(null);
         }
     }
 }

@@ -1,39 +1,41 @@
 package kekolab.javaplex;
 
 import java.net.URI;
-import java.util.Objects;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class InitialisableItem extends BaseItem {
+class InitialisableItem extends BaseItem {
     @JsonIgnore
     private PlexHTTPClient client;
     @JsonIgnore
-    private String token;
+    private Optional<String> token;
     @JsonIgnore
-    private PlexMediaServer server;
+    private MediaServer server;
     @JsonIgnore
     private URI uri;
 
-    protected void initialise(PlexMediaServer server, URI uri, PlexHTTPClient client, String token) {
-        		Objects.requireNonNull(client, "client cannot be null");
-		Objects.requireNonNull(server, "server cannot be null");
-		Objects.requireNonNull(uri, "uri cannot be null");
+    void initialise(MediaServer server, URI uri, PlexHTTPClient client, Optional<String> token) {
 		this.client = client;
 		this.token = token;
 		this.server = server;
 		this.uri = uri;
     }
 
-    protected PlexHTTPClient getClient() {
+    PlexHTTPClient getClient() {
 		return client;
 	}
 
-	protected String getToken() {
+	@Deprecated
+	String token() {
+		return token.get();
+	}
+
+	Optional<String> getToken() {
 		return token;
 	}
 
-    public PlexMediaServer server() {
+    MediaServer getServer() {
 		return server;
 	}
 

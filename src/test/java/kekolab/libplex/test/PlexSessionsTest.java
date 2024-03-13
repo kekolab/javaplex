@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.PlexMediatag;
-import kekolab.javaplex.PlexTranscode;
-import kekolab.javaplex.PlexTranscodeSession;
+import kekolab.javaplex.model.PlexMediatag;
+import kekolab.javaplex.model.PlexTranscode;
+import kekolab.javaplex.model.PlexTranscodeSession;
 
-public class PlexSessionsTest extends PlexTests {
+public class PlexSessionsTest extends PlexMediaServerTests {
 
     @Test
     public void sessions() {

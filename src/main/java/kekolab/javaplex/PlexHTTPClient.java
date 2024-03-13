@@ -1,7 +1,10 @@
 package kekolab.javaplex;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.apache.hc.client5.http.classic.HttpClient;
@@ -15,6 +18,8 @@ import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.protocol.BasicHttpContext;
 import org.apache.hc.core5.net.URIBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,24 +28,135 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 public class PlexHTTPClient {
-	static final String CONTEXT_ATTRIBUTE_PEER_CERTIFICATES = "peer-certificates";
-	static final String HEADER_X_PLEX_PROVIDES = "X-Plex-Provides";
-	static final String HEADER_X_PLEX_DEVICE_NAME = "X-Plex-Device-Name";
-	static final String HEADER_X_PLEX_DEVICE = "X-Plex-Device";
-	static final String HEADER_X_PLEX_PLATFORM_VERSION = "X-Plex-Platform-Version";
-	static final String HEADER_X_PLEX_PLATFORM = "X-Plex-Platform";
-	static final String HEADER_X_PLEX_CLIENT_IDENTIFIER = "X-Plex-Client-Identifier";
-	static final String HEADER_X_PLEX_VERSION = "X-Plex-Version";
-	static final String HEADER_X_PLEX_PRODUCT = "X-Plex-Product";
-	static final String PARAMETER_X_PLEX_TOKEN = "X-Plex-Token";
+	private static final String CONTEXT_ATTRIBUTE_PEER_CERTIFICATES = "peer-certificates";
+	private static final String HEADER_X_PLEX_PROVIDES = "X-Plex-Provides";
+	private static final String HEADER_X_PLEX_DEVICE_NAME = "X-Plex-Device-Name";
+	private static final String HEADER_X_PLEX_DEVICE = "X-Plex-Device";
+	private static final String HEADER_X_PLEX_PLATFORM_VERSION = "X-Plex-Platform-Version";
+	private static final String HEADER_X_PLEX_PLATFORM = "X-Plex-Platform";
+	private static final String HEADER_X_PLEX_CLIENT_IDENTIFIER = "X-Plex-Client-Identifier";
+	private static final String HEADER_X_PLEX_VERSION = "X-Plex-Version";
+	private static final String HEADER_X_PLEX_PRODUCT = "X-Plex-Product";
+	private static final String PARAMETER_X_PLEX_TOKEN = "X-Plex-Token";
 
-	private HttpClient client;
-	private ObjectMapper xmlMapper, jsonMapper;
+	private static final Logger LOGGER = LoggerFactory.getLogger("javaplex");
 
-	protected PlexHTTPClient(HttpClient client) {
+	private final Optional<String> plexProduct;
+	private final Optional<String> plexProductVersion;
+	private final Optional<String> plexClientIdentifier;
+	private final Optional<String> plexPlatform;
+	private final Optional<String> plexPlatformVersion;
+	private final Optional<String> plexDevice;
+	private final Optional<String> plexDeviceName;
+	private final List<String> plexProvides;
+
+	private final HttpClient client;
+	private final ObjectMapper xmlMapper, jsonMapper;
+
+	PlexHTTPClient(HttpClient client, Optional<String> plexProduct, Optional<String> plexProductVersion,
+			Optional<String> plexClientIdentifier, Optional<String> plexPlatform, Optional<String> plexPlatformVersion,
+			Optional<String> plexDevice, Optional<String> plexDeviceName, List<String> plexProvides) {
 		this.client = client;
+		this.plexProduct = plexProduct;
+		this.plexProductVersion = plexProductVersion;
+		this.plexClientIdentifier = plexClientIdentifier;
+		this.plexPlatform = plexPlatform;
+		this.plexPlatformVersion = plexPlatformVersion;
+		this.plexDevice = plexDevice;
+		this.plexDeviceName = plexDeviceName;
+		this.plexProvides = plexProvides;
 		xmlMapper = new XmlMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 		jsonMapper = new JsonMapper().configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+	}
+
+	private void ensureResponseIsNotError(ClassicHttpRequest request, ClassicHttpResponse response) {
+		if (response.getCode() >= 400)
+			throw new PlexHttpClientException("Unknown client error", request, response);
+	}
+
+	private <A> Optional<A> parseResponse(ClassicHttpRequest request, ClassicHttpResponse response,
+			Optional<Class<A>> cls) {
+		ensureResponseIsNotError(request, response);
+		if (cls.isPresent()) {
+			try {
+				return Optional.of(chooseMapper(response).readValue(response.getEntity().getContent(), cls.get()));
+			} catch (UnsupportedOperationException | IOException e) {
+				throw new PlexHttpClientException("Unknown client exception. See attached stacktrace", e, request,
+						response);
+			}
+		}
+		return Optional.empty();
+	}
+
+	private <A extends MediaContainer> A parseResponse(ClassicHttpRequest request, ClassicHttpResponse response,
+			A container) {
+		ensureResponseIsNotError(request, response);
+		try {
+			chooseMapper(response).readerForUpdating(container).readValue(response.getEntity().getContent());
+			return container;
+		} catch (UnsupportedOperationException | IOException e) {
+			throw new PlexHttpClientException("Unknown client exception. See attached stacktrace", e, request,
+					response);
+		}
+	}
+
+	private ClassicRequestBuilder buildBaseRequestBuilder(URI uri, String method, Optional<String> token) {
+		URI _uri = uri;
+		if (token.isPresent())
+			try {
+				_uri = new URIBuilder(_uri).addParameter(PARAMETER_X_PLEX_TOKEN, token.get()).build();
+			} catch (URISyntaxException e) {
+				throw new PlexHttpClientException("Cannot append token to uri", e);
+			}
+		ClassicRequestBuilder builder = ClassicRequestBuilder.create(method).setUri(_uri);
+		builder.setHeader("Accept", "application/json");
+		plexProduct.ifPresent(value -> builder.setHeader(HEADER_X_PLEX_PRODUCT, value));
+		plexProductVersion.ifPresent(value -> builder.setHeader(HEADER_X_PLEX_VERSION, value));
+		plexClientIdentifier.ifPresent(value -> builder.setHeader(HEADER_X_PLEX_CLIENT_IDENTIFIER, value));
+		plexPlatform.ifPresent(value -> builder.setHeader(HEADER_X_PLEX_PLATFORM, value));
+		plexPlatformVersion.ifPresent(value -> builder.setHeader(HEADER_X_PLEX_PLATFORM_VERSION, value));
+		plexDevice.ifPresent(value -> builder.setHeader(HEADER_X_PLEX_DEVICE, value));
+		plexDeviceName.ifPresent(value -> builder.setHeader(HEADER_X_PLEX_DEVICE_NAME, value));
+		if (plexProvides.size() > 0)
+			builder.setHeader(HEADER_X_PLEX_PROVIDES, String.join(",", plexProvides));
+
+
+		// TODO Logging	
+		
+		return builder;
+	}
+
+
+	private <A> Optional<A> execute(ClassicHttpRequest request, Optional<Class<A>> cls) {
+		try {
+			return client.execute(request, response -> parseResponse(request, response, cls));
+		} catch (IOException e) {
+			throw new PlexHttpClientException("Unknown client error", e, request);
+		}
+	}
+
+	private <A extends MediaContainer> A execute(ClassicHttpRequest request, A mediaContainer) {
+		try {
+			return client.execute(request, response -> parseResponse(request, response, mediaContainer));
+		} catch (IOException e) {
+			throw new PlexHttpClientException("Unknown client error", e, request);
+		}
+	}
+
+	private void setRequestEntity(ClassicRequestBuilder builder, BaseItem entity) {
+		builder.setHeader("Content-Type", "application/json");
+		try {
+			builder.setEntity(jsonMapper.writeValueAsString(entity));
+		} catch (JsonProcessingException e) {
+			throw new PlexHttpClientException("Error while serializing entity to request. See attached exception", e);
+		}
+	}
+
+	<A extends MediaContainer> Optional<A> post(URI uri, Optional<String> token,
+			Optional<? extends BaseItem> entity, Optional<Class<A>> responseEntityClass) {
+		ClassicRequestBuilder requestBuilder = buildBaseRequestBuilder(uri, "POST", token);
+		entity.ifPresent(e -> setRequestEntity(requestBuilder, e));
+		return execute(requestBuilder.build(), responseEntityClass);
 	}
 
 	private <T> T executeAndCallResponseHandler(ClassicHttpRequest request, String token,
@@ -53,7 +169,9 @@ public class PlexHTTPClient {
 		}
 	}
 
-	<A> A executeAndCreateFromResponse(ClassicRequestBuilder builder, BaseItem body, String contentType, Class<A> cls, String token) {
+	@Deprecated
+	<A> A executeAndCreateFromResponse(ClassicRequestBuilder builder, BaseItem body, String contentType, Class<A> cls,
+			String token) {
 		ObjectMapper mapper = contentType.toLowerCase().contains("xml") ? xmlMapper : jsonMapper;
 		try {
 			builder.setEntity(mapper.writeValueAsString(body));
@@ -63,18 +181,22 @@ public class PlexHTTPClient {
 		return executeAndCallResponseHandler(builder.build(), token, (response) -> parseIntoNewObject(response, cls));
 	}
 
+	@Deprecated
 	<A> A executeAndCreateFromResponse(ClassicHttpRequest request, Class<A> cls, String token) {
 		return executeAndCallResponseHandler(request, token, (response) -> parseIntoNewObject(response, cls));
 	}
 
+	@Deprecated
 	<A> A executeAndUpdateFromResponse(ClassicHttpRequest request, A item, String token) {
 		return executeAndCallResponseHandler(request, token, (response) -> parseAndUpdateObject(response, item));
 	}
 
+	@Deprecated
 	Void execute(ClassicHttpRequest request, String token) {
 		return executeAndCallResponseHandler(request, token, this::checkRespondeCode);
 	}
 
+	@Deprecated
 	private void addTokenToRequest(ClassicHttpRequest request, String token) {
 		if (token != null) {
 			try {
@@ -87,6 +209,7 @@ public class PlexHTTPClient {
 		}
 	}
 
+	@Deprecated
 	private <A> A parseIntoNewObject(ClassicHttpResponse response, Class<A> cls) {
 		HttpEntity entity = extractEntity(response);
 		if (entity == null)
@@ -98,6 +221,7 @@ public class PlexHTTPClient {
 		}
 	}
 
+	@Deprecated
 	private <A> A parseAndUpdateObject(ClassicHttpResponse response, A item) {
 		HttpEntity entity = extractEntity(response);
 		if (entity == null)
@@ -109,6 +233,7 @@ public class PlexHTTPClient {
 		}
 	}
 
+	@Deprecated
 	private Void checkRespondeCode(ClassicHttpResponse response) {
 		int code = response.getCode();
 		if (code >= 400) {
@@ -141,6 +266,7 @@ public class PlexHTTPClient {
 		return null;
 	}
 
+	@Deprecated
 	private HttpEntity extractEntity(ClassicHttpResponse response) {
 		checkRespondeCode(response);
 		return response.getEntity();
@@ -162,4 +288,65 @@ public class PlexHTTPClient {
 			return jsonMapper;
 		throw new PlexException("Cannot determine mapper deserialize entity with Content-Type: " + contentType);
 	}
+
+	// Method created for the authorizer, whose remote service does not return a
+	// MediaContainer
+	Pin requestPin(URI uri) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "POST", Optional.empty()).build();
+		return execute(request, Optional.of(Pin.class)).get();
+	}
+
+	// Method created for the authorizer, whose remote service does not return a
+	// MediaContainer
+	Pin verifyPin(URI uri) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "GET", Optional.empty()).build();
+		return execute(request, Optional.of(Pin.class)).get();
+	}
+
+	<A extends MediaContainer> A get(Optional<String> token, A mediaContainer) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "GET", token).build();
+		return execute(request, mediaContainer);
+	}
+
+	<A extends MediaContainer> Optional<A> get(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "GET", token).build();
+		return execute(request, cls);
+	}
+
+	<A extends MediaContainer> A post(Optional<String> token, A mediaContainer) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "POST", token).build();
+		return execute(request, mediaContainer);
+	}
+
+	<A extends MediaContainer> A post(Optional<String> token, Optional<? extends BaseItem> entity, A mediaContainer) {
+		ClassicRequestBuilder requestBuilder = buildBaseRequestBuilder(mediaContainer.getUri(), "POST", token);
+		entity.ifPresent(e -> setRequestEntity(requestBuilder, e));
+		return execute(requestBuilder.build(), mediaContainer);
+	}
+
+	<A extends MediaContainer> Optional<A> post(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "POST", token).build();
+		return execute(request, cls);
+	}
+
+	<A extends MediaContainer> A put(Optional<String> token, A mediaContainer) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "PUT", token).build();
+		return execute(request, mediaContainer);
+	}
+
+	<A extends MediaContainer> Optional<A> put(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "PUT", token).build();
+		return execute(request, cls);
+	}
+
+	<A extends MediaContainer> A delete(Optional<String> token, A mediaContainer) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "DELETE", token).build();
+		return execute(request, mediaContainer);
+	}
+
+	<A extends MediaContainer> Optional<A> delete(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "DELETE", token).build();
+		return execute(request, cls);
+	}
+
 }

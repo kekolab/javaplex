@@ -9,8 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import kekolab.javaplex.mappers.BooleanDeserializer;
-
 public class PlexAccount extends BaseItem {
 	@JsonIgnore
 	private static URI uri;
@@ -59,65 +57,6 @@ public class PlexAccount extends BaseItem {
 				throw new PlexException(e);
 			}
 		return uri;
-	}
-
-	@Override
-	protected void clear() {
-		super.clear();
-		authentication_Token = null;
-		authenticationToken = null;
-		authToken = null;
-		certificateVersion = null;
-		cloudSyncDevice = null;
-		email = null;
-		guest = null;
-		hasPassword = null;
-		home = null;
-		homeSize = null;
-		id = null;
-		locale = null;
-		mailingListStatus = null;
-		maxHomeSize = null;
-		queueEmail = null;
-		queueUid = null;
-		restricted = null;
-		scrobbleTypes = null;
-		secure = null;
-		thumb = null;
-		title = null;
-		username = null;
-		uuid = null;
-	}
-
-	@Override
-	protected void update(BaseItem source) {
-		super.update(source);
-		if (source instanceof PlexAccount account) {
-			authentication_Token = account.authentication_Token;
-			authenticationToken = account.authenticationToken;
-			authToken = account.authToken;
-			certificateVersion = account.certificateVersion;
-			cloudSyncDevice = account.cloudSyncDevice;
-			email = account.email;
-			guest = account.guest;
-			hasPassword = account.hasPassword;
-			home = account.home;
-			homeSize = account.homeSize;
-			id = account.id;
-			locale = account.locale;
-			mailingListStatus = account.mailingListStatus;
-			maxHomeSize = account.maxHomeSize;
-			queueEmail = account.queueEmail;
-			queueUid = account.queueUid;
-			restricted = account.restricted;
-			scrobbleTypes = account.scrobbleTypes;
-			secure = account.secure;
-			thumb = account.thumb;
-			title = account.title;
-			username = account.username;
-			uuid = account.uuid;
-		} else
-			throw new ClassCastException("Cannot cast source to PlexAccount");
 	}
 
 	public PlexAccount(PlexHTTPClient client, String token) {

@@ -2,15 +2,19 @@ package kekolab.javaplex;
 
 import java.util.Objects;
 
-public abstract class MediatagAttribute extends BaseItem {
-	private PlexMediatag<?> tag;
+abstract class MediatagAttribute extends BaseItem {
+	private Mediatag<?> tag;
 	
-	protected void initialise(PlexMediatag<?> tag) {
+	void initialise(Mediatag<?> tag) {
 		Objects.requireNonNull(tag);
 		this.tag = tag;
 	}
 	
-	protected PlexMediatag<?> getParentTag() {		
+	Mediatag<?> getParentTag() {		
 		return tag;
+	}
+
+	void ensureDetailed(Object field) {
+		getParentTag().ensureDetailed(field);
 	}
 }
