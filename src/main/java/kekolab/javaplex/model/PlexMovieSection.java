@@ -2,13 +2,15 @@ package kekolab.javaplex.model;
 
 import java.util.List;
 
-public interface PlexMovieSection extends PlexSection<PlexMovie, PlexMovie> {
+public interface PlexMovieSection extends PlexSection<PlexMovie, PlexMovie>, WithCollections<PlexMovieCollections, PlexMovieSection> {
 
 	String TYPE_DESCRIPTION = "movie";
 
-    PlexMovieCollection createCollection(String title, PlexMovie movie);
 	List<PlexMovie> newest();
+
 	List<PlexMovie> onDeck();
+
 	List<PlexMovie> recentlyViewed();
+
 	List<PlexMovie> unwatched();
 }

@@ -5,14 +5,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.hc.core5.net.URIBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import kekolab.javaplex.model.PlexCollection;
 import kekolab.javaplex.model.PlexLocation;
 import kekolab.javaplex.model.PlexMediatag;
 import kekolab.javaplex.model.PlexMetadata;
@@ -217,7 +215,7 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 	}
 
 	public List<All> all() {
-		return executeRequestAndGetMetadata("all");//
+		return executeRequestAndGetMetadata("all");
 	}
 
 	public List<RecentlyAdded> recentlyAdded() {
@@ -231,33 +229,11 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		return new MetadataContainer<M, Directory>(uri, getClient(), getToken(), getServer()).getMetadata();
+		return new MetadataContainer<M, Directory>(uri, getServer()).getMetadata();
 	}
 
 	protected <M extends PlexMediatag<?>> List<M> executeRequestAndCastMetadata(String key, Class<M> cls) {
 		return executeRequestAndGetMetadata(key).stream().map(m -> cls.cast(m)).toList();
-	}
-
-	public List<PlexCollection<?, ?>> collections() {
-		return executeRequestAndGetMetadata("collections").stream().map(m -> (PlexCollection<?, ?>) m)
-				.collect(Collectors.toList());
-	}
-
-	public <M extends PlexMediatag<S>, S extends PlexSection<?, ?>> Collection<M, S> createCollection(String title,
-			M item) {
-		URI uri;
-		MediaServer server = getServer();
-		try {
-			uri = new URIBuilder(server.getUri()).appendPathSegments("library", "collections")
-					.addParameter("type", Integer.toString(item.typeId())).addParameter("title", title)
-					.addParameter("uri", item.serverSchemeUri(server).toString()).addParameter("sectionId", getKey())
-					.build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-		MetadataContainer<Collection<M, S>, Directory> container = new MetadataContainer<>(uri, getClient(),
-				getToken(), server);
-		return getClient().post(getToken(), container).getMetadata().get(0);
 	}
 
 	@Override

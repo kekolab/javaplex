@@ -42,7 +42,7 @@ class AttributeEditor {
             URIBuilder uri = new URIBuilder(this.editUri);
             uri.addParameters(queryParameters);
             try {
-                source.getClient().put(uri.build(), source.getToken(), Optional.empty());
+                source.getServer().getClient().put(uri.build(), source.getServer().getToken(), Optional.empty());
                 source.ensureDetailed(null);
             } catch (URISyntaxException e) {
                 throw new PlexException("Unknown error. See attached stacktrace", e);

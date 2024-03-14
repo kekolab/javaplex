@@ -2,6 +2,5 @@ package kekolab.javaplex.model;
 
 public interface PlexShowCollection extends PlexCollection<PlexShow, PlexShowSection> {
 
-    public static final String SUBTYPE_DESCRIPTION = "show";
-
+    String SHOW_COLLECTION_SUBTYPE = "show";
 }

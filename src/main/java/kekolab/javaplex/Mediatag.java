@@ -202,7 +202,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 
 	public PlexTranscodeSession getTranscodeSession() {
 		if (transcodeSession != null)
-			((TranscodeSession) transcodeSession).initialise(getServer(), uri(), getClient(), getToken());
+			((TranscodeSession) transcodeSession).initialise(getServer(), uri());
 		return transcodeSession;
 	}
 

@@ -3,7 +3,6 @@ package kekolab.javaplex;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -30,15 +29,15 @@ class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> extends
 	@JsonDeserialize(contentAs = TranscodeSession.class)
 	private List<PlexTranscodeSession> transcodeSessions;
 
-	MetadataContainer(URI uri, PlexHTTPClient client, Optional<String> token, MediaServer server) {
-		super(uri, client, token, server);
+	MetadataContainer(URI uri, MediaServer server) {
+		super(uri, server);
 		metadata = new ArrayList<>();
 		searchResults = new ArrayList<>();
 		transcodeSessions = new ArrayList<>();
 	}
 
 	private void initialiseItems(List<? extends InitialisableItem> list) {
-		list.stream().forEach(d -> d.initialise(server(), getUri(), getClient(), getToken()));
+		list.stream().forEach(d -> d.initialise(server(), getUri()));
 	}
 
 	public List<M> getMetadata() {

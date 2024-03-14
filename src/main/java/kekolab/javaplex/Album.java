@@ -213,7 +213,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 	}
 
 	public List<PlexTrack> children() {
-		return new MetadataContainer<PlexTrack, Directory>(key(), getClient(), getToken(), getServer()).getMetadata();
+		return new MetadataContainer<PlexTrack, Directory>(key(), getServer()).getMetadata();
 	}
 
 	public String getArt() {

@@ -4,5 +4,4 @@ public interface PlexPhotoPlaylist extends PlexPlaylist<PlexMediatag<PlexPhotoSe
 
 	String SUBTYPE_DESCRIPTION = "photo";
 
-	void add(PlexPhotoalbum item);
 }

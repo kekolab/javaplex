@@ -23,10 +23,6 @@ public interface PlexPlaylist<M extends PlexMediatag<?>> extends PlexMetadata {
 
     List<M> children();
 
-    void remove(M item); // TODO Move into Playlists?
-
-    void add(M mediatag); // TODO Move into Playlists?
-
     String getArt();
 
     URI art();

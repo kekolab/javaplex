@@ -1,7 +1,6 @@
 package kekolab.javaplex;
 
 import java.net.URI;
-import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -32,8 +31,8 @@ class SearchResult extends InitialisableItem implements PlexSearchResult {
 	}
 
 	@Override
-	protected void initialise(MediaServer container, URI uri, PlexHTTPClient client, Optional<String> token) {
-		super.initialise(container, uri, client, token);
-		((Metadata) item).initialise(container, uri, client, token);
+	protected void initialise(MediaServer server, URI uri) {
+		super.initialise(server, uri);
+		((Metadata) item).initialise(server, uri);
 	}
 }

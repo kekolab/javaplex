@@ -11,8 +11,8 @@ import kekolab.javaplex.model.PlexTranscode;
 import kekolab.javaplex.model.PlexTranscodeSession;
 
 class Transcode extends ServerMediaContainer implements PlexTranscode {
-	Transcode(MediaServer server, PlexHTTPClient client, Optional<String> token) throws URISyntaxException {
-		super(new URIBuilder(server.getUri()).appendPath("transcode").build(), client, token, server);
+	Transcode(MediaServer server) throws URISyntaxException {
+		super(new URIBuilder(server.getUri()).appendPath("transcode").build(), server);
 	}
 
 	public List<PlexTranscodeSession> sessions() {
@@ -22,7 +22,7 @@ class Transcode extends ServerMediaContainer implements PlexTranscode {
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		return new MetadataContainer<Metadata, Directory>(uri, getClient(), getToken(), server()).getTranscodeSessions();
+		return new MetadataContainer<Metadata, Directory>(uri, server()).getTranscodeSessions();
 	}
 
 	public void killSession(PlexTranscodeSession session) {

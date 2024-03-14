@@ -51,16 +51,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		setArt(collection.getArt());
 		setThumb(collection.getThumb());
 	}
-
-	public void add(M mediatag) {
-		if (!mediatag.getLibrarySectionID().equals(getLibrarySectionID()))
-			throw new RuntimeException(
-					"The item to be added and the receiving collection must belong to the same section"); // TODO Maybe
-																											// a better
-																											// exception?
-		new GenericCollectionsHelper(this).add(mediatag);
-	}
-
+	
 	public Integer getChildCount() {
 		ensureDetailed(childCount);
 		return childCount;
@@ -125,7 +116,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 	}
 
 	public List<M> children() {
-		return new MetadataContainer<M, Directory>(key(), getClient(), getToken(), getServer()).getMetadata();
+		return new MetadataContainer<M, Directory>(key(), getServer()).getMetadata();
 	}
 
 	@Override
@@ -138,17 +129,6 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 				throw new PlexException(e);
 			}
 		return null;
-	}
-
-	public void remove(M mediatag) {
-		URI uri;
-		try {
-			uri = new URIBuilder(key()).appendPath(Integer.toString(mediatag.getRatingKey()))
-					.addParameter("excludeAllLeaves", "1").build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-		new GenericCollectionsHelper(this).remove(uri);
 	}
 
 	public String getArt() {

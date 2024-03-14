@@ -4,7 +4,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.hc.core5.net.URIBuilder;
@@ -32,9 +31,9 @@ class Library extends ServerMediaContainer implements PlexLibrary {
 
 	private UriProvider art;
 
-	public Library(MediaServer server, PlexHTTPClient client, Optional<String> token)
+	public Library(MediaServer server)
 			throws URISyntaxException {
-		super(new URIBuilder(server.getUri()).appendPath("library").build(), client, token, server);
+		super(new URIBuilder(server.getUri()).appendPath("library").build(), server);
 		art = new UriProvider(this::getUri);
 	}
 
@@ -134,7 +133,7 @@ class Library extends ServerMediaContainer implements PlexLibrary {
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		return new MetadataContainer<PlexMetadata, Directory>(uri, getClient(), getToken(), server()).getMetadata();
+		return new MetadataContainer<PlexMetadata, Directory>(uri, server()).getMetadata();
 	}
 
 	public List<PlexSearchResult> search(String query) {
@@ -146,7 +145,7 @@ class Library extends ServerMediaContainer implements PlexLibrary {
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		return new MetadataContainer<Metadata, Directory>(uri, getClient(), getToken(), server())
+		return new MetadataContainer<Metadata, Directory>(uri, server())
 				.getSearchResults();
 	}
 
@@ -157,7 +156,7 @@ class Library extends ServerMediaContainer implements PlexLibrary {
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		return new MetadataContainer<PlexMetadata, PlexSection<?, ?>>(uri, getClient(), getToken(), server())
+		return new MetadataContainer<PlexMetadata, PlexSection<?, ?>>(uri, server())
 				.getDirectories();
 	}
 

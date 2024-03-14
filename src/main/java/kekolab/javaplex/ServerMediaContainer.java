@@ -1,17 +1,16 @@
 package kekolab.javaplex;
 
 import java.net.URI;
-import java.util.Optional;
 
 class ServerMediaContainer extends MediaContainer {
 	private MediaServer server;
 
-	public ServerMediaContainer(URI uri, PlexHTTPClient client, Optional<String> token, MediaServer server) {
-		super(uri, client, token);
+	public ServerMediaContainer(URI uri, MediaServer server) {
+		super(uri, server.getClient(), server.getToken());
 		this.server = server;
 	}
 
-	public MediaServer server() {
+	MediaServer server() {
 		return server;
 	}
 }

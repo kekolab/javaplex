@@ -42,7 +42,7 @@ abstract class Grandchild<G extends PlexGrandparent<?, ?, S>, P extends PlexPare
         URI uri = grandparentKey() != null ? grandparentKey()
                 : grandparentRatingKey() != null ? grandparentRatingKey() : null;
         if (uri != null)
-            return new MetadataContainer<G, PlexDirectory>(uri, getClient(), getToken(), getServer()).getMetadata().get(0);
+            return new MetadataContainer<G, PlexDirectory>(uri, getServer()).getMetadata().get(0);
         return null;
     }
 

@@ -7,9 +7,7 @@ import java.util.List;
 public interface PlexCollection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>> extends PlexSectionItem<S> {
     int TYPE_ID = 18;
     String TYPE_DESCRIPTION = "collection";
-
-    void add(M mediatag); // TODO Move in PlexCollections?
-
+    
     Integer getChildCount();
 
     String getContentRating();
@@ -25,8 +23,6 @@ public interface PlexCollection<M extends PlexMediatag<S>, S extends PlexSection
     String getSubtype();
 
     List<M> children();
-
-    void remove(M mediatag);
 
     String getArt();
 

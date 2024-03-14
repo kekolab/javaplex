@@ -60,7 +60,7 @@ class Season extends Child<PlexShow, PlexShowSection> implements PlexSeason {
 	}
 	
 	public List<PlexEpisode> children() {
-		return new MetadataContainer<PlexEpisode, PlexDirectory>(key(), getClient(), getToken(), getServer())
+		return new MetadataContainer<PlexEpisode, PlexDirectory>(key(), getServer())
 				.getMetadata();
 	}
 

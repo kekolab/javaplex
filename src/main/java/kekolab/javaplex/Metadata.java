@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -112,7 +111,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 
 	void ensureDetailed(Object field) {
 		if (!detailed() && (field == null || field instanceof Collection collection && collection.isEmpty())) 
-			update(new MetadataContainer<Metadata, PlexDirectory>(ratingKey(), getClient(), getToken(), getServer()).getMetadata().get(0));
+			update(new MetadataContainer<Metadata, PlexDirectory>(ratingKey(), getServer()).getMetadata().get(0));
 	}
 
 	private boolean detailed() {
@@ -124,9 +123,5 @@ abstract class Metadata extends Directory implements PlexMetadata {
 	protected boolean isLocked(String field) {
 		return getFields().stream().filter(f -> f.getName().equals(field)).map(PlexField::getLocked)
 				.findAny().orElse(false);
-	}
-
-	public void delete() {
-		getClient().delete(ratingKey(), getToken(), Optional.empty());
 	}
 }

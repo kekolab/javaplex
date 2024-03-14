@@ -42,7 +42,7 @@ abstract class Child<P extends PlexParent<?, S>, S extends PlexSection<?, ?>> ex
     public P parent() {
         URI uri = parentKey() != null ? parentKey() : parentRatingKey() != null ? parentRatingKey() : null;
         if (uri != null)
-            return new MetadataContainer<P, Directory>(uri, getClient(), getToken(), getServer()).getMetadata().get(0);
+            return new MetadataContainer<P, Directory>(uri, getServer()).getMetadata().get(0);
         return null;
     }
 

@@ -23,6 +23,4 @@ public interface PlexMetadata extends PlexDirectory {
     String getSummary();
 
     URI ratingKey();
-
-    void delete();
 }

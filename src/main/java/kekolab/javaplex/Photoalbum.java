@@ -30,8 +30,7 @@ class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
 
 	@Override
 	public List<PlexChild<?, PlexPhotoSection>> children() {
-		return new MetadataContainer<PlexChild<?, PlexPhotoSection>, PlexDirectory>(key(), getClient(), getToken(),
-				getServer()).getMetadata();
+		return new MetadataContainer<PlexChild<?, PlexPhotoSection>, PlexDirectory>(key(), getServer()).getMetadata();
 	}
 
 	public String getComposite() {

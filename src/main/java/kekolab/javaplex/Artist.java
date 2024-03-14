@@ -179,7 +179,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 	}
 
 	public List<PlexAlbum> children() {
-		return new MetadataContainer<PlexAlbum, Directory>(key(), getClient(), getToken(), getServer()).getMetadata();
+		return new MetadataContainer<PlexAlbum, Directory>(key(), getServer()).getMetadata();
 	}
 
 	public List<PlexTrack> grandchildren() {
@@ -189,7 +189,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		return new MetadataContainer<PlexTrack, Directory>(uri, getClient(), getToken(), getServer()).getMetadata();
+		return new MetadataContainer<PlexTrack, Directory>(uri, getServer()).getMetadata();
 	}
 
 	public String getArt() {

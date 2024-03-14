@@ -7,26 +7,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.hc.core5.net.URIBuilder;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import kekolab.javaplex.model.PlexAlbum;
-import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexClip;
-import kekolab.javaplex.model.PlexDirectory;
-import kekolab.javaplex.model.PlexEpisode;
 import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexMediatag;
-import kekolab.javaplex.model.PlexMovie;
-import kekolab.javaplex.model.PlexPhoto;
-import kekolab.javaplex.model.PlexPhotoalbum;
-import kekolab.javaplex.model.PlexPlaylist;
-import kekolab.javaplex.model.PlexSeason;
 import kekolab.javaplex.model.PlexServer;
 import kekolab.javaplex.model.PlexServerShares;
-import kekolab.javaplex.model.PlexShow;
-import kekolab.javaplex.model.PlexTrack;
 
 /**
  * This class represents a Plex Media Server (public or local) and maps the XML
@@ -587,7 +572,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 	public Library library() {
 		try {
-			return new Library(this, getClient(), getToken());
+			return new Library(this);
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
@@ -595,7 +580,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 	public Status status() {
 		try {
-			return new Status(this, getClient(), getToken());
+			return new Status(this);
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
@@ -621,20 +606,15 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 	public Transcode transcode() {
 		try {
-			return new Transcode(this, getClient(), getToken());
+			return new Transcode(this);
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
 	}
 
-	public List<PlexPlaylist<?>> playlists() {
-		URI uri;
-		try {
-			uri = new URIBuilder(getUri()).appendPath("playlists").build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-		return new MetadataContainer<PlexPlaylist<?>, PlexDirectory>(uri, getClient(), getToken(), this).getMetadata();
+	@Override
+	public Playlists playlists() {
+		return new Playlists(this);
 	}
 
 	// public List<PlexMediatag> search(String query, MediaType type) {
@@ -648,58 +628,4 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 	// this).getMetadata().stream()
 	// .filter(m -> m instanceof PlexMediatag).map(m -> (PlexMediatag) m).toList();
 	// }
-
-	public AudioPlaylist createPlaylist(String title, PlexArtist artist) {
-		return createPlaylist(title, artist, AudioPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public AudioPlaylist createPlaylist(String title, PlexAlbum album) {
-		return createPlaylist(title, album, AudioPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public AudioPlaylist createPlaylist(String title, PlexTrack track) {
-		return createPlaylist(title, track, AudioPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public PhotoPlaylist createPlaylist(String title, PlexPhotoalbum photoalbum) {
-		return createPlaylist(title, photoalbum, PhotoPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public PhotoPlaylist createPlaylist(String title, PlexPhoto photo) {
-		return createPlaylist(title, photo, PhotoPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public PhotoPlaylist createPlaylist(String title, PlexClip clip) {
-		return createPlaylist(title, clip, PhotoPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public VideoPlaylist createPlaylist(String title, PlexShow show) {
-		return createPlaylist(title, show, VideoPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public VideoPlaylist createPlaylist(String title, PlexSeason season) {
-		return createPlaylist(title, season, VideoPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public VideoPlaylist createPlaylist(String title, PlexEpisode episode) {
-		return createPlaylist(title, episode, VideoPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	public VideoPlaylist createPlaylist(String title, PlexMovie movie) {
-		return createPlaylist(title, movie, VideoPlaylist.SUBTYPE_DESCRIPTION);
-	}
-
-	private <P extends Playlist<?>> P createPlaylist(String title, PlexMediatag<?> mediatag, String type) {
-		URI uri;
-		try {
-			uri = new URIBuilder(getUri()).appendPath("playlists").addParameter("title", title)
-					.addParameter("type", type)
-					.addParameter("uri", mediatag.serverSchemeUri(this).toString()).build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-
-		MetadataContainer<P, Directory> pmmc = new MetadataContainer<>(uri, getClient(), getToken(), this);
-		return getClient().post(getToken(), pmmc).getMetadata().get(0);
-	}
 }

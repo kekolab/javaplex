@@ -60,7 +60,8 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 
 	@JsonIgnore
 	private FieldEditor<List<PlexTag>> genreEditor;
-	@JsonIgnore private FieldEditor<Boolean> genreLockEditor;
+	@JsonIgnore
+	private FieldEditor<Boolean> genreLockEditor;
 
 	public Show() {
 		art = new UriProvider(this::uri);
@@ -109,7 +110,6 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 	public void setSimilars(List<PlexTag> similars) {
 		this.similars = similars;
 	}
-
 
 	public String getStudio() {
 		ensureDetailed(studio);
@@ -298,7 +298,7 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 
 	public List<PlexSeason> children() {
 		ensureDetailed(key());
-		return new MetadataContainer<PlexSeason, Directory>(key(), getClient(), getToken(), getServer()).getMetadata();
+		return new MetadataContainer<PlexSeason, Directory>(key(), getServer()).getMetadata();
 	}
 
 	public List<PlexEpisode> grandchildren() {
@@ -309,7 +309,7 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
 		}
-		return new MetadataContainer<PlexEpisode, Directory>(uri, getClient(), getToken(), getServer()).getMetadata();
+		return new MetadataContainer<PlexEpisode, Directory>(uri, getServer()).getMetadata();
 	}
 
 	public URI banner() {

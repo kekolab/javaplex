@@ -114,32 +114,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 	}
 
 	public List<M> children() {
-		return new MetadataContainer<M, Directory>(key(), getClient(), getToken(), getServer()).getMetadata();
-	}
-
-	private Integer itemId(M item) {
-		Integer id = item.getPlaylistItemID();
-		if (id != null)
-			return id;
-
-		// The passed item has no playlistitemid. We look for the child with
-		// the same rating key and take the its playlistItemId
-		return children().stream().filter(c -> c.getRatingKey().equals(item.getRatingKey()))
-				.map(c -> c.getPlaylistItemID()).findAny().orElse(null);
-	}
-
-	public void remove(M item) {
-		Integer playlistItemId = itemId(item);
-		if (playlistItemId == null)
-			return;
-
-		URI uri;
-		try {
-			uri = new URIBuilder(key()).appendPath(Integer.toString(playlistItemId)).build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-		new GenericCollectionsHelper(this).remove(uri);
+		return new MetadataContainer<M, Directory>(key(), getServer()).getMetadata();
 	}
 
 	@Override
@@ -152,10 +127,6 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 				throw new PlexException(e);
 			}
 		return null;
-	}
-
-	public void add(M mediatag) {
-		new GenericCollectionsHelper(this).add(mediatag);
 	}
 
 	public String getArt() {

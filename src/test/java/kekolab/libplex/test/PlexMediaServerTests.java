@@ -14,14 +14,16 @@ import kekolab.javaplex.PlexException;
 import kekolab.javaplex.model.PlexArtist;
 import kekolab.javaplex.model.PlexArtistCollection;
 import kekolab.javaplex.model.PlexAudioPlaylist;
-import kekolab.javaplex.model.PlexCollection;
 import kekolab.javaplex.model.PlexConnection;
 import kekolab.javaplex.model.PlexDevice;
 import kekolab.javaplex.model.PlexMediaServer;
 import kekolab.javaplex.model.PlexMetadata;
+import kekolab.javaplex.model.PlexMusicCollections;
 import kekolab.javaplex.model.PlexMusicSection;
+import kekolab.javaplex.model.PlexPlaylists;
 import kekolab.javaplex.model.PlexSection;
 import kekolab.javaplex.model.PlexTrack;
+import kekolab.javaplex.model.WithCollections;
 
 public class PlexMediaServerTests extends PlexTests {
 	private static PlexMediaServer server;
@@ -49,17 +51,18 @@ public class PlexMediaServerTests extends PlexTests {
 	@Test
 	public void refresh() {
 		PlexArtist artist = (PlexArtist) getServer().library().search("xuxa").get(0).getItem();
-		PlexAudioPlaylist audioPlaylist = getServer().playlists().stream().filter(PlexAudioPlaylist.class::isInstance)
+		PlexPlaylists playlists = getServer().playlists();
+		PlexAudioPlaylist audioPlaylist = playlists.list().stream().filter(PlexAudioPlaylist.class::isInstance)
 				.map(PlexAudioPlaylist.class::cast).findAny().get();
 		assertFalse(audioPlaylist.children().stream().anyMatch(t -> {
 			return t.getGrandparentTitle().equals(artist.getTitle());
 		}));
-		audioPlaylist.add(artist);
+		playlists.add(artist, audioPlaylist);
 		List<PlexTrack> tracks = audioPlaylist.children().stream().filter(t -> {
 			return t.getGrandparentTitle().equals(artist.getTitle());
 		}).toList();
 		assertEquals(1, tracks.size());
-		audioPlaylist.remove(tracks.get(0));
+		playlists.remove(tracks.get(0), audioPlaylist);
 		tracks = audioPlaylist.children().stream().filter(t -> {
 			return t.getGrandparentTitle().equals(artist.getTitle());
 		}).toList();
@@ -88,56 +91,45 @@ public class PlexMediaServerTests extends PlexTests {
 
 	@Test
 	public void playlists() {
-		assertTrue(getServer().playlists().stream().noneMatch(p -> p.getTitle().equals("xuxa")));
+		PlexPlaylists playlists = getServer().playlists();
+		assertTrue(playlists.list().stream().noneMatch(p -> p.getTitle().equals("xuxa")));
 		PlexArtist xuxa = (PlexArtist) getServer().library().search("xuxa").get(0).getItem();
-		PlexAudioPlaylist playlist = getServer().createPlaylist("xuxa", xuxa);
+		PlexAudioPlaylist playlist = playlists.create("xuxa", xuxa);
 		assertTrue(playlist.children().stream().anyMatch(c -> {
 			return c.getGrandparentTitle().equals(xuxa.getTitle());
 		}));
-		playlist.delete();
-		assertTrue(getServer().playlists().stream().noneMatch(p -> p.getTitle().equals("xuxa")));
+		playlists.delete(playlist);
+		assertTrue(playlists.list().stream().noneMatch(p -> p.getTitle().equals("xuxa")));
 	}
 
 	@Test
 	public void collections() {
-		for (PlexSection<?, ?> section : getServer().library().sections().stream()
+		for (PlexMusicSection section : getServer().library().sections().stream()
 				.filter(s -> s.getType().equals("artist"))
+				.map(PlexMusicSection.class::cast)
 				.toList()) {
-			for (PlexArtistCollection collection : section.collections().stream()
-					.filter(c -> c instanceof PlexArtistCollection).map(c -> (PlexArtistCollection) c).toList()) {
-				collection.add((PlexArtist) getServer().library().search("xuxa").get(0).getItem());
+			PlexMusicCollections collections = section.collections();
+			for (PlexArtistCollection collection : collections.list().stream()
+					.filter(PlexArtistCollection.class::isInstance).map(PlexArtistCollection.class::cast).toList()) {
+				collections.add((PlexArtist) getServer().library().search("xuxa").get(0).getItem(), collection);
 				PlexArtist xuxa = collection.children().stream().filter(c -> c.getTitle().toLowerCase().equals("xuxa"))
 						.findAny().get();
-				collection.remove(xuxa);
+				collections.remove(xuxa, collection);
 				assertTrue(collection.children().stream().noneMatch(c -> c.getTitle().toLowerCase().equals("xuxa")));
-				collection.remove(xuxa);
+				collections.remove(xuxa, collection);
 			}
 		}
 	}
 
 	@Test
 	public void listCollections() {
-		getServer().library().sections().forEach(s -> s.collections().forEach(c -> c.getChildCount()));
-		/*
-		 * for (PlexSection<?, ?> section :
-		 * getServer().library().sections().stream().filter(s ->
-		 * s.getType().equals("artist"))
-		 * .toList()) {
-		 * for (ArtistCollection collection : section.collections().stream()
-		 * .filter(c -> c instanceof ArtistCollection).map(c -> (ArtistCollection)
-		 * c).toList()) {
-		 * collection.add((PlexArtist)
-		 * getServer().library().search("xuxa").get(0).getItem());
-		 * PlexArtist xuxa = collection.children().stream().filter(c ->
-		 * c.getTitle().toLowerCase().equals("xuxa"))
-		 * .findAny().get();
-		 * collection.remove(xuxa);
-		 * assertTrue(collection.children().stream().noneMatch(c ->
-		 * c.getTitle().toLowerCase().equals("xuxa")));
-		 * collection.remove(xuxa);
-		 * }
-		 * }
-		 */
+		for (WithCollections<?, ?> section : getServer().library().sections().stream()
+				.filter(WithCollections.class::isInstance)
+				.map(WithCollections.class::cast).toList()) {
+			section.collections().list()
+					.forEach(collection -> 
+					System.out.println(collection.getClass() + " - " + collection.getTitle()));
+		}
 	}
 
 	@Test
@@ -146,12 +138,13 @@ public class PlexMediaServerTests extends PlexTests {
 				.filter(s -> s.getType().equals("artist"))
 				.toList()) {
 			PlexArtist xuxa = (PlexArtist) getServer().library().search("xuxa").get(0).getItem();
-			PlexCollection<PlexArtist, PlexMusicSection> collection = ((PlexMusicSection) section)
-					.createCollection("xuxaCollection", xuxa);
+			PlexMusicCollections collections = ((PlexMusicSection) section).collections();
+			PlexArtistCollection collection = collections
+					.create("xuxaCollection", xuxa);
 			assertEquals(1, collection.children().size());
 			assertTrue(collection.children().get(0).getTitle().equals(xuxa.getTitle()));
-			collection.delete();
-			assertEquals(0, section.collections().size());
+			collections.delete(collection);
+			assertEquals(0, collections.list().size());
 			break;
 		}
 	}

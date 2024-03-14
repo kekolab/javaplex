@@ -36,4 +36,6 @@ public interface PlexSectionItem<S extends PlexSection<?, ?>> extends PlexMetada
     void editTitleSortLock(boolean locked);// TODO Move to editor?
 
     void commitEdits();// TODO Move to editor?
+
+    // TODO Delete a sectionItem? It is deleted just like a PlexCollection (see classes PlexCollections and Collections)
 }

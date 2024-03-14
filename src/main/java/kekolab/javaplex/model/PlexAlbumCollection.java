@@ -2,6 +2,6 @@ package kekolab.javaplex.model;
 
 public interface PlexAlbumCollection extends PlexCollection<PlexAlbum, PlexMusicSection> {
 
-    String SUBTYPE_DESCRIPTION = "album";
+    String ALBUM_COLLECTION_SUBTYPE = "album";
 
 }

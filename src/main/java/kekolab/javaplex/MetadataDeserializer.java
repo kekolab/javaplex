@@ -97,19 +97,19 @@ public class MetadataDeserializer extends ObjectNodeDeserializer<PlexMetadata> {
 	private Class<? extends PlexCollection<?, ?>> chooseDeserializingClassForCollection(ObjectNode node)
 			throws IOException {
 		String subtype = extractTextFieldValueFromObjectNode(node, "subtype");
-		if (subtype.equals(PlexMovieCollection.SUBTYPE_DESCRIPTION))
+		if (subtype.equals(PlexMovieCollection.MOVIE_COLLECTION_SUBTYPE))
 			return MovieCollection.class;
-		if (subtype.equals(PlexArtistCollection.SUBTYPE_DESCRIPTION))
+		if (subtype.equals(PlexArtistCollection.ARTIST_COLLECTION_SUBTYPE))
 			return ArtistCollection.class;
-		if (subtype.equals(PlexAlbumCollection.SUBTYPE_DESCRIPTION))
+		if (subtype.equals(PlexAlbumCollection.ALBUM_COLLECTION_SUBTYPE))
 			return AlbumCollection.class;
-		if (subtype.equals(PlexTrackCollection.SUBTYPE_DESCRIPTION))
+		if (subtype.equals(PlexTrackCollection.TRACK_COLLECTION_SUBTYPE))
 			return TrackCollection.class;
-		if (subtype.equals(PlexShowCollection.SUBTYPE_DESCRIPTION))
+		if (subtype.equals(PlexShowCollection.SHOW_COLLECTION_SUBTYPE))
 			return ShowCollection.class;
-		if (subtype.equals(PlexSeasonCollection.SUBTYPE_DESCRIPTION))
+		if (subtype.equals(PlexSeasonCollection.SEASON_COLLECTION_SUBTYPE))
 			return SeasonCollection.class;
-		if (subtype.equals(PlexEpisodeCollection.SUBTYPE_DESCRIPTION))
+		if (subtype.equals(PlexEpisodeCollection.EPISODE_COLLECTION_SUBTYPE))
 			return EpisodeCollection.class;
 		throw new IOException(
 				"Cannot determine the right class to deserialize collection with subtype " + subtype);

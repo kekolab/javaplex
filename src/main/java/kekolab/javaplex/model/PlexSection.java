@@ -53,9 +53,4 @@ public interface PlexSection<All extends PlexMediatag<?>, RecentlyAdded extends 
     List<All> all();
 
     List<RecentlyAdded> recentlyAdded();
-
-    List<PlexCollection<?, ?>> collections(); // TODO PlexCollections
-
-    <M extends PlexMediatag<S>, S extends PlexSection<?, ?>> PlexCollection<M, S> createCollection(String title, // TODO Move in PlexCollections
-            M item);
 }

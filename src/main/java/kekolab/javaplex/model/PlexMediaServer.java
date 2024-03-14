@@ -112,25 +112,5 @@ public interface PlexMediaServer {
 
     PlexTranscode transcode();
 
-    List<PlexPlaylist<?>> playlists();
-
-    PlexAudioPlaylist createPlaylist(String title, PlexArtist artist);
-
-    PlexAudioPlaylist createPlaylist(String title, PlexAlbum album);
-
-    PlexAudioPlaylist createPlaylist(String title, PlexTrack track);
-
-    PlexPhotoPlaylist createPlaylist(String title, PlexPhotoalbum photoalbum);
-
-    PlexPhotoPlaylist createPlaylist(String title, PlexPhoto photo);
-
-    PlexPhotoPlaylist createPlaylist(String title, PlexClip clip);
-
-    PlexVideoPlaylist createPlaylist(String title, PlexShow show);
-
-    PlexVideoPlaylist createPlaylist(String title, PlexSeason season);
-
-    PlexVideoPlaylist createPlaylist(String title, PlexEpisode episode);
-
-    PlexVideoPlaylist createPlaylist(String title, PlexMovie movie);
+    PlexPlaylists playlists();
 }

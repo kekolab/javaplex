@@ -2,15 +2,9 @@ package kekolab.javaplex.model;
 
 import java.util.List;
 
-public interface PlexShowSection extends PlexSection<PlexShow, PlexEpisode> {
+public interface PlexShowSection extends PlexSection<PlexShow, PlexEpisode>, WithCollections<PlexShowCollections, PlexShowSection> {
 
 	String TYPE_DESCRIPTION = "show";
-
-	PlexEpisodeCollection createCollection(String title, PlexEpisode episode);
-
-	PlexSeasonCollection createCollection(String title, PlexSeason season);
-
-	PlexShowCollection createCollection(String title, PlexShow show);
 
 	List<PlexEpisode> newest();
 
