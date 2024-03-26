@@ -287,9 +287,8 @@ The library also supports:
 
 Some thigs which could be integrated, but I do not know when I will have the time to do:
 
-[ ] **Smart playlists**: creating, deleting, listing, altering the filters, ...
-
-[ ] Add some meaningful logging
+- [ ] **Smart playlists**: creating, deleting, listing, altering the filters, ...
+- [ ] Add some meaningful logging
 
 Feel free to create a discussion, send an issue or contact me in any way you can think of to suggest, emend, correct add stuff.
 
@@ -301,8 +300,7 @@ In case you need to run the tests, these relies on the presence of a file named 
 plexProduct={PLEX_PRODUCT}
 plexProductVersion={PLEX_PRODUCT_VERSION}
 plexClientIdentifier={PLEX_CLIENT_IDENTIFIER}
-proxyHost={PROXY_HOST}
-proxyPort={PROXY_PORT}
+proxyHost={PROXY_PORT}
 proxyUser={PROXY_USERNAME}
 proxyPass={PROXY_PASSWORD}
 ```
