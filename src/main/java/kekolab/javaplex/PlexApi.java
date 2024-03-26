@@ -54,6 +54,11 @@ public class PlexApi {
         return new Resources(client, token.get());
     }
 
+    /**
+     * 
+     * @return
+     * @throws NoSuchElementException
+     */
     public PlexServers getServers() throws NoSuchElementException {
         return new Servers(client, token.get());
     }
