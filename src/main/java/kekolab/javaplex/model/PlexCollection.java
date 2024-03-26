@@ -4,7 +4,7 @@ package kekolab.javaplex.model;
 import java.net.URI;
 import java.util.List;
 
-public interface PlexCollection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>> extends PlexSectionItem<S> {
+public interface PlexCollection<M extends PlexSectionItem<S>, S extends PlexSection<?, ?>> extends PlexSectionItem<S> {
     int TYPE_ID = 18;
     String TYPE_DESCRIPTION = "collection";
     
@@ -36,9 +36,8 @@ public interface PlexCollection<M extends PlexMediatag<S>, S extends PlexSection
         return TYPE_ID;
     }
 
-    boolean isContentRatingLocked();
+    Boolean getContentRatingLocked();
 
-    void editContentRating(String contentRating); // TODO Move to editor?
-
-    void editContentRatingLock(boolean locked);// TODO Move to editor?
+    @Override
+    PlexCollectionEditor editor();
 }

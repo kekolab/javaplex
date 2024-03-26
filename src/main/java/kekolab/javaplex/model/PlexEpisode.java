@@ -33,19 +33,13 @@ public interface PlexEpisode extends PlexGrandchild<PlexShow, PlexSeason, PlexSh
 
 	URI thumb();
 
-	boolean isWritersLocked();
+	Boolean getWritersLocked();
 
-	boolean isDirectorsLocked();
+	Boolean getDirectorsLocked();
 
 	default int typeId() {
 		return TYPE_ID;
 	}
 
-	void editWriters(List<PlexTag> writers);
-
-	void editWritersLock(boolean locked);
-
-	void editDirectors(List<PlexTag> directors);
-
-	void editDirectorsLock(boolean locked);
+	PlexEpisodeEditor editor();
 }

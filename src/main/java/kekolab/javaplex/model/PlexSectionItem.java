@@ -17,25 +17,14 @@ public interface PlexSectionItem<S extends PlexSection<?, ?>> extends PlexMetada
 
     int typeId();
 
-    boolean isTitleLocked();
+    Boolean getTitleLocked();
 
-    boolean isSummaryLocked();
+    Boolean getSummaryLocked();
 
-    boolean isTitleSortLocked();
+    Boolean getTitleSortLocked();
 
-    void editTitle(String title);// TODO Move to editor?
-
-    void editTitleLock(boolean locked);// TODO Move to editor?
-
-    void editSummary(String summary);// TODO Move to editor?
-
-    void editSummaryLock(boolean locked);// TODO Move to editor?
-
-    void editTitleSort(String titleSort);// TODO Move to editor?
-
-    void editTitleSortLock(boolean locked);// TODO Move to editor?
-
-    void commitEdits();// TODO Move to editor?
+    @Override
+    PlexSectionItemEditor editor();
 
     // TODO Delete a sectionItem? It is deleted just like a PlexCollection (see classes PlexCollections and Collections)
 }

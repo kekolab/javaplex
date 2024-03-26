@@ -1,9 +1,6 @@
 package kekolab.javaplex;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,27 +15,9 @@ abstract class SectionItem<S extends PlexSection<?, ?>> extends Metadata impleme
     @JsonIgnore
     private UriProvider sectionUriProvider;
 
-    @JsonIgnore
-    private FieldEditor<String> titleEditor;
-    @JsonIgnore
-    private FieldEditor<Boolean> titleLockEditor;
-    @JsonIgnore
-    private FieldEditor<String> summaryEditor;
-    @JsonIgnore
-    private FieldEditor<Boolean> summaryLockEditor;
-    @JsonIgnore
-    private FieldEditor<String> titleSortEditor;
-    @JsonIgnore
-    private FieldEditor<Boolean> titleSortLockEditor;
-
     public SectionItem() {
         sectionUriProvider = new UriProvider(() -> getServer().getUri());
-        titleEditor = new StringFieldEditor("title.value", this::getTitle, false);
-        titleLockEditor = new BooleanFieldEditor("title.locked", this::isTitleLocked);
-        summaryEditor = new StringFieldEditor("summary.value", this::getSummary, true);
-        summaryLockEditor = new BooleanFieldEditor("summary.locked", this::isSummaryLocked);
-        titleSortEditor = new StringFieldEditor("titleSort.value", this::getTitleSort, true);
-        titleSortLockEditor = new BooleanFieldEditor("titleSort.locked", this::isTitleSortLocked);
+
     }
 
     @Override
@@ -105,53 +84,15 @@ abstract class SectionItem<S extends PlexSection<?, ?>> extends Metadata impleme
 
     public abstract int typeId();
 
-    URI editUri() {
-        return ratingKey();
+    public Boolean getTitleLocked() {
+        return getFieldLocked("title");
     }
 
-    public boolean isTitleLocked() {
-        return isLocked("title");
+    public Boolean getSummaryLocked() {
+        return getFieldLocked("summary");
     }
 
-    public boolean isSummaryLocked() {
-        return isLocked("summary");
-    }
-
-    public boolean isTitleSortLocked() {
-        return isLocked("titleSort");
-    }
-
-    public void editTitle(String title) {
-        titleEditor.setValue(title);
-    }
-
-    public void editTitleLock(boolean locked) {
-        titleLockEditor.setValue(locked);
-    }
-
-    public void editSummary(String summary) {
-        summaryEditor.setValue(summary);
-    }
-
-    public void editSummaryLock(boolean locked) {
-        summaryLockEditor.setValue(locked);
-    }
-
-    public void editTitleSort(String titleSort) {
-        titleSortEditor.setValue(titleSort);
-    }
-
-    public void editTitleSortLock(boolean locked) {
-        titleSortLockEditor.setValue(locked);
-    }
-
-    protected List<FieldEditor<?>> fieldEditors() {
-        return new ArrayList<>(Arrays.asList(new FieldEditor<?>[] {
-                titleEditor, titleLockEditor, summaryEditor, summaryLockEditor, titleSortEditor, titleSortLockEditor
-        }));
-    }
-
-    public void commitEdits() {
-        new AttributeEditor(this).commit();
+    public Boolean getTitleSortLocked() {
+        return getFieldLocked("titleSort");
     }
 }

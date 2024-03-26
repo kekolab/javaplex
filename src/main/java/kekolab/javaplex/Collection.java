@@ -2,14 +2,12 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.hc.core5.net.URIBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import kekolab.javaplex.model.PlexCollection;
+import kekolab.javaplex.model.PlexCollectionEditor;
 import kekolab.javaplex.model.PlexMediatag;
 import kekolab.javaplex.model.PlexSection;
 
@@ -25,16 +23,11 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 	private UriProvider art;
 	private UriProvider thumb;
 
-	@JsonIgnore
-	private FieldEditor<String> contentRatingEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> contentRatingLockEditor;
+
 
 	public Collection() {
 		art = new UriProvider(this::uri);
 		thumb = new UriProvider(this::uri);
-		contentRatingEditor = new StringFieldEditor("contentRating.value", this::getContentRating, true);
-		contentRatingLockEditor = new BooleanFieldEditor("contentRating.locked", this::isContentRatingLocked);
 	}
 
 	@Override
@@ -164,23 +157,12 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		return TYPE_ID;
 	}
 
-	public boolean isContentRatingLocked() {
-		return isLocked("contentRating");
-	}
-
-	public void editContentRating(String contentRating) {
-		contentRatingEditor.setValue(contentRating);
-	}
-
-	public void editContentRatingLock(boolean locked) {
-		contentRatingLockEditor.setValue(locked);
+	public Boolean getContentRatingLocked() {
+		return getFieldLocked("contentRating");
 	}
 
 	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.addAll(Arrays.asList(
-				contentRatingEditor, contentRatingLockEditor));
-		return fieldEditors;
+	public PlexCollectionEditor editor() {
+		return new CollectionEditor(this);
 	}
 }

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexEpisode;
+import kekolab.javaplex.model.PlexEpisodeEditor;
 import kekolab.javaplex.model.PlexRating;
 import kekolab.javaplex.model.PlexRole;
 import kekolab.javaplex.model.PlexSeason;
@@ -222,15 +223,6 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		return asGrandchild.getGrandparentYear();
 	}
 
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> writerEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> writerLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> directorEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> directorLockEditor;
-
 	public Episode() {
 		art = new UriProvider(this::uri);
 		directors = new ArrayList<>();
@@ -244,12 +236,13 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 			public int typeId() {
 				return Episode.this.typeId();
 			}
+
+			@Override
+			public PlexEpisodeEditor editor() {
+				return Episode.this.editor();
+			}
 		};
 
-		writerEditor = new TagListFieldEditor("writer", this::getWriters);
-		writerLockEditor = new BooleanFieldEditor("writer.locked", this::isWritersLocked);
-		directorEditor = new TagListFieldEditor("director", this::getDirectors);
-		directorLockEditor = new BooleanFieldEditor("director.locked", this::isDirectorsLocked);
 	}
 
 	public List<PlexTag> getWriters() {
@@ -333,7 +326,6 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		this.producers = producers;
 	}
 
-	
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
@@ -362,38 +354,17 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		this.thumb.setValue(thumb);
 	}
 
-	public boolean isWritersLocked() {
-		return isLocked("writer");
+	public Boolean getWritersLocked() {
+		return getFieldLocked("writer");
 	}
 
-	public boolean isDirectorsLocked() {
-		return isLocked("director");
-	}
-
-	public void editWriters(List<PlexTag> writers) {
-		editTaglist(writerEditor, writers);
-	}
-
-	public void editWritersLock(boolean locked) {
-		writerLockEditor.setValue(locked);
-	}
-
-	public void editDirectors(List<PlexTag> directors) {
-		editTaglist(directorEditor, directors);
-	}
-
-	public void editDirectorsLock(boolean locked) {
-		directorLockEditor.setValue(locked);
+	public Boolean getDirectorsLocked() {
+		return getFieldLocked("director");
 	}
 
 	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.add(directorEditor);
-		fieldEditors.add(directorLockEditor);
-		fieldEditors.add(writerEditor);
-		fieldEditors.add(writerLockEditor);
-		return fieldEditors;
+	public PlexEpisodeEditor editor() {
+		return new EpisodeEditor(this);
 	}
 
 	@Override

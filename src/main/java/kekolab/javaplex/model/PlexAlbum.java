@@ -42,27 +42,17 @@ public interface PlexAlbum extends PlexParent<PlexTrack, PlexMusicSection>, Plex
 
 	URI thumb();
 
-	boolean isGenresLocked();
+	Boolean getGenresLocked();
 
-	boolean isMoodsLocked();
+	Boolean getMoodsLocked();
 
-	boolean isStylesLocked();
+	Boolean getStylesLocked();
 
 	@Override
 	default int typeId() {
 		return TYPE_ID;
 	}
 
-	void editMoods(List<PlexTag> moods);
-
-	void editMoodsLock(boolean locked);
-
-	void editStyles(List<PlexTag> styles);
-
-	void editStylesLock(boolean locked);
-
-	void editGenres(List<PlexTag> genres);
-
-	void editGenresLock(boolean locked);
-
+	@Override
+	PlexAlbumEditor editor();
 }

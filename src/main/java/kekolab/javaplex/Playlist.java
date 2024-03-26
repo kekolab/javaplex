@@ -2,17 +2,16 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.hc.core5.net.URIBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexMediatag;
 import kekolab.javaplex.model.PlexPlaylist;
+import kekolab.javaplex.model.PlexPlaylistEditor;
 
 abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements PlexPlaylist<M> {
 	public static final String TYPE_DESCRIPTION = "playlist";
@@ -27,17 +26,10 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 	private UriProvider thumb;
 	private UriProvider composite;
 
-	@JsonIgnore
-	private FieldEditor<String> titleEditor;
-	@JsonIgnore
-	private FieldEditor<String> summaryEditor;
-
 	public Playlist() {
 		art = new UriProvider(this::uri);
 		composite = new UriProvider(this::uri);
 		thumb = new UriProvider(this::uri);
-		titleEditor = new StringFieldEditor("title", this::getTitle, false);
-		summaryEditor = new StringFieldEditor("summary", this::getSummary, true);
 	}
 
 	@Override
@@ -121,7 +113,8 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 	public URI ratingKey() {
 		if (getRatingKey() != null)
 			try {
-				return new URIBuilder(getServer().getUri()).appendPathSegments("playlists", Integer.toString(getRatingKey()))
+				return new URIBuilder(getServer().getUri())
+						.appendPathSegments("playlists", Integer.toString(getRatingKey()))
 						.build();
 			} catch (URISyntaxException e) {
 				throw new PlexException(e);
@@ -157,25 +150,8 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		return thumb.uri();
 	}
 
-	protected URI editUri() {
-		return ratingKey();
-	}
-
-	public void editTitle(String title) {
-		titleEditor.setValue(title);
-	}
-
-	public void editSummary(String summary) {
-		summaryEditor.setValue(summary);
-	}
-
-	protected List<FieldEditor<?>> fieldEditors() {
-		return Arrays.asList(new FieldEditor<?>[] {
-				titleEditor, summaryEditor
-		});
-	}
-
-	public void commitEdits() {
-		new AttributeEditor(this).commit();
+	@Override
+	public PlexPlaylistEditor editor() {
+		return new PlaylistEditor(this, ratingKey());
 	}
 }

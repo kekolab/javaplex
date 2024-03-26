@@ -1,17 +1,16 @@
 package kekolab.javaplex;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexMedia;
 import kekolab.javaplex.model.PlexSection;
 import kekolab.javaplex.model.PlexVideo;
+import kekolab.javaplex.model.PlexVideoEditor;
 
 abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements PlexVideo<S> {
 	private String contentRating;
@@ -24,15 +23,8 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 	private String studio;
 	private Integer year;
 
-	@JsonIgnore
-	private FieldEditor<String> contentRatingEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> contentRatingLockEditor;
-
 	public Video() {
 		media = new ArrayList<>();
-		contentRatingEditor = new StringFieldEditor("contentRating.value", this::getContentRating, true);
-		contentRatingLockEditor = new BooleanFieldEditor("contentRating.locked", this::isContentRatingLocked);
 	}
 
 	public String getContentRating() {
@@ -98,23 +90,12 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.year = year;
 	}
 
-	public boolean isContentRatingLocked() {
-		return isLocked("contentRating");
-	}
-
-	public void editContentRating(String contentRating) {
-		contentRatingEditor.setValue(contentRating);
-	}
-
-	public void editContentRatingLock(boolean locked) {
-		contentRatingLockEditor.setValue(locked);
+	public Boolean getContentRatingLocked() {
+		return getFieldLocked("contentRating");
 	}
 
 	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.addAll(Arrays.asList(
-				contentRatingEditor, contentRatingLockEditor));
-		return fieldEditors;
+	public PlexVideoEditor editor() {
+		return new VideoEditor(this);
 	}
 }

@@ -8,8 +8,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexClip;
+import kekolab.javaplex.model.PlexClipEditor;
 import kekolab.javaplex.model.PlexPhotoSection;
 import kekolab.javaplex.model.PlexPhotoalbum;
+import kekolab.javaplex.model.PlexSectionItemEditor;
 
 class Clip extends Video<PlexPhotoSection> implements PlexClip {
 	private Integer createdAtTZOffset;
@@ -122,6 +124,11 @@ class Clip extends Video<PlexPhotoSection> implements PlexClip {
 			public int typeId() {
 				return Clip.this.typeId();
 			}
+
+			@Override
+			public PlexSectionItemEditor editor() {
+				return Clip.this.editor();
+			}
 		};
 		thumb = new UriProvider(this::uri);
 	}
@@ -193,5 +200,10 @@ class Clip extends Video<PlexPhotoSection> implements PlexClip {
 	@Override
 	public int typeId() {
 		return PlexClip.super.typeId();
+	}
+
+	@Override
+	public PlexClipEditor editor() {
+		return new ClipEditor(this);
 	}
 }

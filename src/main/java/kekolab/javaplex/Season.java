@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import kekolab.javaplex.model.PlexDirectory;
 import kekolab.javaplex.model.PlexEpisode;
 import kekolab.javaplex.model.PlexSeason;
+import kekolab.javaplex.model.PlexSeasonEditor;
 import kekolab.javaplex.model.PlexShow;
 import kekolab.javaplex.model.PlexShowSection;
 
@@ -95,5 +96,10 @@ class Season extends Child<PlexShow, PlexShowSection> implements PlexSeason {
 	@Override
 	public int typeId() {
 		return PlexSeason.super.typeId();
+	}
+
+	@Override
+	public PlexSeasonEditor editor() {
+		return new SeasonEditor(this);
 	}
 }

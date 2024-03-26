@@ -24,13 +24,12 @@ public interface PlexTrack extends PlexGrandchild<PlexArtist, PlexAlbum, PlexMus
 	Date getOriginallyAvailableAt();
 
 
-	boolean isMoodsLocked();
+	Boolean getMoodsLocked();
 
 	default int typeId() {
 		return TYPE_ID;
 	}
 
-	void editMoods(List<PlexTag> moods);
-
-	void editMoodsLock(boolean locked);
+	@Override
+	PlexTrackEditor editor();
 }

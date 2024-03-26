@@ -3,17 +3,16 @@ package kekolab.javaplex;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.hc.core5.net.URIBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexAlbum;
 import kekolab.javaplex.model.PlexArtist;
+import kekolab.javaplex.model.PlexArtistEditor;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTag;
 import kekolab.javaplex.model.PlexTrack;
@@ -41,27 +40,6 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 	private List<PlexTag> styles;
 	private UriProvider art, thumb;
 
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> countryEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> countryLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> genreEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> genreLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> moodEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> moodLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> similarEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> similarLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> styleEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> styleLockEditor;
-
 	public Artist() {
 		art = new UriProvider(this::uri);
 		countries = new ArrayList<>();
@@ -71,17 +49,6 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		similars = new ArrayList<>();
 		styles = new ArrayList<>();
 		thumb = new UriProvider(this::uri);
-
-		countryEditor = new TagListFieldEditor("country", this::getCountries);
-		countryLockEditor = new BooleanFieldEditor("country.locked", this::isCountriesLocked);
-		genreEditor = new TagListFieldEditor("genre", this::getGenres);
-		genreLockEditor = new BooleanFieldEditor("genre.locked", this::isGenresLocked);
-		moodEditor = new TagListFieldEditor("mood", this::getMoods);
-		moodLockEditor = new BooleanFieldEditor("mood.locked", this::isMoodsLocked);
-		similarEditor = new TagListFieldEditor("similar", this::getSimilars);
-		similarLockEditor = new BooleanFieldEditor("similar.locked", this::isSimilarsLocked);
-		styleEditor = new TagListFieldEditor("style", this::getStyles);
-		styleLockEditor = new BooleanFieldEditor("style.locked", this::isStylesLocked);
 	}
 
 	@Override
@@ -220,77 +187,35 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.thumb.setValue(thumb);
 	}
 
-	public boolean isCountriesLocked() {
-		return isLocked("country");
+	public Boolean getCountriesLocked() {
+		return getFieldLocked("country");
 	}
 
-	public boolean isGenresLocked() {
-		return isLocked("genre");
+	public Boolean getGenresLocked() {
+		return getFieldLocked("genre");
 	}
 
-	public boolean isSimilarsLocked() {
-		return isLocked("similar");
+	public Boolean getSimilarsLocked() {
+		return getFieldLocked("similar");
 	}
 
-	public boolean isMoodsLocked() {
-		return isLocked("mood");
+	public Boolean getMoodsLocked() {
+		return getFieldLocked("mood");
 	}
 
-	public boolean isStylesLocked() {
-		return isLocked("style");
-	}
-
-	public void editCountries(List<PlexTag> countries) {
-		editTaglist(countryEditor, countries);
-	}
-
-	public void editCountriesLock(boolean locked) {
-		countryLockEditor.setValue(locked);
-	}
-
-	public void editMoods(List<PlexTag> moods) {
-		editTaglist(moodEditor, moods);
-	}
-
-	public void editMoodsLock(boolean locked) {
-		moodLockEditor.setValue(locked);
-	}
-
-	public void editSimilars(List<PlexTag> similars) {
-		editTaglist(similarEditor, similars);
-	}
-
-	public void editSimilarsLock(boolean locked) {
-		similarLockEditor.setValue(locked);
-	}
-
-	public void editStyles(List<PlexTag> styles) {
-		editTaglist(styleEditor, styles);
-	}
-
-	public void editStylesLock(boolean locked) {
-		styleLockEditor.setValue(locked);
-	}
-
-	public void editGenres(List<PlexTag> genres) {
-		editTaglist(genreEditor, genres);
-	}
-
-	public void editGenresLock(boolean locked) {
-		genreLockEditor.setValue(locked);
-	}
-
-	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.addAll(Arrays.asList(countryEditor, countryLockEditor, genreEditor,
-				genreLockEditor, moodEditor, moodLockEditor, styleEditor, styleLockEditor,
-				similarEditor, similarLockEditor));
-		return fieldEditors;
+	public Boolean getStylesLocked() {
+		return getFieldLocked("style");
 	}
 
 	@Override
 	public int typeId() {
 		return PlexArtist.super.typeId();
 	}
+
+	@Override
+	public PlexArtistEditor editor() {
+		return new ArtistEditor(this);
+	}
+
+
 }

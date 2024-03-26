@@ -35,33 +35,16 @@ public interface PlexArtist extends PlexGrandparent<PlexAlbum, PlexTrack, PlexMu
 		return TYPE_ID;
 	}
 
-	boolean isCountriesLocked();
+	Boolean getCountriesLocked();
 
-	boolean isGenresLocked();
+	Boolean getGenresLocked();
 
-	boolean isSimilarsLocked();
+	Boolean getSimilarsLocked();
 
-	boolean isMoodsLocked();
+	Boolean getMoodsLocked();
 
-	boolean isStylesLocked();
+	Boolean getStylesLocked();
 
-	void editCountries(List<PlexTag> countries);
-
-	void editCountriesLock(boolean locked);
-
-	void editMoods(List<PlexTag> moods);
-
-	void editMoodsLock(boolean locked);
-
-	void editSimilars(List<PlexTag> similars);
-
-	void editSimilarsLock(boolean locked);
-
-	void editStyles(List<PlexTag> styles);
-
-	void editStylesLock(boolean locked);
-
-	void editGenres(List<PlexTag> genres);
-
-	void editGenresLock(boolean locked);
+	@Override
+	PlexArtistEditor editor();
 }

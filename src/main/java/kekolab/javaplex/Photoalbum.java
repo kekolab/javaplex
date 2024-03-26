@@ -7,6 +7,7 @@ import kekolab.javaplex.model.PlexChild;
 import kekolab.javaplex.model.PlexDirectory;
 import kekolab.javaplex.model.PlexPhotoSection;
 import kekolab.javaplex.model.PlexPhotoalbum;
+import kekolab.javaplex.model.PlexPhotoalbumEditor;
 
 class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
 	private UriProvider art;
@@ -78,5 +79,10 @@ class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
 	@Override
 	public int typeId() {
 		return PlexPhotoalbum.super.typeId();
+	}
+
+	@Override
+	public PlexPhotoalbumEditor editor() {
+		return new PhotoalbumEditor(this);
 	}
 }

@@ -27,4 +27,6 @@ public interface PlexClip extends PlexChild<PlexPhotoalbum, PlexPhotoSection>, P
 		return TYPE_ID;
 	}
 
+	@Override
+	PlexClipEditor editor();
 }

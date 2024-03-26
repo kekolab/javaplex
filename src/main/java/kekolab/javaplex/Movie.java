@@ -2,14 +2,13 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexMovie;
+import kekolab.javaplex.model.PlexMovieEditor;
 import kekolab.javaplex.model.PlexMovieSection;
 import kekolab.javaplex.model.PlexRating;
 import kekolab.javaplex.model.PlexRole;
@@ -54,26 +53,7 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 	private List<PlexTag> writers;
 	private UriProvider art, thumb;
 
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> countryEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> countryLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> directorEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> directorLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> genreEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> genreLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> writerEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> writerLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> producerEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> producerLockEditor;
+	
 
 	public Movie() {
 		art = new UriProvider(this::uri);
@@ -86,18 +66,6 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		similars = new ArrayList<>();
 		thumb = new UriProvider(this::uri);
 		writers = new ArrayList<>();
-
-		countryEditor = new TagListFieldEditor("country", this::getCountries);
-		countryLockEditor = new BooleanFieldEditor("country.locked", this::isCountriesLocked);
-		directorEditor = new TagListFieldEditor("director", this::getDirectors);
-		directorLockEditor = new BooleanFieldEditor("director.locked", this::isDirectorsLocked);
-		genreEditor = new TagListFieldEditor("genre", this::getGenres);
-		genreLockEditor = new BooleanFieldEditor("genre.locked", this::isGenresLocked);
-		writerEditor = new TagListFieldEditor("writer", this::getWriters);
-		writerLockEditor = new BooleanFieldEditor("writer.locked", this::isWritersLocked);
-		producerEditor = new TagListFieldEditor("producer", this::getProducers);
-		producerLockEditor = new BooleanFieldEditor("country.locked", this::isProducersLocked);
-
 	}
 
 	public Double getRating() {
@@ -304,72 +272,29 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.thumb.setValue(thumb);
 	}
 
-	public boolean isCountriesLocked() {
-		return isLocked("country");
+	public Boolean getCountriesLocked() {
+		return getFieldLocked("country");
 	}
 
-	public boolean isDirectorsLocked() {
-		return isLocked("director");
+	public Boolean getDirectorsLocked() {
+		return getFieldLocked("director");
 	}
 
-	public boolean isGenresLocked() {
-		return isLocked("genre");
+	public Boolean getGenresLocked() {
+		return getFieldLocked("genre");
 	}
 
-	public boolean isWritersLocked() {
-		return isLocked("writer");
+	public Boolean getWritersLocked() {
+		return getFieldLocked("writer");
 	}
 
-	public boolean isProducersLocked() {
-		return isLocked("producer");
-	}
-
-	public void editCountries(List<PlexTag> countries) {
-		editTaglist(countryEditor, countries);
-	}
-
-	public void editCountriesLock(boolean locked) {
-		countryLockEditor.setValue(locked);
-	}
-
-	public void editGenres(List<PlexTag> genres) {
-		editTaglist(genreEditor, genres);
-	}
-
-	public void editGenresLock(boolean locked) {
-		genreLockEditor.setValue(locked);
-	}
-
-	public void editWriters(List<PlexTag> writers) {
-		editTaglist(writerEditor, writers);
-	}
-
-	public void editWritersLock(boolean locked) {
-		writerLockEditor.setValue(locked);
-	}
-
-	public void editDirectors(List<PlexTag> directors) {
-		editTaglist(directorEditor, directors);
-	}
-
-	public void editDirectorsLock(boolean locked) {
-		directorLockEditor.setValue(locked);
-	}
-
-	public void editProducers(List<PlexTag> producers) {
-		editTaglist(producerEditor, producers);
-	}
-
-	public void editProducersLock(boolean locked) {
-		producerLockEditor.setValue(locked);
+	public Boolean getProducersLocked() {
+		return getFieldLocked("producer");
 	}
 
 	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.addAll(Arrays.asList(countryEditor, countryLockEditor, genreEditor, genreLockEditor, writerEditor,
-				writerLockEditor, directorEditor, directorLockEditor, producerEditor, producerLockEditor));
-		return fieldEditors;
+	public PlexMovieEditor editor() {
+		return new MovieEditor(this);
 	}
 
 	@Override

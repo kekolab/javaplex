@@ -120,8 +120,8 @@ abstract class Metadata extends Directory implements PlexMetadata {
 
 	public abstract URI ratingKey();
 
-	protected boolean isLocked(String field) {
+	Boolean getFieldLocked(String field) {
 		return getFields().stream().filter(f -> f.getName().equals(field)).map(PlexField::getLocked)
-				.findAny().orElse(false);
+				.findAny().orElse(null);
 	}
 }

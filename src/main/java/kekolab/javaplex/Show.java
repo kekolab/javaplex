@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.hc.core5.net.URIBuilder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -18,6 +17,7 @@ import kekolab.javaplex.model.PlexRating;
 import kekolab.javaplex.model.PlexRole;
 import kekolab.javaplex.model.PlexSeason;
 import kekolab.javaplex.model.PlexShow;
+import kekolab.javaplex.model.PlexShowEditor;
 import kekolab.javaplex.model.PlexShowSection;
 import kekolab.javaplex.model.PlexTag;
 
@@ -58,11 +58,6 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 	private UriProvider theme;
 	private UriProvider thumb;
 
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> genreEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> genreLockEditor;
-
 	public Show() {
 		art = new UriProvider(this::uri);
 		banner = new UriProvider(this::uri);
@@ -74,9 +69,6 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		similars = new ArrayList<>();
 		theme = new UriProvider(this::uri);
 		thumb = new UriProvider(this::uri);
-
-		genreEditor = new TagListFieldEditor("genre", this::getGenres);
-		genreLockEditor = new BooleanFieldEditor("genre.locked", this::isGenresLocked);
 	}
 
 	@Override
@@ -355,28 +347,17 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.thumb.setValue(thumb);
 	}
 
-	public boolean isGenresLocked() {
-		return isLocked("genre");
-	}
-
-	public void editGenres(List<PlexTag> genres) {
-		editTaglist(genreEditor, genres);
-	}
-
-	public void editGenresLock(boolean locked) {
-		genreLockEditor.setValue(locked);
-	}
-
-	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.add(genreEditor);
-		fieldEditors.add(genreLockEditor);
-		return fieldEditors;
+	public Boolean getGenresLocked() {
+		return getFieldLocked("genre");
 	}
 
 	@Override
 	public int typeId() {
 		return PlexShow.super.typeId();
+	}
+
+	@Override
+	public PlexShowEditor editor() {
+		return new ShowEditor(this);
 	}
 }

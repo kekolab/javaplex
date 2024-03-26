@@ -3,12 +3,15 @@ package kekolab.libplex.test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import kekolab.javaplex.model.PlexArtist;
+import kekolab.javaplex.model.PlexArtistEditor;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTag;
 
@@ -24,8 +27,9 @@ public class PlexAttributeEditingTests extends PlexMediaServerTests {
     @Test
     public void editCountry() {
         List<PlexTag> originalCountries = new ArrayList<>(artist.getCountries());
-        artist.editCountries(null);
-        artist.commitEdits();
+        PlexArtistEditor editor = artist.editor();
+        editor.setCountries(Collections.emptyList(), Optional.empty());
+        editor.commit();
         List<PlexTag> countries = artist.getCountries();
         assertTrue(countries.isEmpty());
 /*

@@ -21,4 +21,7 @@ public interface PlexPhoto extends PlexChild<PlexPhotoalbum, PlexPhotoSection> {
 		return TYPE_ID;
 	}
 
+	@Override
+	PlexPhotoEditor editor();
+
 }

@@ -2,11 +2,9 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -16,6 +14,7 @@ import kekolab.javaplex.model.PlexMedia;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTag;
 import kekolab.javaplex.model.PlexTrack;
+import kekolab.javaplex.model.PlexTrackEditor;
 
 class Track extends Grandchild<PlexArtist, PlexAlbum, PlexMusicSection> implements PlexTrack {
 	@JsonDeserialize(using = StringListDeserializer.class)
@@ -32,18 +31,11 @@ class Track extends Grandchild<PlexArtist, PlexAlbum, PlexMusicSection> implemen
 	private String originalTitle;
 	private Integer ratingCount;
 
-
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> moodEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> moodLockEditor;
-
 	public Track() {
 		createdAtAccuracy = new ArrayList<>();
 		media = new ArrayList<>();
 		moods = new ArrayList<>();
-		moodEditor = new TagListFieldEditor("mood", this::getMoods);
-		moodLockEditor = new BooleanFieldEditor("mood.locked", this::isMoodsLocked);
+		
 	}
 
 	@Override
@@ -142,27 +134,17 @@ class Track extends Grandchild<PlexArtist, PlexAlbum, PlexMusicSection> implemen
 		return parentThumb();
 	}
 
-	public boolean isMoodsLocked() {
-		return isLocked("mood");
-	}
-
-	public void editMoods(List<PlexTag> moods) {
-		editTaglist(moodEditor, moods);
-	}
-
-	public void editMoodsLock(boolean locked) {
-		moodLockEditor.setValue(locked);
-	}
-
-	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.addAll(Arrays.asList(moodEditor, moodLockEditor));
-		return fieldEditors;
+	public Boolean getMoodsLocked() {
+		return getFieldLocked("mood");
 	}
 
 	@Override
 	public int typeId() {
 		return PlexTrack.super.typeId();
+	}
+
+	@Override
+	public PlexTrackEditor editor() {
+		return new TrackEditor(this);
 	}
 }

@@ -31,9 +31,5 @@ public interface PlexPlaylist<M extends PlexMediatag<?>> extends PlexMetadata {
 
     URI thumb();
 
-    void editTitle(String title); // TODO Move to editor?
-
-    void editSummary(String summary);// TODO Move to editor?
-
-    void commitEdits();// TODO Move to editor?
+    PlexPlaylistEditor editor();
 }

@@ -51,37 +51,19 @@ public interface PlexMovie extends PlexVideo<PlexMovieSection> {
 
 	URI thumb();
 
-	boolean isCountriesLocked();
+	Boolean getCountriesLocked();
 
-	boolean isDirectorsLocked();
+	Boolean getDirectorsLocked();
 
-	boolean isGenresLocked();
+	Boolean getGenresLocked();
 
-	boolean isWritersLocked();
+	Boolean getWritersLocked();
 
-	boolean isProducersLocked();
+	Boolean getProducersLocked();
 
 	default int typeId() {
 		return TYPE_ID;
 	}
 
-	void editCountries(List<PlexTag> countries);
-
-	void editCountriesLock(boolean locked);
-
-	void editGenres(List<PlexTag> genres);
-
-	void editGenresLock(boolean locked);
-
-	void editWriters(List<PlexTag> writers);
-
-	void editWritersLock(boolean locked);
-
-	void editDirectors(List<PlexTag> directors);
-
-	void editDirectorsLock(boolean locked);
-
-	void editProducers(List<PlexTag> producers);
-
-	void editProducersLock(boolean locked);
+	PlexMovieEditor editor();
 }

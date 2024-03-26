@@ -2,15 +2,14 @@ package kekolab.javaplex;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexAlbum;
+import kekolab.javaplex.model.PlexAlbumEditor;
 import kekolab.javaplex.model.PlexArtist;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTag;
@@ -44,19 +43,6 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 	private Integer year;
 	private UriProvider art, thumb;
 
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> genreEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> genreLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> moodEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> moodLockEditor;
-	@JsonIgnore
-	private FieldEditor<List<PlexTag>> styleEditor;
-	@JsonIgnore
-	private FieldEditor<Boolean> styleLockEditor;
-
 	public Album() {
 		art = new UriProvider(this::uri);
 		directors = new ArrayList<>();
@@ -66,12 +52,6 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		subformats = new ArrayList<>();
 		styles = new ArrayList<>();
 		thumb = new UriProvider(this::uri);
-		genreEditor = new TagListFieldEditor("genre", this::getGenres);
-		genreLockEditor = new BooleanFieldEditor("genre.locked", this::isGenresLocked);
-		moodEditor = new TagListFieldEditor("mood", this::getMoods);
-		moodLockEditor = new BooleanFieldEditor("mood.locked", this::isMoodsLocked);
-		styleEditor = new TagListFieldEditor("style", this::getStyles);
-		styleLockEditor = new BooleanFieldEditor("style.locked", this::isStylesLocked);
 	}
 
 	@Override
@@ -244,48 +224,16 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.thumb.setValue(thumb);
 	}
 
-	public boolean isGenresLocked() {
-		return isLocked("genre");
+	public Boolean getGenresLocked() {
+		return getFieldLocked("genre");
 	}
 
-	public boolean isMoodsLocked() {
-		return isLocked("mood");
+	public Boolean getMoodsLocked() {
+		return getFieldLocked("mood");
 	}
 
-	public boolean isStylesLocked() {
-		return isLocked("style");
-	}
-
-	public void editMoods(List<PlexTag> moods) {
-		editTaglist(moodEditor, moods);
-	}
-
-	public void editMoodsLock(boolean locked) {
-		moodLockEditor.setValue(locked);
-	}
-
-	public void editStyles(List<PlexTag> styles) {
-		editTaglist(styleEditor, styles);
-	}
-
-	public void editStylesLock(boolean locked) {
-		styleLockEditor.setValue(locked);
-	}
-
-	public void editGenres(List<PlexTag> genres) {
-		editTaglist(genreEditor, genres);
-	}
-
-	public void editGenresLock(boolean locked) {
-		genreLockEditor.setValue(locked);
-	}
-
-	@Override
-	protected List<FieldEditor<?>> fieldEditors() {
-		List<FieldEditor<?>> fieldEditors = super.fieldEditors();
-		fieldEditors.addAll(
-				Arrays.asList(genreEditor, genreLockEditor, styleEditor, styleLockEditor, moodEditor, moodLockEditor));
-		return fieldEditors;
+	public Boolean getStylesLocked() {
+		return getFieldLocked("style");
 	}
 
 	@Override
@@ -293,4 +241,8 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		return PlexAlbum.super.typeId();
 	}
 
+	@Override
+	public PlexAlbumEditor editor() {
+		return new AlbumEditor(this);
+	}
 }

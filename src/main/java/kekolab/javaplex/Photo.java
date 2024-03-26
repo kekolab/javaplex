@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexMedia;
 import kekolab.javaplex.model.PlexPhoto;
+import kekolab.javaplex.model.PlexPhotoEditor;
 import kekolab.javaplex.model.PlexPhotoSection;
 import kekolab.javaplex.model.PlexPhotoalbum;
 
@@ -86,5 +87,10 @@ class Photo extends Child<PlexPhotoalbum, PlexPhotoSection> implements PlexPhoto
 	@Override
 	public int typeId() {
 		return PlexPhoto.super.typeId();
+	}
+
+	@Override
+	public PlexPhotoEditor editor() {
+		return new PhotoEditor(this);
 	}
 }

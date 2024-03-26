@@ -62,13 +62,12 @@ public interface PlexShow extends PlexGrandparent<PlexSeason, PlexEpisode, PlexS
 
 	URI thumb();
 
-	boolean isGenresLocked();
+	Boolean getGenresLocked();
 
 	default int typeId() {
 		return TYPE_ID;
 	}
 
-	void editGenres(List<PlexTag> genres);
-
-	void editGenresLock(boolean locked);
+	@Override
+	PlexShowEditor editor();
 }

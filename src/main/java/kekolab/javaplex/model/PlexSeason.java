@@ -24,4 +24,7 @@ public interface PlexSeason extends PlexChild<PlexShow, PlexShowSection>, PlexPa
 	default int typeId() {
 		return TYPE_ID;
 	}
+
+	@Override
+	PlexSeasonEditor editor();
 }

@@ -235,8 +235,4 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 			throw new PlexException(e);
 		}
 	}
-
-	protected void editTaglist(FieldEditor<List<PlexTag>> editor, List<PlexTag> value) {
-		editor.setValue(value);
-	}
 }

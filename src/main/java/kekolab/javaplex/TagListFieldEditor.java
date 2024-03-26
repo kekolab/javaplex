@@ -12,10 +12,10 @@ import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import kekolab.javaplex.model.PlexTag;
 
-class TagListFieldEditor extends FieldEditor<List<PlexTag>> {
+class TagListFieldEditor extends FieldEditor<List<String>> {
 
     TagListFieldEditor(String queryParameterKey, Supplier<List<PlexTag>> originalValueSupplier) {
-        super(queryParameterKey, originalValueSupplier, true);
+        super(queryParameterKey, () -> originalValueSupplier.get().stream().map(o -> o.getTag()).toList(), true);
     }
 
     @Override
@@ -24,9 +24,9 @@ class TagListFieldEditor extends FieldEditor<List<PlexTag>> {
             return Collections.emptyList();
 
         List<NameValuePair> queryParameters = new ArrayList<>();
-        List<PlexTag> value = getValue();
-        List<PlexTag> original = getOriginalValue();
-        List<PlexTag> removed = null;
+        List<String> value = getValue();
+        List<String> original = getOriginalValue();
+        List<String> removed = null;
         if (value == null)
             value = new ArrayList<>();
         if (original != null)
@@ -35,10 +35,10 @@ class TagListFieldEditor extends FieldEditor<List<PlexTag>> {
         String queryParameterKey = getQueryParameterKey();
         if (removed != null && removed.size() > 0)
             queryParameters.add(new BasicNameValuePair(String.format("%s[].tag.tag-", queryParameterKey),
-                    removed.stream().map(PlexTag::getTag).collect(Collectors.joining(","))));
-        for (int i = 0; i < value.size(); i++)     
-            queryParameters.add(new BasicNameValuePair(String.format("%s[%d].tag.tag", queryParameterKey, i),
-                    value.get(i).getTag()));
+                    removed.stream().collect(Collectors.joining(","))));
+        for (int i = 0; i < value.size(); i++)
+            queryParameters
+                    .add(new BasicNameValuePair(String.format("%s[%d].tag.tag", queryParameterKey, i), value.get(i)));
         return queryParameters;
     }
 }

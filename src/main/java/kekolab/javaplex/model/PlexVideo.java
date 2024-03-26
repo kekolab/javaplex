@@ -19,9 +19,8 @@ public interface PlexVideo<S extends PlexSection<?, ?>> extends PlexMediatag<S> 
 
 	Integer getYear();
 
-	boolean isContentRatingLocked();
+	Boolean getContentRatingLocked();
 
-	void editContentRating(String contentRating);
-
-	void editContentRatingLock(boolean locked);
+	@Override
+	PlexVideoEditor editor();
 }

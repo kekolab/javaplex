@@ -21,4 +21,7 @@ public interface PlexPhotoalbum extends PlexParent<PlexChild<?, PlexPhotoSection
 	default int typeId() {
 		return TYPE_ID;
 	}
+
+	@Override
+	PlexPhotoalbumEditor editor();
 }

@@ -23,4 +23,6 @@ public interface PlexMetadata extends PlexDirectory {
     String getSummary();
 
     URI ratingKey();
+
+    PlexMetadataEditor editor();
 }
