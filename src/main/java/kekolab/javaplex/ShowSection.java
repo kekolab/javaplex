@@ -33,4 +33,9 @@ class ShowSection extends Section<PlexShow, PlexEpisode> implements PlexShowSect
 	public PlexShowCollections collections() {
 		return new ShowCollections(this);
 	}
+
+	@Override
+	public List<PlexEpisode> episodes() {
+		return executeRequestAndCastMetadata("allLeaves", PlexEpisode.class);
+	}
 }

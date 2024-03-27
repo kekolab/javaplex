@@ -7,4 +7,5 @@ public interface PlexMusicSection extends PlexSection<PlexArtist, PlexAlbum>, Wi
 	String TYPE_DESCRIPTION = "artist";
 
     List<PlexAlbum> albums();
+    List<PlexTrack> tracks();
 }

@@ -16,4 +16,5 @@ public interface PlexShowSection extends PlexSection<PlexShow, PlexEpisode>, Wit
 
 	List<PlexShow> unwatched();
 
+	List<PlexEpisode> episodes();
 }
