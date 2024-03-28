@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import kekolab.javaplex.model.PlexDirectory;
+import kekolab.javaplex.model.PlexFilteringTag;
 import kekolab.javaplex.model.PlexMovieSection;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexPhotoSection;
@@ -36,6 +37,9 @@ public class DirectoryDeserializer extends ObjectNodeDeserializer<PlexDirectory>
 				// TODO Log that it was impossible to deserialize a node with composite set to something different from "composite"
 			}
 		}
+
+		if (node.has("fastKey")) 			
+			return FilteringTag.class;		
 
 		// TODO Log that we're deserializing to the default implementation of PlexDirectory
 		return Directory.class;
