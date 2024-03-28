@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface PlexAlbum extends PlexParent<PlexTrack, PlexMusicSection>, PlexChild<PlexArtist, PlexMusicSection> {
-	int TYPE_ID = 10;
+	int TYPE_ID = 9;
 	String TYPE_DESCRIPTION = "album";
 
 	Double getRating();
