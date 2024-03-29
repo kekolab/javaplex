@@ -4,18 +4,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import kekolab.javaplex.model.PlexFilter;
+import kekolab.javaplex.model.PlexCondition;
 
-public class DateFilterBuilder extends PlexFilterBuilder {
-    protected DateFilterBuilder(String field) {
+class DateConditions extends Conditions {
+    protected DateConditions(String field) {
         super(field);
     }
 
-    public PlexFilter isAfter(Date value) {
+    public PlexCondition isAfter(Date value) {
         return super.withOperator(">>=").withValue(dateFormat().format(value)).build();
     }
 
-    public PlexFilter isBefore(Date value) {
+    public PlexCondition isBefore(Date value) {
         return super.withOperator("<<=").withValue(dateFormat().format(value)).build();
     }
 

@@ -1,17 +1,17 @@
 package kekolab.javaplex;
 
-import kekolab.javaplex.model.PlexFilter;
+import kekolab.javaplex.model.PlexCondition;
 
-public class BooleanFilterBuilder extends PlexFilterBuilder {
-    BooleanFilterBuilder(String field) {
+class BooleanConditions extends Conditions {
+    BooleanConditions(String field) {
         super(field);
     }
 
-    public PlexFilter isTrue() {
+    public PlexCondition isTrue() {
         return super.withOperator("=").withValue(Integer.toString(1)).build();
     }
 
-    public PlexFilter isFalse() {
+    public PlexCondition isFalse() {
         return super.withOperator("!=").withValue(Integer.toString(1)).build();
     }
 }

@@ -6,20 +6,25 @@ public interface PlexMusicSection extends PlexSection<PlexArtist, PlexAlbum>, Wi
 
 	String TYPE_DESCRIPTION = "artist";
 
-    List<PlexArtist> all(PlexFilter filter);
+    List<PlexArtist> all(PlexCondition filter);
     List<PlexAlbum> albums();
-    List<PlexAlbum> albums(PlexFilter filter);
+    List<PlexAlbum> albums(PlexCondition filter);
     List<PlexTrack> tracks();    
-    List<PlexTrack> tracks(PlexFilter filter);
+    List<PlexTrack> tracks(PlexCondition filter);
 
-    List<PlexFilteringTag> genres();
-    List<PlexFilteringTag> countries();
-    List<PlexFilteringTag> moods();
-    List<PlexFilteringTag> styles();
-    List<PlexFilteringTag> collectionsFilteringTags();
-    List<PlexFilteringTag> formats();
-    List<PlexFilteringTag> subformats();
-    List<PlexFilteringTag> sources();
-    List<PlexFilteringTag> labels();
-    
+    List<PlexArtistOrAlbumFilter> byGenre();
+    List<PlexArtistOrAlbumOrTrackFilter> byMood();
+    List<PlexArtistOrAlbumFilter> byStyle();
+    List<PlexArtistFilter> byCountry();    
+    List<PlexArtistOrAlbumFilter> byCollection();
+
+    List<PlexAlbumFilter> byYear();
+    List<PlexAlbumFilter> byDecade();
+    List<PlexAlbumFilter> byStudio();
+    List<PlexAlbumFilter> byFormat();
+    List<PlexAlbumFilter> bySubformat();
+    List<PlexAlbumOrTrackFilter> bySource();
+    List<PlexAlbumFilter> byLabel();
+
+    List<PlexTrackFilter> byUserRating();    
 }

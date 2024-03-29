@@ -1,26 +1,26 @@
 package kekolab.javaplex;
 
-import kekolab.javaplex.model.PlexFilter;
+import kekolab.javaplex.model.PlexCondition;
 
-public class IntegerFilterBuilder extends PlexFilterBuilder {
+class IntegerConditions extends Conditions {
 
-    protected IntegerFilterBuilder(String field) {
+    protected IntegerConditions(String field) {
         super(field);
     }
 
-    public PlexFilter is(Integer value) {
+    public PlexCondition is(Integer value) {
         return super.withOperator("=").withValue(Integer.toString(value)).build();
     }
 
-    public PlexFilter isNot(Integer value) {
+    public PlexCondition isNot(Integer value) {
         return super.withOperator("!=").withValue(Integer.toString(value)).build();
     }
 
-    public PlexFilter isGreaterThan(Integer value) {
+    public PlexCondition isGreaterThan(Integer value) {
         return super.withOperator(">>=").withValue(Integer.toString(value)).build();
     }
 
-    public PlexFilter isLessThan(Integer value) {
+    public PlexCondition isLessThan(Integer value) {
         return super.withOperator("<<=").withValue(Integer.toString(value)).build();
     }
 }

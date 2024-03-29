@@ -3,17 +3,24 @@ package kekolab.javaplex;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.function.Function;
 
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
 
 import kekolab.javaplex.model.PlexAlbum;
+import kekolab.javaplex.model.PlexAlbumFilter;
+import kekolab.javaplex.model.PlexAlbumOrTrackFilter;
 import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexFilter;
-import kekolab.javaplex.model.PlexFilteringTag;
+import kekolab.javaplex.model.PlexArtistFilter;
+import kekolab.javaplex.model.PlexArtistOrAlbumFilter;
+import kekolab.javaplex.model.PlexArtistOrAlbumOrTrackFilter;
+import kekolab.javaplex.model.PlexCondition;
+import kekolab.javaplex.model.PlexMetadata;
 import kekolab.javaplex.model.PlexMusicCollections;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTrack;
+import kekolab.javaplex.model.PlexTrackFilter;
 
 class MusicSection extends Section<PlexArtist, PlexAlbum> implements PlexMusicSection {
 
@@ -32,9 +39,9 @@ class MusicSection extends Section<PlexArtist, PlexAlbum> implements PlexMusicSe
 	}
 
 	@Override
-	public List<PlexArtist> all(PlexFilter filter) {
+	public List<PlexArtist> all(PlexCondition filter) {
 		URIBuilder builder = new URIBuilder(key()).appendPath("all");
-		for (String queryParameter : filter.getQueryString().split("&")) {
+		for (String queryParameter : filter.getConditionQuery().split("&")) {
 			String[] keyValuePair = queryParameter.split("=");
 			builder.addParameter(new BasicNameValuePair(keyValuePair[0], keyValuePair[1]));
 		}
@@ -49,117 +56,10 @@ class MusicSection extends Section<PlexArtist, PlexAlbum> implements PlexMusicSe
 	}
 
 	@Override
-	public List<PlexFilteringTag> genres() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("genre").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> countries() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("country").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> moods() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("mood").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> styles() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("style").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> collectionsFilteringTags() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("collection").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> formats() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("format").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> subformats() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("subformat").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> sources() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("source").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexFilteringTag> labels() {
-		try {
-			URI uri = new URIBuilder(key()).appendPath("label").build();
-			MetadataContainer<?, PlexFilteringTag> metadataContainer = new MetadataContainer<>(uri, getServer());
-			return metadataContainer.getDirectories();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexAlbum> albums(PlexFilter filter) {
-		URIBuilder builder = new URIBuilder(key()).appendPath("all").addParameter("type", Integer.toString(PlexAlbum.TYPE_ID));
-		for (String queryParameter : filter.getQueryString().split("&")) {
+	public List<PlexAlbum> albums(PlexCondition filter) {
+		URIBuilder builder = new URIBuilder(key()).appendPath("all").addParameter("type",
+				Integer.toString(PlexAlbum.TYPE_ID));
+		for (String queryParameter : filter.getConditionQuery().split("&")) {
 			String[] keyValuePair = queryParameter.split("=");
 			builder.addParameter(new BasicNameValuePair(keyValuePair[0], keyValuePair[1]));
 		}
@@ -174,9 +74,10 @@ class MusicSection extends Section<PlexArtist, PlexAlbum> implements PlexMusicSe
 	}
 
 	@Override
-	public List<PlexTrack> tracks(PlexFilter filter) {
-		URIBuilder builder = new URIBuilder(key()).appendPath("all").addParameter("type", Integer.toString(PlexTrack.TYPE_ID));
-		for (String queryParameter : filter.getQueryString().split("&")) {
+	public List<PlexTrack> tracks(PlexCondition filter) {
+		URIBuilder builder = new URIBuilder(key()).appendPath("all").addParameter("type",
+				Integer.toString(PlexTrack.TYPE_ID));
+		for (String queryParameter : filter.getConditionQuery().split("&")) {
 			String[] keyValuePair = queryParameter.split("=");
 			builder.addParameter(new BasicNameValuePair(keyValuePair[0], keyValuePair[1]));
 		}
@@ -188,5 +89,81 @@ class MusicSection extends Section<PlexArtist, PlexAlbum> implements PlexMusicSe
 			// TODO Auto-generated catch block
 			throw new PlexException(e);
 		}
+	}
+
+	private <T> List<T> bySomething(String by, Function<Filter, T> function) {
+		try {
+			URI uri = new URIBuilder(key()).appendPath(by).build();
+			return new MetadataContainer<PlexMetadata, Filter>(uri, getServer()).getDirectories().stream()
+					.map(function).toList();
+		} catch (URISyntaxException e) {
+			throw new PlexException(e); // TODO
+		}
+	}
+
+	@Override
+	public List<PlexArtistOrAlbumFilter> byGenre() {
+		return bySomething("genre", f -> new ArtistOrAlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexArtistOrAlbumOrTrackFilter> byMood() {
+		return bySomething("mood", f -> new ArtistOrAlbumOrTrackFilter(f, this));
+
+	}
+
+	@Override
+	public List<PlexArtistOrAlbumFilter> byStyle() {
+		return bySomething("style", f -> new ArtistOrAlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexArtistFilter> byCountry() {
+		return bySomething("country", f -> new ArtistFilter(f, this));
+	}
+
+	@Override
+	public List<PlexArtistOrAlbumFilter> byCollection() {
+		return bySomething("collection", f -> new ArtistOrAlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexAlbumFilter> byYear() {
+		return bySomething("year", f -> new AlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexAlbumFilter> byDecade() {
+		return bySomething("decade", f -> new AlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexAlbumFilter> byStudio() {
+		return bySomething("studio", f -> new AlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexAlbumFilter> byFormat() {
+		return bySomething("format", f -> new AlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexAlbumFilter> bySubformat() {
+		return bySomething("subformat", f -> new AlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexAlbumOrTrackFilter> bySource() {
+		return bySomething("subformat", f -> new AlbumOrTrackFilter(f, this));
+	}
+
+	@Override
+	public List<PlexAlbumFilter> byLabel() {
+		return bySomething("label", f -> new AlbumFilter(f, this));
+	}
+
+	@Override
+	public List<PlexTrackFilter> byUserRating() {
+		return bySomething("userRating", f -> new TrackFilter(f, this));
 	}
 }

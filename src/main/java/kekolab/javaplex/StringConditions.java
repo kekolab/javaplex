@@ -1,34 +1,34 @@
 package kekolab.javaplex;
 
-import kekolab.javaplex.model.PlexFilter;
+import kekolab.javaplex.model.PlexCondition;
 
-public class StringFilterBuilder extends PlexFilterBuilder {
+class StringConditions extends Conditions {
 
-    protected StringFilterBuilder(String field) {
+    protected StringConditions(String field) {
         super(field);
     }
 
-    public PlexFilter is(String value) {
+    public PlexCondition is(String value) {
         return super.withOperator("==").withValue(value).build();
     }
 
-    public PlexFilter isNot(String value) {
+    public PlexCondition isNot(String value) {
         return super.withOperator("!==").withValue(value).build();
     }
     
-    public PlexFilter contains(String value) {
+    public PlexCondition contains(String value) {
         return super.withOperator("=").withValue(value).build();
     }
     
-    public PlexFilter doesNotContain(String value) {
+    public PlexCondition doesNotContain(String value) {
         return super.withOperator("!=").withValue(value).build();
     }
 
-    public PlexFilter beginsWith(String value) {
+    public PlexCondition beginsWith(String value) {
         return super.withOperator("<=").withValue(value).build();
     }
     
-    public PlexFilter endsWith(String value) {
+    public PlexCondition endsWith(String value) {
         return super.withOperator(">=").withValue(value).build();
     }
 }
