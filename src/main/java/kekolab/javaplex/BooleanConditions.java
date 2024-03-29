@@ -2,7 +2,7 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexCondition;
 
-class BooleanConditions extends Conditions {
+public class BooleanConditions extends Conditions {
     BooleanConditions(String field) {
         super(field);
     }

@@ -6,7 +6,7 @@ import java.util.Date;
 
 import kekolab.javaplex.model.PlexCondition;
 
-class DateConditions extends Conditions {
+public class DateConditions extends Conditions {
     protected DateConditions(String field) {
         super(field);
     }

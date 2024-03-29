@@ -3,7 +3,7 @@ package kekolab.javaplex;
 import kekolab.javaplex.model.PlexCondition;
 import kekolab.javaplex.model.PlexFilter;
 
-class FilterConditions extends Conditions {
+public class FilterConditions extends Conditions {
 
     protected FilterConditions(String field) {
         super(field);
