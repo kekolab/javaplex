@@ -6,8 +6,8 @@ import java.util.List;
 import kekolab.javaplex.model.PlexCondition;
 
 public class Conditions {
-    // Music section filters
-    // Artist filters
+    // Music section conditions
+    // Artist conditions
     public static StringConditions ifArtistTitle() {
         return new StringConditions("artist.title");
     }
@@ -50,9 +50,9 @@ public class Conditions {
     public static BooleanConditions ifArtistUnmatched() {
         return new BooleanConditions("artist.unmatched");
     }
-    // End of artist filters
+    // End of artist conditions
 
-    // Album filters
+    // Album conditions
     public static StringConditions ifAlbumTitle() {
         return new StringConditions("album.title");
     }
@@ -128,9 +128,9 @@ public class Conditions {
     public static YesNoFilterConditions ifAlbumLabel() {
         return new YesNoFilterConditions("album.label");
     }
-    // End of artist filters
+    // End of artist conditions
 
-    // Track filters
+    // Track conditions
     public static YesNoFilterConditions ifTrackMood() {
         return new YesNoFilterConditions("track.mood");
     }
@@ -182,10 +182,10 @@ public class Conditions {
     public static YesNoFilterConditions ifTrackSource() {
         return new YesNoFilterConditions("track.source");
     }
-    // End of track filters
-    // End of music section filters
+    // End of track conditions
+    // End of music section conditions
 
-    // Begin movie section filters
+    // Begin movie section conditions
     public static StringConditions ifMovieTitle() {
         return new StringConditions("title");
     }
@@ -297,22 +297,175 @@ public class Conditions {
     public static YesNoFilterConditions ifMovieLabel() {
         return new YesNoFilterConditions("label");
     }
-    // End of music section filters
+    // End of music section conditions
 
-    public static PlexCondition or(List<PlexCondition> filters) {
-        return new ORCondition(filters);
+    // Begin of show section conditions
+    // Show conditions
+    public static StringConditions ifShowTitle() {
+        return new StringConditions("show.title");
     }
 
-    public static PlexCondition or(PlexCondition... filters) {
-        return or(Arrays.asList(filters));
+    public static StringConditions ifShowStudio() {
+        return new StringConditions("show.studio");
     }
 
-    public static PlexCondition and(List<PlexCondition> filters) {
-        return new ANDCondition(filters);
+    public static YesNoFilterConditions ifShowNetwork() {
+        return new YesNoFilterConditions("show.network");
     }
 
-    public static PlexCondition and(PlexCondition... filters) {
-        return and(Arrays.asList(filters));
+    public static YesNoFilterConditions ifShowCountry() {
+        return new YesNoFilterConditions("show.country");
+    }
+
+    public static IntegerConditions ifShowRating() {
+        return new IntegerConditions("show.userRating");
+    }
+
+    public static YesNoFilterConditions ifShowContentRating() {
+        return new YesNoFilterConditions("show.contentRating");
+    }
+
+    public static IntegerConditions ifShowYear() {
+        return new IntegerConditions("show.year");
+    }
+
+    public static IntegerConditions ifShowPlays() {
+        return new IntegerConditions("show.viewCount");
+    }
+
+    public static DateConditions ifShowLastPlayed() {
+        return new DateConditions("show.lastViewedAt");
+    }
+
+    public static YesNoFilterConditions ifShowGenre() {
+        return new YesNoFilterConditions("show.genre");
+    }
+
+    public static YesNoFilterConditions ifShowCollection() {
+        return new YesNoFilterConditions("show.collection");
+    }
+
+    public static YesNoFilterConditions ifShowDirector() {
+        return new YesNoFilterConditions("show.director");
+    }
+
+    public static YesNoFilterConditions ifShowWriter() {
+        return new YesNoFilterConditions("show.writer");
+    }
+
+    public static YesNoFilterConditions ifShowProducer() {
+        return new YesNoFilterConditions("show.producer");
+    }
+
+    public static YesNoFilterConditions ifShowActor() {
+        return new YesNoFilterConditions("show.actor");
+    }
+
+    public static DateConditions ifShowDateAdded() {
+        return new DateConditions("show.addedAt");
+    }
+
+    public static BooleanConditions ifShowUnmatched() {
+        return new BooleanConditions("show.unmatched");
+    }
+
+    public static BooleanConditions ifShowUnplayedEpisodes() {
+        return new BooleanConditions("show.unwatchedLeaves");
+    }
+
+    public static YesNoFilterConditions ifShowLabel() {
+        return new YesNoFilterConditions("show.label");
+    }
+    // Season conditions: none known
+    
+    // Episode conditions
+    public static StringConditions ifEpisodeTitle() {
+        return new StringConditions("episode.title");
+    }
+
+    public static DateConditions ifEpisodeDateAdded() {
+        return new DateConditions("episode.addedAt");
+    }
+
+    public static DateConditions ifEpisodeAirDate() {
+        return new DateConditions("episode.originallyAvailableAt");
+    }
+
+    public static IntegerConditions ifEpisodeYear() {
+        return new IntegerConditions("episode.year");
+    }
+
+    public static IntegerConditions ifEpisodeRating() {
+        return new IntegerConditions("episode.userRating");
+    }
+
+    public static IntegerConditions ifEpisodePlays() {
+        return new IntegerConditions("episode.viewCount");
+    }
+
+    public static DateConditions ifEpisodeLastPlayed() {
+        return new DateConditions("episode.lastViewedAt");
+    }
+
+    public static BooleanConditions ifEpisodeUnplayed() {
+        return new BooleanConditions("episode.unwatched");
+    }
+
+    public static BooleanConditions ifEpisodeInProgress() {
+        return new BooleanConditions("episode.inProgress");
+    }
+
+    public static BooleanConditions ifEpisodeDuplicate() {
+        return new BooleanConditions("episode.duplicate");
+    }
+
+    public static BooleanConditions ifEpisodeHDR() {
+        return new BooleanConditions("episode.hdr");
+    }
+
+    public static YesOnlyFilterConditions ifEpisodeResolution() {
+        return new YesOnlyFilterConditions("episode.resolution");
+    }
+
+    public static IntegerConditions ifEpisodeFileSize() {
+        return new IntegerConditions("episode.mediaSize");
+    }
+
+    public static IntegerConditions ifEpisodeBitrate() {
+        return new IntegerConditions("episode.mediaBitrate");
+    }
+
+    public static YesNoFilterConditions ifEpisodeSubtitleLanguage() {
+        return new YesNoFilterConditions("episode.subtitleLanguage");
+    }
+
+    public static YesNoFilterConditions ifEpisodeAudioLanguage() {
+        return new YesNoFilterConditions("episode.audioLanguage");
+    }
+
+    public static BooleanConditions ifEpisodeTrashed() {
+        return new BooleanConditions("episode.trash");
+    }
+
+    public static BooleanConditions ifEpisodeUnmatched() {
+        return new BooleanConditions("episode.unmatched");
+    }
+    // End of show section conditions
+
+    public static PlexCondition or(List<PlexCondition> conditions) {
+        return new ORCondition(conditions);
+    }
+
+    public static PlexCondition or(PlexCondition... conditions) {
+        return or(Arrays.asList(conditions));
+    }
+
+    public static PlexCondition and(List<PlexCondition> conditions) {
+        return new ANDCondition(conditions);
+    }
+
+    public static PlexCondition and(PlexCondition... conditions) {
+        return and(Arrays.asList(conditions));
     }
 
     private String field;
