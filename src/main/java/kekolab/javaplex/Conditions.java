@@ -452,6 +452,64 @@ public class Conditions {
     }
     // End of show section conditions
 
+    // Begin of photo section conditions
+    public static StringConditions ifPhotoSectionItemTitle() {
+        return new StringConditions("title");
+    }
+
+    public static DateConditions ifPhotoSectionItemDateAdded() {
+        return new DateConditions("addedAt");
+    }
+
+    public static DateConditions ifPhotoSectionItemDateTaken() {
+        return new DateConditions("originallyAvailableAt");
+    }
+
+    public static IntegerConditions ifPhotoSectionItemRating() {
+        return new IntegerConditions("userRating");
+    }
+
+    public static IntegerConditions ifPhotoSectionItemFileSize() {
+        return new IntegerConditions("mediaSize");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemTag() {
+        return new YesNoFilterConditions("tag");
+    }
+
+    public static BooleanConditions ifPhotoSectionItemTrashed() {
+        return new BooleanConditions("tag");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemAperture() {
+        return new YesNoFilterConditions("aperture");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemExposure() {
+        return new YesNoFilterConditions("exposure");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemISO() {
+        return new YesNoFilterConditions("iso");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemLens() {
+        return new YesNoFilterConditions("lens");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemCameraMake() {
+        return new YesNoFilterConditions("make");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemCameraModel() {
+        return new YesNoFilterConditions("model");
+    }
+
+    public static YesNoFilterConditions ifPhotoSectionItemDevice() {
+        return new YesNoFilterConditions("device");
+    }
+    // End of photo section conditions
+
     public static PlexCondition or(List<PlexCondition> conditions) {
         return new ORCondition(conditions);
     }
