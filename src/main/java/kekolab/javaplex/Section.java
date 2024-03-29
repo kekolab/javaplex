@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 import org.apache.hc.core5.net.URIBuilder;
 
@@ -243,6 +244,16 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 					.build();
 		} catch (URISyntaxException e) {
 			throw new PlexException(e);
+		}
+	}
+
+	<T> List<T> byFeature(String feature, Function<Filter, T> function) {
+		try {
+			URI uri = new URIBuilder(key()).appendPath(feature).build();
+			return new MetadataContainer<PlexMetadata, Filter>(uri, getServer()).getDirectories().stream()
+					.map(function).toList();
+		} catch (URISyntaxException e) {
+			throw new PlexException(e); // TODO
 		}
 	}
 }
