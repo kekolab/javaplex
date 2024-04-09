@@ -1,15 +1,24 @@
 package kekolab.javaplex.model;
 
-public interface PlexShowCollections extends PlexCollections<PlexShowSection> {
-    PlexShowCollection create(String title, PlexShow show);
-    PlexShowCollection add(PlexShow show, PlexShowCollection collection);
-    PlexShowCollection remove(PlexShow show, PlexShowCollection collection);
 
-    PlexSeasonCollection create(String title, PlexSeason season);
-    PlexSeasonCollection add(PlexSeason season, PlexSeasonCollection collection);
-    PlexSeasonCollection remove(PlexSeason season, PlexSeasonCollection collection);
+public interface PlexShowCollections extends PlexCollections {
 
-    PlexEpisodeCollection create(String title, PlexEpisode episode);
-    PlexEpisodeCollection add(PlexEpisode episode, PlexEpisodeCollection collection);
-    PlexEpisodeCollection remove(PlexEpisode episode, PlexEpisodeCollection collection);
+    PlexShowCollection create(String title, PlexShow PlexShow);
+
+    PlexSeasonCollection create(String title, PlexSeason PlexSeason);
+
+    PlexEpisodeCollection create(String title, PlexEpisode PlexEpisode);
+
+    PlexShowCollection add(PlexShowCollection collection, PlexShow PlexShow);
+
+    PlexSeasonCollection add(PlexSeasonCollection collection, PlexSeason PlexSeason);
+
+    PlexEpisodeCollection add(PlexEpisodeCollection collection, PlexEpisode PlexEpisode);
+
+    PlexShowCollection remove(PlexShowCollection collection, PlexShow PlexShow);
+
+    PlexSeasonCollection remove(PlexSeasonCollection collection, PlexSeason PlexSeason);
+
+    PlexEpisodeCollection remove(PlexEpisodeCollection collection, PlexEpisode PlexEpisode);
+
 }

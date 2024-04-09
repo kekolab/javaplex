@@ -21,7 +21,7 @@ import kekolab.javaplex.model.PlexShowEditor;
 import kekolab.javaplex.model.PlexShowSection;
 import kekolab.javaplex.model.PlexTag;
 
-class Show extends Mediatag<PlexShowSection> implements PlexShow {
+public class Show extends Mediatag implements  PlexShow {
 	private Double audienceRating;
 	private String audienceRatingImage;
 	private Integer childCount;
@@ -74,7 +74,7 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Show s = (Show) source;
+		PlexShow s = (PlexShow) source;
 		setAudienceRating(s.getAudienceRating());
 		setAudienceRatingImage(s.getAudienceRatingImage());
 		setChildCount(s.getChildCount());
@@ -103,46 +103,55 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.similars = similars;
 	}
 
+	@Override
 	public String getStudio() {
 		ensureDetailed(studio);
 		return studio;
 	}
 
+	@Override
 	public String getContentRating() {
 		ensureDetailed(contentRating);
 		return contentRating;
 	}
 
+	@Override
 	public Double getRating() {
 		ensureDetailed(rating);
 		return rating;
 	}
 
+	@Override
 	public Integer getYear() {
 		ensureDetailed(year);
 		return year;
 	}
 
+	@Override
 	public Long getDuration() {
 		ensureDetailed(duration);
 		return duration;
 	}
 
+	@Override
 	public Integer getLeafCount() {
 		ensureDetailed(leafCount);
 		return leafCount;
 	}
 
+	@Override
 	public Integer getViewedLeafCount() {
 		ensureDetailed(viewedLeafCount);
 		return viewedLeafCount;
 	}
 
+	@Override
 	public Integer getChildCount() {
 		ensureDetailed(childCount);
 		return childCount;
 	}
 
+	@Override
 	public List<PlexTag> getGenres() {
 		ensureDetailed(genres);
 		return genres;
@@ -188,6 +197,7 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.banner.setValue(banner);
 	}
 
+	@Override
 	public String getBanner() {
 		ensureDetailed(banner.getValue());
 		return (String) banner.getValue();
@@ -197,41 +207,49 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.theme.setValue(theme);
 	}
 
+	@Override
 	public String getTheme() {
 		ensureDetailed(theme.getValue());
 		return (String) theme.getValue();
 	}
 
+	@Override
 	public Date getOriginallyAvailableAt() {
 		ensureDetailed(originallyAvailableAt);
 		return originallyAvailableAt;
 	}
 
+	@Override
 	public List<PlexRole> getRoles() {
 		ensureDetailed(roles);
 		return roles;
 	}
 
+	@Override
 	public String getOriginalTitle() {
 		ensureDetailed(originalTitle);
 		return originalTitle;
 	}
 
+	@Override
 	public Double getAudienceRating() {
 		ensureDetailed(audienceRating);
 		return audienceRating;
 	}
 
+	@Override
 	public String getTagline() {
 		ensureDetailed(tagline);
 		return tagline;
 	}
 
+	@Override
 	public String getAudienceRatingImage() {
 		ensureDetailed(audienceRatingImage);
 		return audienceRatingImage;
 	}
 
+	@Override
 	public List<PlexTag> getCountries() {
 		ensureDetailed(countries);
 		return countries;
@@ -265,6 +283,7 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.countries = countries;
 	}
 
+	@Override
 	public List<PlexLocation> getLocations() {
 		ensureDetailed(locations);
 		return locations;
@@ -274,11 +293,13 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.locations = locations;
 	}
 
+	@Override
 	public List<PlexTag> getSimilars() {
 		ensureDetailed(similars);
 		return similars;
 	}
 
+	@Override
 	public List<PlexRating> getRatings() {
 		ensureDetailed(ratings);
 		return ratings;
@@ -288,11 +309,13 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.ratings = ratings;
 	}
 
+	@Override
 	public List<PlexSeason> children() {
 		ensureDetailed(key());
 		return new MetadataContainer<PlexSeason, Directory>(key(), getServer()).getMetadata();
 	}
 
+	@Override
 	public List<PlexEpisode> grandchildren() {
 		ensureDetailed(ratingKey());
 		URI uri;
@@ -304,26 +327,30 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		return new MetadataContainer<PlexEpisode, Directory>(uri, getServer()).getMetadata();
 	}
 
+	@Override
 	public URI banner() {
 		ensureDetailed(banner.getValue());
 		return banner.uri();
 	}
 
+	@Override
 	public URI theme() {
 		ensureDetailed(theme.getValue());
 		return theme.uri();
 	}
 
 	@Override
-	public ShowSection section() {
-		return (ShowSection) super.section();
+	public PlexShowSection section() {
+		return (PlexShowSection) super.section();
 	}
 
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
 	}
 
+	@Override
 	public URI art() {
 		ensureDetailed(art.uri());
 		return art.uri();
@@ -333,11 +360,13 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.art.setValue(art);
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.uri());
 		return thumb.uri();
@@ -347,13 +376,14 @@ class Show extends Mediatag<PlexShowSection> implements PlexShow {
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public Boolean getGenresLocked() {
 		return getFieldLocked("genre");
 	}
 
 	@Override
 	public int typeId() {
-		return PlexShow.super.typeId();
+		return TYPE_ID;
 	}
 
 	@Override

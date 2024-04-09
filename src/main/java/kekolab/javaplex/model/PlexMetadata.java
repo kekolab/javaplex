@@ -24,5 +24,4 @@ public interface PlexMetadata extends PlexDirectory {
 
     URI ratingKey();
 
-    PlexMetadataEditor editor();
 }

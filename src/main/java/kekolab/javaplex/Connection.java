@@ -1,14 +1,18 @@
 package kekolab.javaplex;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import kekolab.javaplex.model.PlexConnection;
 
-class Connection extends BaseItem implements PlexConnection {
+public class Connection extends BaseItem implements PlexConnection {
 	private String protocol;
 	private String address;
 	private Integer port;
 	private String uri;
 	private Integer local;
 
+	@Override
 	public String getProtocol() {
 		return protocol;
 	}
@@ -17,6 +21,7 @@ class Connection extends BaseItem implements PlexConnection {
 		this.protocol = protocol;
 	}
 
+	@Override
 	public String getAddress() {
 		return address;
 	}
@@ -25,6 +30,7 @@ class Connection extends BaseItem implements PlexConnection {
 		this.address = address;
 	}
 
+	@Override
 	public Integer getPort() {
 		return port;
 	}
@@ -33,6 +39,7 @@ class Connection extends BaseItem implements PlexConnection {
 		this.port = port;
 	}
 
+	@Override
 	public String getUri() {
 		return uri;
 	}
@@ -41,6 +48,15 @@ class Connection extends BaseItem implements PlexConnection {
 		this.uri = uri;
 	}
 
+	public URI uri() {
+		try {
+			return new URI(getUri());
+		} catch (URISyntaxException e) {
+			throw new PlexException(e);
+		}
+	}
+
+	@Override
 	public Integer getLocal() {
 		return local;
 	}

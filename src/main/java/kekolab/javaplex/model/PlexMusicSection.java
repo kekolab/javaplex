@@ -2,29 +2,44 @@ package kekolab.javaplex.model;
 
 import java.util.List;
 
-public interface PlexMusicSection extends PlexSection<PlexArtist, PlexAlbum>, WithCollections<PlexMusicCollections, PlexMusicSection> {
+public interface PlexMusicSection extends PlexSection {
 
-	String TYPE_DESCRIPTION = "artist";
+    String TYPE_DESCRIPTION = "artist";
 
-    List<PlexArtist> all(PlexCondition filter);
-    List<PlexAlbum> albums();
-    List<PlexAlbum> albums(PlexCondition filter);
-    List<PlexTrack> tracks();    
-    List<PlexTrack> tracks(PlexCondition filter);
+    PlexSectionQueryBuilder<PlexArtist> all();
 
-    List<PlexArtistOrAlbumFilter> byGenre();
-    List<PlexArtistOrAlbumOrTrackFilter> byMood();
-    List<PlexArtistOrAlbumFilter> byStyle();
-    List<PlexArtistFilter> byCountry();    
-    List<PlexArtistOrAlbumFilter> byCollection();
+    List<PlexAlbum> recentlyAdded();
 
-    List<PlexAlbumFilter> byYear();
-    List<PlexAlbumFilter> byDecade();
-    List<PlexAlbumFilter> byStudio();
-    List<PlexAlbumFilter> byFormat();
-    List<PlexAlbumFilter> bySubformat();
-    List<PlexAlbumOrTrackFilter> bySource();
-    List<PlexAlbumFilter> byLabel();
+    PlexSectionQueryBuilder<PlexAlbum> albums();
 
-    List<PlexTrackFilter> byUserRating();    
+    PlexSectionQueryBuilder<PlexTrack> tracks();
+
+    PlexMusicCollections collections();
+
+    List<PlexArtistOrAlbumSecondaryDirectory> byGenre();
+
+    List<PlexArtistOrAlbumOrTrackSecondaryDirectory> byMood();
+
+    List<PlexArtistOrAlbumSecondaryDirectory> byStyle();
+
+    List<PlexArtistSecondaryDirectory> byCountry();
+
+    List<PlexArtistOrAlbumSecondaryDirectory> byCollection();
+
+    List<PlexAlbumSecondaryDirectory> byYear();
+
+    List<PlexAlbumSecondaryDirectory> byDecade();
+
+    List<PlexAlbumSecondaryDirectory> byStudio();
+
+    List<PlexAlbumSecondaryDirectory> byFormat();
+
+    List<PlexAlbumSecondaryDirectory> bySubformat();
+
+    List<PlexAlbumOrTrackSecondaryDirectory> bySource();
+
+    List<PlexAlbumSecondaryDirectory> byLabel();
+
+    List<PlexTrackSecondaryDirectory> byUserRating();
+
 }

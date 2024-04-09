@@ -10,192 +10,200 @@ import org.apache.hc.core5.net.URIBuilder;
 import kekolab.javaplex.model.PlexAlbum;
 import kekolab.javaplex.model.PlexArtist;
 import kekolab.javaplex.model.PlexAudioPlaylist;
+import kekolab.javaplex.model.PlexClassicPlaylist;
 import kekolab.javaplex.model.PlexClip;
 import kekolab.javaplex.model.PlexDirectory;
 import kekolab.javaplex.model.PlexEpisode;
+import kekolab.javaplex.model.PlexFilter;
+import kekolab.javaplex.model.PlexMediaServer;
 import kekolab.javaplex.model.PlexMediatag;
 import kekolab.javaplex.model.PlexMovie;
+import kekolab.javaplex.model.PlexMovieSection;
+import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexPhoto;
 import kekolab.javaplex.model.PlexPhotoPlaylist;
 import kekolab.javaplex.model.PlexPhotoalbum;
 import kekolab.javaplex.model.PlexPlaylist;
 import kekolab.javaplex.model.PlexPlaylists;
 import kekolab.javaplex.model.PlexSeason;
+import kekolab.javaplex.model.PlexSection;
 import kekolab.javaplex.model.PlexShow;
+import kekolab.javaplex.model.PlexShowSection;
+import kekolab.javaplex.model.PlexSmartPlaylist;
 import kekolab.javaplex.model.PlexTrack;
+import kekolab.javaplex.model.PlexVideo;
 import kekolab.javaplex.model.PlexVideoPlaylist;
 
-class Playlists implements PlexPlaylists {
+public class Playlists implements PlexPlaylists {
     private final MediaServer server;
 
-    Playlists(MediaServer server) {
+    protected Playlists(MediaServer server) {
         this.server = server;
     }
 
-    public AudioPlaylist create(String title, PlexArtist artist) {
-        return create(title, artist, AudioPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public AudioPlaylist create(String title, PlexAlbum album) {
-        return create(title, album, AudioPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public AudioPlaylist create(String title, PlexTrack track) {
-        return create(title, track, AudioPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public PhotoPlaylist create(String title, PlexPhotoalbum photoalbum) {
-        return create(title, photoalbum, PhotoPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public PhotoPlaylist create(String title, PlexPhoto photo) {
-        return create(title, photo, PhotoPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public PhotoPlaylist create(String title, PlexClip clip) {
-        return create(title, clip, PhotoPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public VideoPlaylist create(String title, PlexShow show) {
-        return create(title, show, VideoPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public VideoPlaylist create(String title, PlexSeason season) {
-        return create(title, season, VideoPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public VideoPlaylist create(String title, PlexEpisode episode) {
-        return create(title, episode, VideoPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    public VideoPlaylist create(String title, PlexMovie movie) {
-        return create(title, movie, VideoPlaylist.SUBTYPE_DESCRIPTION);
-    }
-
-    private <P extends Playlist<?>> P create(String title, PlexMediatag<?> mediatag, String type) {
-        URI uri;
-        try {
-            uri = new URIBuilder(server.getUri()).appendPath("playlists").addParameter("title", title)
-                    .addParameter("type", type)
-                    .addParameter("uri", mediatag.serverSchemeUri(server).toString()).build();
-        } catch (URISyntaxException e) {
-            throw new PlexException(e);
-        }
-
-        PlexHTTPClient client = server.getClient();
-        Optional<String> token = server.getToken();
-        MetadataContainer<P, Directory> pmmc = new MetadataContainer<>(uri, server);
-        return client.post(token, pmmc).getMetadata().get(0);
-    }
-
-    private PlexPlaylist<?> removeItemFromTarget(PlexMediatag<?> item, PlexPlaylist<?> target) {
-        Optional<Integer> itemId = target.children().stream()
-                .filter(child -> child.getRatingKey().equals(item.getRatingKey())).map(PlexMediatag::getPlaylistItemID)
-                .findAny();
-        if (itemId.isEmpty()) // The target playlist does not contain the item whose removal was requested
-            return target;
-
-        try {
-            URI uri = new URIBuilder(target.key()).appendPath(Integer.toString(itemId.get())).build();
-            return (PlexPlaylist<?>) new GenericCollectionsHelper(target, server).remove(uri);
-        } catch (URISyntaxException e) {
-            throw new PlexException("Unknown error. Please see attache stacktrace", e);
-        }
-    }
-
     @Override
-    public List<PlexPlaylist<?>> list() {
+    public List<? extends Playlist> list() {
         URI uri;
         try {
             uri = new URIBuilder(server.getUri()).appendPath("playlists").build();
         } catch (URISyntaxException e) {
             throw new PlexException(e);
         }
-        return new MetadataContainer<PlexPlaylist<?>, PlexDirectory>(uri, server)
-                .getMetadata();
-    }
-
-    private PlexPlaylist<?> add(PlexMediatag<?> item, PlexPlaylist<?> target) {
-        return (Playlist<?>) new GenericCollectionsHelper(target, server).add(item);
+        return new MetadataContainer<Playlist, Directory>(uri, server).getMetadata();
     }
 
     @Override
-    public PlexAudioPlaylist add(PlexArtist artist, PlexAudioPlaylist target) {
-        return (PlexAudioPlaylist) add((PlexMediatag<?>) artist, target);
+    public void delete(PlexPlaylist target) {
+        server.getClient().delete(target.ratingKey(), server.getToken(), Optional.empty());
     }
 
     @Override
-    public PlexAudioPlaylist add(PlexAlbum album, PlexAudioPlaylist target) {
-        return (PlexAudioPlaylist) add((PlexMediatag<?>) album, target);
+    public PlexSmartPlaylist createSmart(String title, PlexSection section, PlexFilter filter) {
+        String type = playlistTypeFromPlexSection(section);
+        return (PlexSmartPlaylist) create(buildCreationUri(title, type, section, filter, true));
     }
 
     @Override
-    public PlexAudioPlaylist add(PlexTrack track, PlexAudioPlaylist target) {
-        return (PlexAudioPlaylist) add((PlexMediatag<?>) track, target);
+    public PlexSmartPlaylist createSmart(String title, PlexSection section, PlexFilter filter, String sort) {
+        String type = playlistTypeFromPlexSection(section);
+        return (PlexSmartPlaylist) create(buildCreationUri(title, type, section, filter, true, sort));
     }
 
     @Override
-    public PlexAudioPlaylist remove(PlexTrack track, PlexAudioPlaylist target) {
-        return (PlexAudioPlaylist) removeItemFromTarget(track, target);
+    public PlexClassicPlaylist create(String title, PlexMediatag tag) {
+        String type = playlistTypeFromPlexSection(tag.section());
+        URI uri;
+        try {
+            uri = new URIBuilder(server.getUri()).appendPath("playlists").addParameter("title", title)
+                    .addParameter("type", type)
+                    .addParameter("uri", GenericCollectionsHelper.uriParameter(server, tag).toString()).build();
+        } catch (URISyntaxException e) {
+            throw new PlexException(e);
+        }
+
+        PlexHTTPClient client = server.getClient();
+        Optional<String> token = server.getToken();
+        MetadataContainer<PlexClassicPlaylist, Directory> pmmc = new MetadataContainer<>(uri, server);
+        return client.post(token, pmmc).getMetadata().get(0);
     }
 
     @Override
-    public PlexPhotoPlaylist add(PlexPhotoalbum photoalbum, PlexPhotoPlaylist target) {
-        return (PlexPhotoPlaylist) add((PlexMediatag<?>) photoalbum, target);
+    public PlexClassicPlaylist create(String title, PlexSection section, PlexFilter filter) {
+        String type = playlistTypeFromPlexSection(section);
+        return (PlexClassicPlaylist) create(buildCreationUri(title, type, section, filter, false));
     }
 
     @Override
-    public PlexPhotoPlaylist add(PlexPhoto photo, PlexPhotoPlaylist target) {
-        return (PlexPhotoPlaylist) add((PlexMediatag<?>) photo, target);
+    public PlexClassicPlaylist create(String title, PlexSection section, PlexFilter filter, String sort) {
+        String type = playlistTypeFromPlexSection(section);
+        return (PlexClassicPlaylist) create(
+                buildCreationUri(title, type, section, filter, false, sort));
     }
 
     @Override
-    public PlexPhotoPlaylist add(PlexClip clip, PlexPhotoPlaylist target) {
-        return (PlexPhotoPlaylist) add((PlexMediatag<?>) clip, target);
+    public PlexClassicPlaylist add(PlexClassicPlaylist playlist, PlexMediatag mediatag) {
+        if (playlist instanceof PlexAudioPlaylist
+                && !(mediatag instanceof PlexArtist || mediatag instanceof PlexAlbum || mediatag instanceof PlexTrack))
+            throw new PlexException("Only PlexArtist, PlexAlbum or PlexTrack can be added to a PlexAudioPlaylist");
+        if (playlist instanceof PlexVideo && !(mediatag instanceof PlexMovie || mediatag instanceof PlexShow
+                || mediatag instanceof PlexSeason || mediatag instanceof PlexEpisode))
+            throw new PlexException(
+                    "Only PlexMovie, PlexShow, PlexSeason or PlexEpisode can be added to a PlexVideooPlaylist");
+        if (playlist instanceof PlexPhotoPlaylist
+                && !(mediatag instanceof PlexPhotoalbum || mediatag instanceof PlexPhoto
+                        || mediatag instanceof PlexClip))
+            throw new PlexException("Only PlexPhotoalbum, PlexPhoto or PlexClip can be added to a PlexPhotoPlaylist");
+        return (PlexClassicPlaylist) new GenericCollectionsHelper(playlist, server).add(mediatag);
     }
 
     @Override
-    public PlexPhotoPlaylist remove(PlexPhoto photo, PlexPhotoPlaylist target) {
-        return (PlexPhotoPlaylist) removeItemFromTarget(photo, target);
+    public PlexClassicPlaylist remove(PlexClassicPlaylist playlist, PlexMediatag item) {
+        return playlist.children().stream()
+                .filter(child -> child.getRatingKey().equals(item.getRatingKey())).map(PlexMediatag::getPlaylistItemID)
+                .findAny()
+                .map(itemId -> {
+                    try {
+                        URI uri = new URIBuilder(playlist.key()).appendPath(Integer.toString(itemId)).build();
+                        return (PlexClassicPlaylist) new GenericCollectionsHelper(playlist, server).remove(uri);
+                    } catch (URISyntaxException e) {
+                        throw new PlexException("Unknown error. Please see attache stacktrace", e);
+                    }
+                }).orElse(playlist);
+    }
+
+    protected PlexMediaServer getServer() {
+        return server;
+    }
+
+    private URI buildCreationUri(String title, String type, PlexSection section, PlexFilter filter,
+            boolean smart) {
+        URIBuilder uriBuilder = new URIBuilder(server.getUri()).appendPath("playlists").addParameter("title", title)
+                .addParameter("type", type)
+                .setParameter("uri", GenericCollectionsHelper.uriParameter(server, section, filter).toString());
+        if (smart)
+            uriBuilder.addParameter("smart", Integer.toString(1));
+        try {
+            return uriBuilder.build();
+        } catch (URISyntaxException e) {
+            throw new PlexException(e);
+        }
+    }
+
+    private URI buildCreationUri(String title, String type, PlexSection section, PlexFilter filter,
+            boolean smart, String sort) {
+        try {
+            return new URIBuilder(buildCreationUri(title, type, section, filter, smart))
+                    .setParameter("uri",
+                            GenericCollectionsHelper.uriParameter(server, section, filter, sort).toString())
+                    .build();
+        } catch (URISyntaxException e) {
+            throw new PlexException(e);
+        }
+    }
+
+    private PlexPlaylist create(URI uri) {
+        PlexHTTPClient client = server.getClient();
+        Optional<String> token = server.getToken();
+        MetadataContainer<PlexSmartPlaylist, PlexDirectory> pmmc = new MetadataContainer<>(uri, server);
+        return client.post(token, pmmc).getMetadata().get(0);
+    }
+
+    private String playlistTypeFromPlexSection(PlexSection section) {
+        if (section instanceof PlexMusicSection)
+            return PlexAudioPlaylist.SUBTYPE_DESCRIPTION;
+        if (section instanceof PlexMovieSection || section instanceof PlexShowSection)
+            return PlexVideoPlaylist.SUBTYPE_DESCRIPTION;
+        if (section instanceof PhotoSection)
+            return PlexPhotoPlaylist.SUBTYPE_DESCRIPTION;
+        throw new PlexException("Cannot determine the smart playlist type");
     }
 
     @Override
-    public PlexPhotoPlaylist remove(PlexClip clip, PlexPhotoPlaylist target) {
-        return (PlexPhotoPlaylist) removeItemFromTarget(clip, target);
+    public PlexSmartPlaylist alter(PlexSmartPlaylist playlist, PlexFilter filter) {
+        try {
+            URI uri = new URIBuilder(playlist.key())
+                    .addParameter("uri",
+                            GenericCollectionsHelper.uriParameter(server, playlist.section(), filter).toString())
+                    .build();
+            MetadataContainer<PlexSmartPlaylist, PlexDirectory> mc = new MetadataContainer<>(uri, server);
+            return server.getClient().put(server.getToken(), mc).getMetadata().get(0);
+        } catch (URISyntaxException e) {
+            throw new PlexException(e);
+        }
     }
 
     @Override
-    public PlexVideoPlaylist add(PlexShow show, PlexVideoPlaylist target) {
-        return (PlexVideoPlaylist) add((PlexMediatag<?>) show, target);
-    }
-
-    @Override
-    public PlexVideoPlaylist add(PlexSeason season, PlexVideoPlaylist target) {
-        return (PlexVideoPlaylist) add((PlexMediatag<?>) season, target);
-    }
-
-    @Override
-    public PlexVideoPlaylist add(PlexEpisode episode, PlexVideoPlaylist target) {
-        return (PlexVideoPlaylist) add((PlexMediatag<?>) episode, target);
-    }
-
-    @Override
-    public PlexVideoPlaylist add(PlexMovie movie, PlexVideoPlaylist target) {
-        return (PlexVideoPlaylist) add((PlexMediatag<?>) movie, target);
-    }
-
-    @Override
-    public PlexVideoPlaylist remove(PlexEpisode episode, PlexVideoPlaylist target) {
-        return (PlexVideoPlaylist) removeItemFromTarget(episode, target);
-    }
-
-    @Override
-    public PlexVideoPlaylist remove(PlexMovie movie, PlexVideoPlaylist target) {
-        return (PlexVideoPlaylist) removeItemFromTarget(movie, target);
-    }
-
-    @Override
-    public void delete(PlexPlaylist<?> target) {
-        server.getClient().delete(target.ratingKey(), server.getToken(), Optional.empty());        
+    public PlexSmartPlaylist alter(PlexSmartPlaylist playlist, PlexFilter filter, String sort) {
+        try {
+            URI uri = new URIBuilder(playlist.key())
+                    .addParameter("uri",
+                            GenericCollectionsHelper.uriParameter(server, playlist.section(), filter, sort)
+                                    .toString())
+                    .build();
+            MetadataContainer<PlexSmartPlaylist, PlexDirectory> mc = new MetadataContainer<>(uri, server);
+            return server.getClient().put(server.getToken(), mc).getMetadata().get(0);
+        } catch (URISyntaxException e) {
+            throw new PlexException(e);
+        }
     }
 }

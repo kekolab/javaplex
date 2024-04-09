@@ -2,14 +2,10 @@ package kekolab.javaplex;
 
 import java.net.URI;
 
-import kekolab.javaplex.model.PlexDirectory;
 import kekolab.javaplex.model.PlexGrandchild;
-import kekolab.javaplex.model.PlexGrandparent;
-import kekolab.javaplex.model.PlexParent;
-import kekolab.javaplex.model.PlexSection;
+import kekolab.javaplex.model.PlexMediatag;
 
-abstract class Grandchild<G extends PlexGrandparent<?, ?, S>, P extends PlexParent<?, S>, S extends PlexSection<?, ?>>
-        extends Child<P, S> implements PlexGrandchild<G, P, S> {
+public abstract class Grandchild extends Child implements PlexGrandchild {
     private UriProvider grandparentArt, grandparentKey, grandparentRatingKey, grandparentTheme, grandparentThumb;
     private String grandparentGuid;
     private String grandparentTitle;
@@ -26,23 +22,23 @@ abstract class Grandchild<G extends PlexGrandparent<?, ?, S>, P extends PlexPare
     @Override
     void update(Metadata source) {
         super.update(source);
-        Grandchild<?, ?, ?> g = (Grandchild<?, ?, ?>) source;
-        setGrandparentArt(g.getGrandparentArt());  
+        Grandchild g = (Grandchild) source;
+        setGrandparentArt(g.getGrandparentArt());
         setGrandparentGuid(g.getGrandparentGuid());
         setGrandparentKey(g.getGrandparentKey());
         setGrandparentRatingKey(g.getGrandparentRatingKey());
         setGrandparentTheme(g.getGrandparentTheme());
-        setGrandparentThumb(g.getGrandparentThumb()); 
+        setGrandparentThumb(g.getGrandparentThumb());
         setGrandparentTitle(g.getGrandparentTitle());
         setGrandparentYear(g.getGrandparentYear());
     }
 
     @Override
-    public G grandparent() {
+    public PlexMediatag grandparent() {
         URI uri = grandparentKey() != null ? grandparentKey()
                 : grandparentRatingKey() != null ? grandparentRatingKey() : null;
         if (uri != null)
-            return new MetadataContainer<G, PlexDirectory>(uri, getServer()).getMetadata().get(0);
+            return (PlexMediatag) new MetadataContainer<>(uri, getServer()).getMetadata().get(0);
         return null;
     }
 
@@ -145,14 +141,14 @@ abstract class Grandchild<G extends PlexGrandparent<?, ?, S>, P extends PlexPare
     }
 
     public void setGrandparentRatingKey(Integer ratingKey) {
-        this.grandparentKey.setValue(ratingKey);
+        this.grandparentRatingKey.setValue(ratingKey);
     }
 
     public void setGrandparentTheme(String theme) {
-        this.grandparentKey.setValue(theme);
+        this.grandparentTheme.setValue(theme);
     }
 
     public void setGrandparentThumb(String thumb) {
-        this.grandparentKey.setValue(thumb);
+        this.grandparentThumb.setValue(thumb);
     }
 }

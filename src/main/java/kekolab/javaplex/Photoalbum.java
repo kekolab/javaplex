@@ -3,13 +3,11 @@ package kekolab.javaplex;
 import java.net.URI;
 import java.util.List;
 
-import kekolab.javaplex.model.PlexChild;
-import kekolab.javaplex.model.PlexDirectory;
 import kekolab.javaplex.model.PlexPhotoSection;
 import kekolab.javaplex.model.PlexPhotoalbum;
 import kekolab.javaplex.model.PlexPhotoalbumEditor;
 
-class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
+public class Photoalbum extends Mediatag implements PlexPhotoalbum {
 	private UriProvider art;
 	private UriProvider composite;
 	private UriProvider thumb;
@@ -23,22 +21,23 @@ class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Photoalbum p = (Photoalbum) source;
+		PlexPhotoalbum p = (PlexPhotoalbum) source;
 		setArt(p.getArt());
 		setComposite(p.getComposite());
 		setThumb(p.getThumb());
 	}
 
 	@Override
-	public List<PlexChild<?, PlexPhotoSection>> children() {
-		return new MetadataContainer<PlexChild<?, PlexPhotoSection>, PlexDirectory>(key(), getServer()).getMetadata();
+	public List<? extends Mediatag> children() {
+		return new MetadataContainer<Mediatag, Directory>(key(), getServer()).getMetadata();
 	}
-
+	@Override
 	public String getComposite() {
 		ensureDetailed(composite.getValue());
 		return (String) composite.getValue();
 	}
 
+	@Override
 	public URI composite() {
 		ensureDetailed(composite.getValue());
 		return composite.uri();
@@ -48,11 +47,13 @@ class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
 		this.composite.setValue(composite);
 	}
 
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
 	}
 
+	@Override
 	public URI art() {
 		ensureDetailed(art.getValue());
 		return art.uri();
@@ -62,11 +63,13 @@ class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
 		this.art.setValue(art);
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.getValue());
 		return thumb.uri();
@@ -78,11 +81,16 @@ class Photoalbum extends Mediatag<PlexPhotoSection> implements PlexPhotoalbum {
 
 	@Override
 	public int typeId() {
-		return PlexPhotoalbum.super.typeId();
+		return TYPE_ID;
 	}
 
 	@Override
 	public PlexPhotoalbumEditor editor() {
 		return new PhotoalbumEditor(this);
+	}
+
+	@Override
+	public PlexPhotoSection section() {
+		return (PlexPhotoSection) super.section();
 	}
 }

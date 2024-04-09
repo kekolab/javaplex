@@ -1,30 +1,36 @@
 package kekolab.javaplex.model;
 
 import java.net.URI;
+import java.util.List;
 
 
-public interface PlexSeason extends PlexChild<PlexShow, PlexShowSection>, PlexParent<PlexEpisode, PlexShowSection> {
-	int TYPE_ID = 3;
-	String TYPE_DESCRIPTION = "season";
 
-	Integer getLeafCount();
+public interface PlexSeason extends PlexMediatag, PlexChild, PlexParent {
+    int TYPE_ID = 3;
+    String TYPE_DESCRIPTION = "season";
 
-	Integer getViewedLeafCount();
+    Integer getLeafCount();
 
-	Integer getYear();
+    Integer getViewedLeafCount();
 
-	String getArt();
+    Integer getYear();
 
-	URI art();
+    PlexShowSection section();
 
-	String getThumb();
+    PlexShow parent();
 
-	URI thumb();
+    List<PlexEpisode> children();
 
-	default int typeId() {
-		return TYPE_ID;
-	}
+    String getArt();
 
-	@Override
-	PlexSeasonEditor editor();
+    URI art();
+
+    String getThumb();
+
+    URI thumb();
+
+    int typeId();
+
+    PlexSeasonEditor editor();
+
 }

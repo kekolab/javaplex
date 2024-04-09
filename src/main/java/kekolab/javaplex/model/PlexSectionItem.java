@@ -1,11 +1,8 @@
 package kekolab.javaplex.model;
 
-import java.net.URI;
+public interface PlexSectionItem extends PlexMetadata {
 
-public interface PlexSectionItem<S extends PlexSection<?, ?>> extends PlexMetadata {
-    S section();
-
-    URI sectionUri();
+    PlexSection section();
 
     String getLibrarySectionTitle();
 
@@ -23,8 +20,4 @@ public interface PlexSectionItem<S extends PlexSection<?, ?>> extends PlexMetada
 
     Boolean getTitleSortLocked();
 
-    @Override
-    PlexSectionItemEditor editor();
-
-    // TODO Delete a sectionItem? It is deleted just like a PlexCollection (see classes PlexCollections and Collections)
 }

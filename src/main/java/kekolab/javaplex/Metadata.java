@@ -9,11 +9,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import kekolab.javaplex.model.PlexDirectory;
+import kekolab.javaplex.mappers.TimestampDeserializer;
 import kekolab.javaplex.model.PlexField;
 import kekolab.javaplex.model.PlexMetadata;
 
-abstract class Metadata extends Directory implements PlexMetadata {
+public abstract class Metadata extends Directory implements PlexMetadata {
 	@JsonDeserialize(using = TimestampDeserializer.class)
 	private Date addedAt;
 	private String guid;
@@ -31,6 +31,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		fields = new ArrayList<>();
 	}
 
+	@Override
 	public Integer getRatingKey() {
 		return ratingKey;
 	}
@@ -39,6 +40,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		this.ratingKey = ratingKey;
 	}
 
+	@Override
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
@@ -47,6 +49,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		this.updatedAt = updatedAt;
 	}
 
+	@Override
 	public String getGuid() {
 		return guid;
 	}
@@ -55,6 +58,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		this.guid = guid;
 	}
 
+	@Override
 	public Date getAddedAt() {
 		return addedAt;
 	}
@@ -63,6 +67,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		this.addedAt = addedAt;
 	}
 
+	@Override
 	public List<PlexField> getFields() {
 		ensureDetailed(fields);
 		return fields;
@@ -72,6 +77,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		this.fields = fields;
 	}
 
+	@Override
 	public String getType() {
 		return type;
 	}
@@ -80,6 +86,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		this.type = type;
 	}
 
+	@Override
 	public Integer getViewCount() {
 		return viewCount;
 	}
@@ -88,6 +95,7 @@ abstract class Metadata extends Directory implements PlexMetadata {
 		this.viewCount = viewCount;
 	}
 
+	@Override
 	public String getSummary() {
 		return summary;
 	}
@@ -111,16 +119,17 @@ abstract class Metadata extends Directory implements PlexMetadata {
 
 	void ensureDetailed(Object field) {
 		if (!detailed() && (field == null || field instanceof Collection collection && collection.isEmpty())) 
-			update(new MetadataContainer<Metadata, PlexDirectory>(ratingKey(), getServer()).getMetadata().get(0));
+			update(new MetadataContainer<Metadata, Directory>(ratingKey(), getServer()).getMetadata().get(0));
 	}
 
 	private boolean detailed() {
 		return uri().getPath().equalsIgnoreCase(ratingKey().getPath());
 	}
 
+	@Override
 	public abstract URI ratingKey();
 
-	Boolean getFieldLocked(String field) {
+	protected Boolean getFieldLocked(String field) {
 		return getFields().stream().filter(f -> f.getName().equals(field)).map(PlexField::getLocked)
 				.findAny().orElse(null);
 	}

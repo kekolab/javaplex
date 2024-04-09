@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import kekolab.javaplex.model.PlexTrackEditor;
 
-class TrackEditor extends SectionItemEditor implements PlexTrackEditor {
+public class TrackEditor extends SectionItemEditor implements PlexTrackEditor {
 	private FieldEditor<List<String>> moodEditor;
 	private FieldEditor<Boolean> moodLockEditor;
 
-    TrackEditor(Track source) {
+    protected TrackEditor(Track source) {
         super(source);
         
         moodEditor = new TagListFieldEditor("mood", source::getMoods);
@@ -19,7 +19,6 @@ class TrackEditor extends SectionItemEditor implements PlexTrackEditor {
         addFieldEditor(moodLockEditor);
     }
 
-    @Override
     public void setMoods(List<String> values, Optional<Boolean> lock) {
         editField(moodEditor, values, moodLockEditor, lock);
     } 

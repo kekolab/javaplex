@@ -4,20 +4,20 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import kekolab.javaplex.model.PlexDirectory;
+import kekolab.javaplex.mappers.ObjectNodeDeserializer;
 import kekolab.javaplex.model.PlexMovieSection;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexPhotoSection;
 import kekolab.javaplex.model.PlexShowSection;
 
-public class DirectoryDeserializer extends ObjectNodeDeserializer<PlexDirectory> {
+public class DirectoryDeserializer extends ObjectNodeDeserializer<Directory> {
 	private static final long serialVersionUID = 7550593827443213344L;
 
 	public DirectoryDeserializer() {
-		super(PlexDirectory.class);
+		super(Directory.class);
 	}
 
-	protected Class<? extends PlexDirectory> chooseDeserializingClass(ObjectNode node) throws IOException {
+	protected Class<? extends Directory> chooseDeserializingClass(ObjectNode node) throws IOException {
 		if (node.has("composite")) {
 			String composite = extractTextFieldValueFromObjectNode(node, "composite");
 			if (composite.contains("sections")) {
@@ -38,7 +38,7 @@ public class DirectoryDeserializer extends ObjectNodeDeserializer<PlexDirectory>
 		}
 
 		if (node.has("fastKey")) 			
-			return Filter.class;		
+			return SectionSecondaryDirectory.class;		
 
 		// TODO Log that we're deserializing to the default implementation of PlexDirectory
 		return Directory.class;

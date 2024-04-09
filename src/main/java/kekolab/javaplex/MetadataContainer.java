@@ -12,7 +12,7 @@ import kekolab.javaplex.model.PlexMetadata;
 import kekolab.javaplex.model.PlexSearchResult;
 import kekolab.javaplex.model.PlexTranscodeSession;
 
-class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> extends ServerMediaContainer {
+public class MetadataContainer<M extends PlexMetadata, D extends PlexDirectory> extends ServerMediaContainer {
 	@JsonProperty("Metadata")
 	@JsonDeserialize(contentUsing = MetadataDeserializer.class)
 	private List<M> metadata;

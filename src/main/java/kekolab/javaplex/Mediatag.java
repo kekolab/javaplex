@@ -11,16 +11,15 @@ import org.apache.hc.core5.net.URIBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.TimestampDeserializer;
 import kekolab.javaplex.model.PlexGuid;
 import kekolab.javaplex.model.PlexMediatag;
 import kekolab.javaplex.model.PlexPlayer;
-import kekolab.javaplex.model.PlexSection;
 import kekolab.javaplex.model.PlexSession;
 import kekolab.javaplex.model.PlexTag;
-import kekolab.javaplex.model.PlexTranscodeSession;
 import kekolab.javaplex.model.PlexUser;
 
-abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> implements PlexMediatag<S> {
+public abstract class Mediatag extends SectionItem implements PlexMediatag {
 	private Boolean allowSync;
 	@JsonProperty("Collection")
 	@JsonDeserialize(contentAs = Tag.class)
@@ -50,7 +49,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 	private PlexSession session;
 	@JsonProperty("TranscodeSession")
 	@JsonDeserialize(as = TranscodeSession.class)
-	private PlexTranscodeSession transcodeSession;
+	private TranscodeSession transcodeSession;
 	private Integer sessionKey;
 
 	public Mediatag() {
@@ -61,7 +60,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Mediatag<?> mediatag = (Mediatag<?>) source;
+		PlexMediatag mediatag = (PlexMediatag) source;
 		setAllowSync(mediatag.getAllowSync());
 		setCollections(mediatag.getCollections());
 		setGuids(mediatag.getGuids());
@@ -74,6 +73,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		setViewOffset(mediatag.getViewOffset());
 	}
 
+	@Override
 	public Boolean getAllowSync() {
 		ensureDetailed(allowSync);
 		return allowSync;
@@ -83,6 +83,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.allowSync = allowSync;
 	}
 
+	@Override
 	public Double getUserRating() {
 		ensureDetailed(userRating);
 		return userRating;
@@ -92,6 +93,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.userRating = userRating;
 	}
 
+	@Override
 	public Date getLastViewedAt() {
 		ensureDetailed(lastViewedAt);
 		return lastViewedAt;
@@ -101,6 +103,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.lastViewedAt = lastViewedAt;
 	}
 
+	@Override
 	public Long getViewOffset() {
 		ensureDetailed(viewOffset);
 		return viewOffset;
@@ -110,6 +113,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.viewOffset = viewOffset;
 	}
 
+	@Override
 	public Integer getSkipCount() {
 		ensureDetailed(skipCount);
 		return skipCount;
@@ -119,6 +123,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.skipCount = skipCount;
 	}
 
+	@Override
 	public Integer getIndex() {
 		ensureDetailed(index);
 		return index;
@@ -128,6 +133,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.index = index;
 	}
 
+	@Override
 	public Integer getPlaylistItemID() {
 		ensureDetailed(playlistItemID);
 		return playlistItemID;
@@ -137,6 +143,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.playlistItemID = playlistItemID;
 	}
 
+	@Override
 	public List<PlexTag> getCollections() {
 		ensureDetailed(collections);
 		return collections;
@@ -146,6 +153,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.collections = collections;
 	}
 
+	@Override
 	public List<PlexGuid> getGuids() {
 		ensureDetailed(guids);
 		return guids;
@@ -155,6 +163,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.guids = guids;
 	}
 
+	@Override
 	public Date getLastRatedAt() {
 		ensureDetailed(lastRatedAt);
 		return lastRatedAt;
@@ -176,6 +185,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		return null;
 	}
 
+	@Override
 	public PlexUser getUser() {
 		return user;
 	}
@@ -184,6 +194,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.user = user;
 	}
 
+	@Override
 	public PlexPlayer getPlayer() {
 		return player;
 	}
@@ -192,6 +203,7 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.player = player;
 	}
 
+	@Override
 	public PlexSession getSession() {
 		return session;
 	}
@@ -200,16 +212,18 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		this.session = session;
 	}
 
-	public PlexTranscodeSession getTranscodeSession() {
+	@Override
+	public TranscodeSession getTranscodeSession() {
 		if (transcodeSession != null)
 			((TranscodeSession) transcodeSession).initialise(getServer(), uri());
 		return transcodeSession;
 	}
 
-	public void setTranscodeSession(PlexTranscodeSession transcodeSession) {
+	public void setTranscodeSession(TranscodeSession transcodeSession) {
 		this.transcodeSession = transcodeSession;
 	}
 
+	@Override
 	public Integer getSessionKey() {
 		return sessionKey;
 	}
@@ -224,15 +238,5 @@ abstract class Mediatag<S extends PlexSection<?, ?>> extends SectionItem<S> impl
 		if (field instanceof List<?> list)
 			list.stream().filter(MediatagAttribute.class::isInstance).map(MediatagAttribute.class::cast)
 					.filter(a -> a.getParentTag() == null).forEach(a -> a.initialise(this));
-	}
-
-	URI serverSchemeUri() {
-		try {
-			return new URIBuilder().setScheme("server").setHost(getServer().getMachineIdentifier())
-					.appendPath("com.plexapp.plugins.library").appendPath("library").appendPath("metadata")
-					.appendPath(Integer.toString(getRatingKey())).build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
 	}
 }

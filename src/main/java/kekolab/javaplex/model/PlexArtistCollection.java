@@ -1,6 +1,13 @@
 package kekolab.javaplex.model;
 
-public interface PlexArtistCollection extends PlexCollection<PlexArtist, PlexMusicSection> {
+import java.util.List;
+
+public interface PlexArtistCollection extends PlexCollection {
 
     String ARTIST_COLLECTION_SUBTYPE = "artist";
+
+    List<PlexArtist> children();
+
+    PlexMusicSection section();
+
 }

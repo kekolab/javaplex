@@ -1,33 +1,35 @@
 package kekolab.javaplex.model;
 
 public interface PlexAudioStream extends PlexStream {
-	int TYPE_ID = 2;
-	
-	String getBitrateMode();
 
-	Double getAlbumGain();
+    int TYPE_ID = 2;
 
-	Double getAlbumPeak();
+    String getBitrateMode();
 
-	Double getAlbumRange();
+    Double getAlbumGain();
 
-	Double getGain();
+    Double getAlbumPeak();
 
-	Double getLoudness();
+    Double getAlbumRange();
 
-	Double getLra();
+    Double getGain();
 
-	Double getPeak();
+    Double getLoudness();
 
-	String getProfile();
+    Double getLra();
 
-	Boolean getSelected();
+    Double getPeak();
 
-	Integer getChannels();
+    String getProfile();
 
-	Integer getSamplingRate();
+    Boolean getSelected();
 
-	String getAudioChannelLayout();
+    Integer getChannels();
 
-	Integer getBitDepth();
+    Integer getSamplingRate();
+
+    String getAudioChannelLayout();
+
+    Integer getBitDepth();
+
 }

@@ -17,7 +17,7 @@ import kekolab.javaplex.model.PlexShow;
 import kekolab.javaplex.model.PlexShowSection;
 import kekolab.javaplex.model.PlexTag;
 
-class Episode extends Video<PlexShowSection> implements PlexEpisode {
+public class Episode extends Video implements PlexEpisode {
 	private Double rating;
 	private String audienceRatingImage;
 	@JsonProperty("Director")
@@ -41,7 +41,12 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 	private UriProvider art, thumb;
 
 	@JsonIgnore
-	private Grandchild<PlexShow, PlexSeason, PlexShowSection> asGrandchild;
+	private Grandchild asGrandchild;
+
+	@Override
+	public PlexShowSection section() {
+		return (PlexShowSection) super.section();
+	}
 
 	public void setParentGuid(String guid) {
 		asGrandchild.setParentGuid(guid);
@@ -111,114 +116,142 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		asGrandchild.setGrandparentThumb(thumb);
 	}
 
+	@Override
 	public PlexSeason parent() {
-		return asGrandchild.parent();
+		return (PlexSeason) asGrandchild.parent();
 	}
 
+	@Override
 	public PlexShow grandparent() {
-		return asGrandchild.grandparent();
+		return (PlexShow) asGrandchild.grandparent();
 	}
 
+	@Override
 	public String getParentGuid() {
 		return asGrandchild.getParentGuid();
 	}
 
+	@Override
 	public Integer getParentIndex() {
 		return asGrandchild.getParentIndex();
 	}
 
+	@Override
 	public String getParentKey() {
 		return asGrandchild.getParentKey();
 	}
 
+	@Override
 	public String getGrandparentArt() {
 		return asGrandchild.getGrandparentArt();
 	}
 
+	@Override
 	public URI parentKey() {
 		return asGrandchild.parentKey();
 	}
 
+	@Override
 	public URI grandparentArt() {
 		return asGrandchild.grandparentArt();
 	}
 
+	@Override
 	public Integer getParentRatingKey() {
 		return asGrandchild.getParentRatingKey();
 	}
 
+	@Override
 	public String getGrandparentGuid() {
 		return asGrandchild.getGrandparentGuid();
 	}
 
+	@Override
 	public URI parentRatingKey() {
 		return asGrandchild.parentRatingKey();
 	}
 
+	@Override
 	public String getGrandparentKey() {
 		return asGrandchild.getGrandparentKey();
 	}
 
+	@Override
 	public String getParentStudio() {
 		return asGrandchild.getParentStudio();
 	}
 
+	@Override
 	public URI grandparentKey() {
 		return asGrandchild.grandparentKey();
 	}
 
+	@Override
 	public String getParentTheme() {
 		return asGrandchild.getParentTheme();
 	}
 
+	@Override
 	public Integer getGrandparentRatingKey() {
 		return asGrandchild.getGrandparentRatingKey();
 	}
 
+	@Override
 	public URI parentTheme() {
 		return asGrandchild.parentTheme();
 	}
 
+	@Override
 	public URI grandparentRatingKey() {
 		return asGrandchild.grandparentRatingKey();
 	}
 
+	@Override
 	public String getParentThumb() {
 		return asGrandchild.getParentThumb();
 	}
 
+	@Override
 	public String getGrandparentTheme() {
 		return asGrandchild.getGrandparentTheme();
 	}
 
+	@Override
 	public URI parentThumb() {
 		return asGrandchild.parentThumb();
 	}
 
+	@Override
 	public String getParentTitle() {
 		return asGrandchild.getParentTitle();
 	}
 
+	@Override
 	public URI grandparentTheme() {
 		return asGrandchild.grandparentTheme();
 	}
 
+	@Override
 	public Integer getParentYear() {
 		return asGrandchild.getParentYear();
 	}
 
+	@Override
 	public String getGrandparentThumb() {
 		return asGrandchild.getGrandparentThumb();
 	}
 
+	@Override
 	public URI grandparentThumb() {
 		return asGrandchild.grandparentThumb();
 	}
 
+	@Override
 	public String getGrandparentTitle() {
 		return asGrandchild.getGrandparentTitle();
 	}
 
+	@Override
 	public Integer getGrandparentYear() {
 		return asGrandchild.getGrandparentYear();
 	}
@@ -231,50 +264,52 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		producers = new ArrayList<>();
 		ratings = new ArrayList<>();
 		thumb = new UriProvider(this::uri);
-		asGrandchild = new Grandchild<PlexShow, PlexSeason, PlexShowSection>() {
+		asGrandchild = new Grandchild() {
 			@Override
 			public int typeId() {
-				return Episode.this.typeId();
-			}
-
-			@Override
-			public PlexEpisodeEditor editor() {
-				return Episode.this.editor();
+				return TYPE_ID;
 			}
 		};
 
 	}
 
+	@Override
 	public List<PlexTag> getWriters() {
 		ensureDetailed(writers);
 		return writers;
 	}
 
+	@Override
 	public Double getRating() {
 		ensureDetailed(rating);
 		return rating;
 	}
 
+	@Override
 	public Double getAudienceRating() {
 		ensureDetailed(audienceRating);
 		return audienceRating;
 	}
 
+	@Override
 	public String getAudienceRatingImage() {
 		ensureDetailed(audienceRatingImage);
 		return audienceRatingImage;
 	}
 
+	@Override
 	public List<PlexTag> getDirectors() {
 		ensureDetailed(directors);
 		return directors;
 	}
 
+	@Override
 	public List<PlexRole> getRoles() {
 		ensureDetailed(roles);
 		return roles;
 	}
 
+	@Override
 	public String getChapterSource() {
 		ensureDetailed(chapterSource);
 		return chapterSource;
@@ -308,11 +343,13 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		this.writers = writers;
 	}
 
+	@Override
 	public List<PlexTag> getProducers() {
 		ensureDetailed(producers);
 		return producers;
 	}
 
+	@Override
 	public List<PlexRating> getRatings() {
 		ensureDetailed(ratings);
 		return ratings;
@@ -326,11 +363,13 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		this.producers = producers;
 	}
 
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
 	}
 
+	@Override
 	public URI art() {
 		ensureDetailed(art.uri());
 		return art.uri();
@@ -340,11 +379,13 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		this.art.setValue(art);
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.uri());
 		return thumb.uri();
@@ -354,10 +395,12 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public Boolean getWritersLocked() {
 		return getFieldLocked("writer");
 	}
 
+	@Override
 	public Boolean getDirectorsLocked() {
 		return getFieldLocked("director");
 	}
@@ -369,6 +412,6 @@ class Episode extends Video<PlexShowSection> implements PlexEpisode {
 
 	@Override
 	public int typeId() {
-		return PlexEpisode.super.typeId();
+		return TYPE_ID;
 	}
 }

@@ -3,30 +3,58 @@ package kekolab.javaplex.model;
 import java.net.URI;
 import java.util.List;
 
-public interface PlexClip extends PlexChild<PlexPhotoalbum, PlexPhotoSection>, PlexVideo<PlexPhotoSection> {
-	int TYPE_ID = 14;
-	String TYPE_DESCRIPTION = "clip";
+public interface PlexClip extends PlexVideo, PlexChild {
+    int TYPE_ID = 14;
+    String TYPE_DESCRIPTION = "clip";
 
-	Integer getCreatedAtTZOffset();
+    PlexPhotoalbum parent();
 
-	List<String> getCreatedAtAccuracy();
+    String getParentGuid();
 
-	String getSubtype();
+    Integer getParentIndex();
 
-	String getTagline();
+    String getParentKey();
 
-	String getArt();
+    URI parentKey();
 
-	URI art();
+    Integer getParentRatingKey();
 
-	String getThumb();
+    URI parentRatingKey();
 
-	URI thumb();
+    String getParentStudio();
 
-	default int typeId() {
-		return TYPE_ID;
-	}
+    String getParentTheme();
 
-	@Override
-	PlexClipEditor editor();
+    URI parentTheme();
+
+    String getParentThumb();
+
+    URI parentThumb();
+
+    String getParentTitle();
+
+    Integer getParentYear();
+
+    Integer getCreatedAtTZOffset();
+
+    List<String> getCreatedAtAccuracy();
+
+    String getSubtype();
+
+    String getTagline();
+
+    String getArt();
+
+    URI art();
+
+    String getThumb();
+
+    URI thumb();
+
+    int typeId();
+
+    PlexClipEditor editor();
+
+    PlexPhotoSection section();
+
 }

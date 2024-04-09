@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlexEpisodeEditor extends PlexVideoEditor {
-    void setDirectors(List<String> directors, Optional<Boolean> lock);
-    void setWriters(List<String> writers, Optional<Boolean> lock);
+
+    void setWriters(List<String> values, Optional<Boolean> lock);
+
+    void setDirectors(List<String> values, Optional<Boolean> lock);
+
 }

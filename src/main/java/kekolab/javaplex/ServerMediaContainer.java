@@ -2,7 +2,7 @@ package kekolab.javaplex;
 
 import java.net.URI;
 
-class ServerMediaContainer extends MediaContainer {
+public class ServerMediaContainer extends MediaContainer {
 	private MediaServer server;
 
 	public ServerMediaContainer(URI uri, MediaServer server) {

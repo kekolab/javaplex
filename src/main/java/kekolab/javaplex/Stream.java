@@ -6,9 +6,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.IntegerListDeserializer;
 import kekolab.javaplex.model.PlexStream;
 
-class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
+public class Stream extends MediatagAttribute implements PlexStream  { // TODO abstract?
 	@JsonDeserialize(using = IntegerListDeserializer.class)
 	private List<Integer> requiredBandwidths;
 	@JsonProperty("default")
@@ -31,6 +32,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 	private String decision;
 	private String location;
 
+	@Override
 	public String getDecision() {
 		return decision;
 	}
@@ -39,6 +41,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.decision = decision;
 	}
 
+	@Override
 	public String getLocation() {
 		return location;
 	}
@@ -51,31 +54,37 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		requiredBandwidths = new ArrayList<>();
 	}
 
+	@Override
 	public Boolean getDefault() {
 		ensureDetailed(_default);
 		return _default;
 	}
 
+	@Override
 	public String getCodec() {
 		ensureDetailed(codec);
 		return codec;
 	}
 
+	@Override
 	public Integer getId() {
 		ensureDetailed(id);
 		return id;
 	}
 
+	@Override
 	public Integer getStreamType() {
 		ensureDetailed(streamType);
 		return streamType;
 	}
 
+	@Override
 	public Integer getIndex() {
 		ensureDetailed(index);
 		return index;
 	}
 
+	@Override
 	public String getKey() {
 		ensureDetailed(key);
 		return key;
@@ -85,6 +94,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.key = key;
 	}
 
+	@Override
 	public Integer getBitrate() {
 		ensureDetailed(bitrate);
 		return bitrate;
@@ -94,6 +104,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.bitrate = bitrate;
 	}
 
+	@Override
 	public Boolean getForced() {
 		ensureDetailed(forced);
 		return forced;
@@ -103,6 +114,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.forced = forced;
 	}
 
+	@Override
 	public String getDisplayTitle() {
 		ensureDetailed(displayTitle);
 		return displayTitle;
@@ -112,6 +124,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.displayTitle = displayTitle;
 	}
 
+	@Override
 	public Boolean getHeaderCompression() {
 		ensureDetailed(headerCompression);
 		return headerCompression;
@@ -121,16 +134,19 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.headerCompression = headerCompression;
 	}
 
+	@Override
 	public String getLanguage() {
 		ensureDetailed(language);
 		return language;
 	}
 
+	@Override
 	public String getLanguageCode() {
 		ensureDetailed(languageCode);
 		return languageCode;
 	}
 
+	@Override
 	public String getLanguageTag() {
 		ensureDetailed(languageTag);
 		return languageTag;
@@ -148,6 +164,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.languageTag = languageTag;
 	}
 
+	@Override
 	public String getExtendedDisplayTitle() {
 		ensureDetailed(extendedDisplayTitle);
 		return extendedDisplayTitle;
@@ -157,6 +174,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.extendedDisplayTitle = extendedDisplayTitle;
 	}
 
+	@Override
 	public String getTitle() {
 		ensureDetailed(title);
 		return title;
@@ -166,6 +184,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.title = title;
 	}
 
+	@Override
 	public Integer getStreamIdentifier() {
 		ensureDetailed(streamIdentifier);
 		return streamIdentifier;
@@ -175,6 +194,7 @@ class Stream extends MediatagAttribute implements PlexStream { // TODO abstract?
 		this.streamIdentifier = streamIdentifier;
 	}
 
+	@Override
 	public List<Integer> getRequiredBandwidths() {
 		ensureDetailed(requiredBandwidths);
 		return requiredBandwidths;

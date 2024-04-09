@@ -9,16 +9,23 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.IntegerListDeserializer;
+import kekolab.javaplex.mappers.StringListDeserializer;
+import kekolab.javaplex.mappers.TimestampDeserializer;
+import kekolab.javaplex.model.PlexLibrary;
 import kekolab.javaplex.model.PlexMediaServer;
+import kekolab.javaplex.model.PlexPlaylists;
 import kekolab.javaplex.model.PlexServer;
 import kekolab.javaplex.model.PlexServerShares;
+import kekolab.javaplex.model.PlexStatus;
+import kekolab.javaplex.model.PlexTranscode;
 
 /**
  * This class represents a Plex Media Server (public or local) and maps the XML
  * that the client receive when a GET to the homepage of the server is executed
  *
  */
-class MediaServer extends MediaContainer implements PlexMediaServer {
+public class MediaServer extends MediaContainer implements PlexMediaServer {
 	private Boolean allowCameraUpload;
 	private Boolean allowChannelAccess;
 	private Boolean allowMediaDeletion;
@@ -79,55 +86,65 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 		super(uri, client, token);
 	}
 
+	@Override
 	public Boolean getAllowCameraUpload() {
 		ensureFetched(allowCameraUpload);
 		return allowCameraUpload;
 	}
 
+	@Override
 	public Boolean getAllowChannelAccess() {
 		ensureFetched(allowChannelAccess);
 		return allowChannelAccess;
 	}
 
+	@Override
 	public Boolean getAllowMediaDeletion() {
 		ensureFetched(allowMediaDeletion);
 		return allowMediaDeletion;
 	}
 
+	@Override
 	public Boolean getAllowSharing() {
 		ensureFetched(allowSharing);
 		return allowSharing;
 	}
 
+	@Override
 	public Boolean getAllowSync() {
 		ensureFetched(allowSync);
 		return allowSync;
 	}
 
+	@Override
 	public Boolean getAllowTuners() {
 		ensureFetched(allowTuners);
 		return allowTuners;
 	}
 
 
+	@Override
 	public Boolean getBackgroundProcessing() {
 		ensureFetched(backgroundProcessing);
 		return backgroundProcessing;
 	}
 
 
+	@Override
 	public Boolean getCertificate() {
 		ensureFetched(certificate);
 		return certificate;
 	}
 
 	
+	@Override
 	public Boolean getCompanionProxy() {
 		ensureFetched(companionProxy);
 		return companionProxy;
 	}
 
 
+	@Override
 	public String getCountryCode() {
 		ensureFetched(countryCode);
 		return countryCode;
@@ -135,30 +152,35 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 	
 
+	@Override
 	public List<String> getDiagnostics() {
 		ensureFetched(diagnostics);
 		return diagnostics;
 	}
 
 	
+	@Override
 	public Boolean getEventStream() {
 		ensureFetched(eventStream);
 		return eventStream;
 	}
 
 
+	@Override
 	public String getFriendlyName() {
 		ensureFetched(friendlyName);
 		return friendlyName;
 	}
 
 	
+	@Override
 	public Boolean getHubSearch() {
 		ensureFetched(hubSearch);
 		return hubSearch;
 	}
 
 	
+	@Override
 	public Boolean getItemClusters() {
 		ensureFetched(itemClusters);
 		return itemClusters;
@@ -166,44 +188,52 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 	
 
+	@Override
 	public Integer getLivetv() {
 		ensureFetched(livetv);
 		return livetv;
 	}
 
 	
+	@Override
 	public String getMachineIdentifier() {
 		ensureFetched(machineIdentifier);
 		return machineIdentifier;
 	}
 
+	@Override
 	public Boolean getMediaProviders() {
 		ensureFetched(mediaProviders);
 		return mediaProviders;
 	}
 
 
+	@Override
 	public Boolean getMultiuser() {
 		ensureFetched(multiuser);
 		return multiuser;
 	}
 
+	@Override
 	public Boolean getMyPlex() {
 		ensureFetched(myPlex);
 		return myPlex;
 	}
 
+	@Override
 	public String getMyPlexMappingState() {
 		ensureFetched(myPlexMappingState);
 		return myPlexMappingState;
 	}
 
 
+	@Override
 	public String getMyPlexSigninState() {
 		ensureFetched(myPlexSigninState);
 		return myPlexSigninState;
 	}
 
+	@Override
 	public Boolean getMyPlexSubscription() {
 		ensureFetched(myPlexSubscription);
 		return myPlexSubscription;
@@ -211,48 +241,57 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public String getMyPlexUsername() {
 		ensureFetched(myPlexUsername);
 		return myPlexUsername;
 	}
 
+	@Override
 	public Integer getOfflineTranscode() {
 		ensureFetched(offlineTranscode);
 		return offlineTranscode;
 	}
 
 
+	@Override
 	public List<String> getOwnerFeatures() {
 		ensureFetched(ownerFeatures);
 		return ownerFeatures;
 	}
 
 
+	@Override
 	public Boolean getPhotoAutoTag() {
 		ensureFetched(photoAutoTag);
 		return photoAutoTag;
 	}
 
+	@Override
 	public String getPlatform() {
 		ensureFetched(platform);
 		return platform;
 	}
 
+	@Override
 	public String getPlatformVersion() {
 		ensureFetched(platformVersion);
 		return platformVersion;
 	}
 
+	@Override
 	public Boolean getPluginHost() {
 		ensureFetched(pluginHost);
 		return pluginHost;
 	}
 
+	@Override
 	public Boolean getPushNotifications() {
 		ensureFetched(pushNotifications);
 		return pushNotifications;
 	}
 
+	@Override
 	public Boolean getReadOnlyLibraries() {
 		ensureFetched(readOnlyLibraries);
 		return readOnlyLibraries;
@@ -260,6 +299,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Integer getRequestParametersInCookie() {
 		ensureFetched(requestParametersInCookie);
 		return requestParametersInCookie;
@@ -267,6 +307,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Integer getStreamingBrainABRVersion() {
 		ensureFetched(streamingBrainABRVersion);
 		return streamingBrainABRVersion;
@@ -274,12 +315,14 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 	
 
+	@Override
 	public Integer getStreamingBrainVersion() {
 		ensureFetched(streamingBrainVersion);
 		return streamingBrainVersion;
 	}
 
 
+	@Override
 	public Boolean getSync() {
 		ensureFetched(sync);
 		return sync;
@@ -287,6 +330,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Integer getTranscoderActiveVideoSessions() {
 		ensureFetched(transcoderActiveVideoSessions);
 		return transcoderActiveVideoSessions;
@@ -294,6 +338,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Boolean getTranscoderAudio() {
 		ensureFetched(transcoderAudio);
 		return transcoderAudio;
@@ -301,12 +346,14 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Boolean getTranscoderLyrics() {
 		ensureFetched(transcoderLyrics);
 		return transcoderLyrics;
 	}
 
 	
+	@Override
 	public Boolean getTranscoderPhoto() {
 		ensureFetched(transcoderPhoto);
 		return transcoderPhoto;
@@ -314,6 +361,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Boolean getTranscoderSubtitles() {
 		ensureFetched(transcoderSubtitles);
 		return transcoderSubtitles;
@@ -321,6 +369,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Boolean getTranscoderVideo() {
 		ensureFetched(transcoderVideo);
 		return transcoderVideo;
@@ -328,6 +377,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public List<Integer> getTranscoderVideoBitrates() {
 		ensureFetched(transcoderVideoBitrates);
 		return transcoderVideoBitrates;
@@ -335,6 +385,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public List<Integer> getTranscoderVideoQualities() {
 		ensureFetched(transcoderVideoQualities);
 		return transcoderVideoQualities;
@@ -342,6 +393,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public List<Integer> getTranscoderVideoResolutions() {
 		ensureFetched(transcoderVideoResolutions);
 		return transcoderVideoResolutions;
@@ -349,6 +401,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Date getUpdatedAt() {
 		ensureFetched(updatedAt);
 		return updatedAt;
@@ -356,6 +409,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public Boolean getUpdater() {
 		ensureFetched(updater);
 		return updater;
@@ -363,12 +417,14 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 
 
 
+	@Override
 	public String getVersion() {
 		ensureFetched(version);
 		return version;
 	}
 
 
+	@Override
 	public Boolean getVoiceSearch() {
 		ensureFetched(voiceSearch);
 		return voiceSearch;
@@ -570,7 +626,8 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 		this.voiceSearch = voiceSearch;
 	}
 
-	public Library library() {
+	@Override
+	public PlexLibrary library() {
 		try {
 			return new Library(this);
 		} catch (URISyntaxException e) {
@@ -578,7 +635,8 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 		}
 	}
 
-	public Status status() {
+	@Override
+	public PlexStatus status() {
 		try {
 			return new Status(this);
 		} catch (URISyntaxException e) {
@@ -586,6 +644,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 		}
 	}
 
+	@Override
 	public PlexServer toPlexServer() {
 		if (getToken().isPresent())
 			try {
@@ -596,6 +655,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 		throw new PlexException("Cannot call this method without a token");
 	}
 
+	@Override
 	public PlexServerShares serverShares() {
 		try {
 			return new ServerShares(getClient(), getToken().get(), getMachineIdentifier());
@@ -604,7 +664,8 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 		}
 	}
 
-	public Transcode transcode() {
+	@Override
+	public PlexTranscode transcode() {
 		try {
 			return new Transcode(this);
 		} catch (URISyntaxException e) {
@@ -613,19 +674,7 @@ class MediaServer extends MediaContainer implements PlexMediaServer {
 	}
 
 	@Override
-	public Playlists playlists() {
+	public PlexPlaylists playlists() {
 		return new Playlists(this);
 	}
-
-	// public List<PlexMediatag> search(String query, MediaType type) {
-	// if (query == null || query.isBlank())
-	// return Collections.emptyList();
-	// URIBuilder uri = new
-	// URIBuilder(uri()).appendPath("search").addParameter("query", query);
-	// if (type != null)
-	// uri.addParameter("type", Integer.toString(type.getId()));
-	// return new PlexMetadataContainer(uri.build(), getClient(), getToken(),
-	// this).getMetadata().stream()
-	// .filter(m -> m instanceof PlexMediatag).map(m -> (PlexMediatag) m).toList();
-	// }
 }

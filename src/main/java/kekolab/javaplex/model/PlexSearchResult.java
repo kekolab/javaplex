@@ -2,7 +2,8 @@ package kekolab.javaplex.model;
 
 public interface PlexSearchResult {
 
-	Double getScore();
+    Double getScore();
 
-	PlexMetadata getItem();
+    PlexMetadata getItem();
+
 }

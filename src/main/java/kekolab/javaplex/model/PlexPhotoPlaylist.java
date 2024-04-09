@@ -1,7 +1,7 @@
 package kekolab.javaplex.model;
 
-public interface PlexPhotoPlaylist extends PlexPlaylist<PlexMediatag<PlexPhotoSection>> {
+public interface PlexPhotoPlaylist extends PlexPlaylist {
 
-	String SUBTYPE_DESCRIPTION = "photo";
+    String SUBTYPE_DESCRIPTION = "photo";
 
 }

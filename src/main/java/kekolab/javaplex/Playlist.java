@@ -9,13 +9,13 @@ import org.apache.hc.core5.net.URIBuilder;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.TimestampDeserializer;
+import kekolab.javaplex.model.PlexDirectory;
 import kekolab.javaplex.model.PlexMediatag;
 import kekolab.javaplex.model.PlexPlaylist;
 import kekolab.javaplex.model.PlexPlaylistEditor;
 
-abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements PlexPlaylist<M> {
-	public static final String TYPE_DESCRIPTION = "playlist";
-
+public abstract class Playlist extends Metadata implements PlexPlaylist {
 	private Long duration;
 	@JsonDeserialize(using = TimestampDeserializer.class)
 	private Date lastViewedAt;
@@ -35,7 +35,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Playlist<?> p = (Playlist<?>) source;
+		PlexPlaylist p = (PlexPlaylist) source;
 		setDuration(p.getDuration());
 		setLastViewedAt(p.getLastViewedAt());
 		setLeafCount(p.getLeafCount());
@@ -46,6 +46,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		setComposite(p.getComposite());
 	}
 
+	@Override
 	public Boolean getSmart() {
 		ensureDetailed(smart);
 		return smart;
@@ -55,6 +56,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		this.smart = smart;
 	}
 
+	@Override
 	public String getPlaylistType() {
 		ensureDetailed(playlistType);
 		return playlistType;
@@ -64,6 +66,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		this.playlistType = playlistType;
 	}
 
+	@Override
 	public Date getLastViewedAt() {
 		ensureDetailed(lastViewedAt);
 		return lastViewedAt;
@@ -73,6 +76,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		this.lastViewedAt = lastViewedAt;
 	}
 
+	@Override
 	public Long getDuration() {
 		ensureDetailed(duration);
 		return duration;
@@ -82,6 +86,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		this.duration = duration;
 	}
 
+	@Override
 	public Integer getLeafCount() {
 		ensureDetailed(leafCount);
 		return leafCount;
@@ -91,11 +96,13 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		this.leafCount = leafCount;
 	}
 
+	@Override
 	public String getComposite() {
 		ensureDetailed(composite.getValue());
 		return (String) composite.getValue();
 	}
 
+	@Override
 	public URI composite() {
 		ensureDetailed(composite.uri());
 		return composite.uri();
@@ -105,8 +112,9 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		this.composite.setValue(composite);
 	}
 
-	public List<M> children() {
-		return new MetadataContainer<M, Directory>(key(), getServer()).getMetadata();
+	@Override
+	public List<? extends PlexMediatag> children() {
+		return new MetadataContainer<PlexMediatag, PlexDirectory>(key(), getServer()).getMetadata();
 	}
 
 	@Override
@@ -122,6 +130,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		return null;
 	}
 
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
@@ -136,6 +145,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		return art.uri();
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
@@ -145,6 +155,7 @@ abstract class Playlist<M extends PlexMediatag<?>> extends Metadata implements P
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.getValue());
 		return thumb.uri();

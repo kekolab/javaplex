@@ -2,9 +2,10 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexGuid;
 
-class Guid extends MediatagAttribute implements PlexGuid {
+public class Guid extends MediatagAttribute implements PlexGuid  {
 	private String id;
 
+	@Override
 	public String getId() {
 		ensureDetailed(id);
 		return id;

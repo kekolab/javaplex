@@ -4,70 +4,95 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
-public interface PlexShow extends PlexGrandparent<PlexSeason, PlexEpisode, PlexShowSection> {
-	int TYPE_ID = 2;
-	String TYPE_DESCRIPTION = "show";
 
-	String getStudio();
 
-	String getContentRating();
+public interface PlexShow extends PlexMediatag, PlexGrandparent {
+    int TYPE_ID = 2;
+    String TYPE_DESCRIPTION = "show";
 
-	Double getRating();
+    PlexFilterableString TITLE = () -> "show.title";
+    PlexFilterableString STUDIO = () -> "show.title";
+    PlexFilterableTag NETWORK = () -> "show.network";
+    PlexFilterableTag COUNTRY = () -> "show.country";
+    PlexFilterableInteger RATING = () -> "show.userRating";
+    PlexFilterableTag CONTENT_RATING = () -> "show.contentRating";
+    PlexFilterableInteger YEAR = () -> "show.year";
+    PlexFilterableInteger PLAYS = () -> "show.viewCount";
+    PlexFilterableDate LAST_PLAYED = () -> "show.lastViewedAt";
+    PlexFilterableTag GENRE = () -> "show.genre";
+    PlexFilterableTag COLLECTION = () -> "show.collection";
+    PlexFilterableTag DIRECTOR = () -> "show.director";
+    PlexFilterableTag WRITER = () -> "show.writer";
+    PlexFilterableTag PRODUCER = () -> "show.producer";
+    PlexFilterableTag ACTOR = () -> "show.actor";
+    PlexFilterableDate DATE_ADDED = () -> "show.addedAt";
+    PlexFilterableBoolean UNMATCHED = () -> "show.unmatched";
+    PlexFilterableBoolean UNPLAYED_EPISODES = () -> "show.unwatchedLeaves";
+    PlexFilterableString LABEL = () -> "show.label";
 
-	Integer getYear();
+    String getStudio();
 
-	Long getDuration();
+    String getContentRating();
 
-	Integer getLeafCount();
+    Double getRating();
 
-	Integer getViewedLeafCount();
+    Integer getYear();
 
-	Integer getChildCount();
+    Long getDuration();
 
-	List<PlexTag> getGenres();
+    Integer getLeafCount();
 
-	String getBanner();
+    Integer getViewedLeafCount();
 
-	String getTheme();
+    Integer getChildCount();
 
-	Date getOriginallyAvailableAt();
+    List<PlexTag> getGenres();
 
-	List<PlexRole> getRoles();
+    String getBanner();
 
-	String getOriginalTitle();
+    String getTheme();
 
-	Double getAudienceRating();
+    Date getOriginallyAvailableAt();
 
-	String getTagline();
+    List<PlexRole> getRoles();
 
-	String getAudienceRatingImage();
+    String getOriginalTitle();
 
-	List<PlexTag> getCountries();
+    Double getAudienceRating();
 
-	List<PlexLocation> getLocations();
+    String getTagline();
 
-	List<PlexTag> getSimilars();
+    String getAudienceRatingImage();
 
-	List<PlexRating> getRatings();
+    List<PlexTag> getCountries();
 
-	URI banner();
+    List<PlexLocation> getLocations();
 
-	URI theme();
+    List<PlexTag> getSimilars();
 
-	String getArt();
+    List<PlexRating> getRatings();
 
-	URI art();
+    List<PlexSeason> children();
 
-	String getThumb();
+    List<PlexEpisode> grandchildren();
 
-	URI thumb();
+    URI banner();
 
-	Boolean getGenresLocked();
+    URI theme();
 
-	default int typeId() {
-		return TYPE_ID;
-	}
+    PlexShowSection section();
 
-	@Override
-	PlexShowEditor editor();
+    String getArt();
+
+    URI art();
+
+    String getThumb();
+
+    URI thumb();
+
+    Boolean getGenresLocked();
+
+    int typeId();
+
+    PlexShowEditor editor();
 }

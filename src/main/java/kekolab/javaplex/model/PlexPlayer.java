@@ -1,6 +1,7 @@
 package kekolab.javaplex.model;
 
 public interface PlexPlayer {
+
     String getAddress();
 
     String getDevice();
@@ -34,4 +35,5 @@ public interface PlexPlayer {
     Boolean getSecure();
 
     Integer getUserID();
+
 }

@@ -5,58 +5,49 @@ import kekolab.javaplex.model.PlexAlbumCollection;
 import kekolab.javaplex.model.PlexArtist;
 import kekolab.javaplex.model.PlexArtistCollection;
 import kekolab.javaplex.model.PlexMusicCollections;
-import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTrack;
 import kekolab.javaplex.model.PlexTrackCollection;
 
-class MusicCollections extends Collections<PlexMusicSection> implements PlexMusicCollections {
+public class MusicCollections extends Collections implements PlexMusicCollections {
 
-    MusicCollections(MusicSection section) {
+    protected MusicCollections(MusicSection section) {
         super(section);
     }
 
-    @Override
     public PlexArtistCollection create(String title, PlexArtist artist) {
         return (PlexArtistCollection) super.create(title, artist);
     }
 
-    @Override
-    public PlexArtistCollection add(PlexArtist artist, PlexArtistCollection collection) {
-        return (PlexArtistCollection) super.add(artist, collection);
-    }
-
-    @Override
-    public PlexArtistCollection remove(PlexArtist artist, PlexArtistCollection collection) {
-        return (PlexArtistCollection) super.remove(artist, collection);
-    }
-
-    @Override
     public PlexAlbumCollection create(String title, PlexAlbum album) {
         return (PlexAlbumCollection) super.create(title, album);
     }
 
-    @Override
-    public PlexAlbumCollection add(PlexAlbum album, PlexAlbumCollection collection) {
-        return (PlexAlbumCollection) super.add(album, collection);
-    }
-
-    @Override
-    public PlexAlbumCollection remove(PlexAlbum album, PlexAlbumCollection collection) {
-        return (PlexAlbumCollection) super.remove(album, collection);
-    }
-
-    @Override
     public PlexTrackCollection create(String title, PlexTrack track) {
         return (PlexTrackCollection) super.create(title, track);
     }
 
-    @Override
-    public PlexTrackCollection add(PlexTrack track, PlexTrackCollection collection) {
-        return (PlexTrackCollection) super.add(track, collection);
+    public PlexArtistCollection add(PlexArtistCollection collection, PlexArtist artist) {
+        return (PlexArtistCollection) super.add(collection, artist);
     }
 
-    @Override
-    public PlexTrackCollection remove(PlexTrack track, PlexTrackCollection collection) {
-        return (PlexTrackCollection) super.remove(track, collection);
+    public PlexAlbumCollection add(PlexAlbumCollection collection, PlexAlbum album) {
+        return (PlexAlbumCollection) super.add(collection, album);
     }
+
+    public PlexTrackCollection add(PlexTrackCollection collection, PlexTrack track) {
+        return (PlexTrackCollection) super.add(collection, track);
+    }
+
+    public PlexArtistCollection remove(PlexArtistCollection collection, PlexArtist artist) {
+        return (PlexArtistCollection) super.remove(collection, artist);
+    }
+
+    public PlexAlbumCollection remove(PlexAlbumCollection collection, PlexAlbum album) {
+        return (PlexAlbumCollection) super.remove(collection, album);
+    }
+
+    public PlexTrackCollection remove(PlexTrackCollection collection, PlexTrack track) {
+        return (PlexTrackCollection) super.remove(collection, track);
+    }
+
 }

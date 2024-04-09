@@ -1,7 +1,12 @@
 package kekolab.javaplex.model;
 
-public interface PlexMovieCollections extends PlexCollections<PlexMovieSection> {
-    PlexMovieCollection create(String title, PlexMovie movie);
-    PlexMovieCollection add(PlexMovie movie, PlexMovieCollection collection);
-    PlexMovieCollection remove(PlexMovie movie, PlexMovieCollection collection);
+
+public interface PlexMovieCollections extends PlexCollections {
+
+    PlexMovieCollection create(String title, PlexMovie item);
+
+    PlexMovieCollection add(PlexMovieCollection collection, PlexMovie movie);
+
+    PlexMovieCollection remove(PlexMovieCollection collection, PlexMovie movie);
+
 }

@@ -4,8 +4,8 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
-// TODO Should All and RecentlyAdded extend PlexMediatag or PlexSectionItem?
-public interface PlexSection<All extends PlexMediatag<?>, RecentlyAdded extends PlexMediatag<?>> extends PlexDirectory {
+public interface PlexSection extends PlexDirectory {
+
     String getArt();
 
     URI art();
@@ -50,7 +50,10 @@ public interface PlexSection<All extends PlexMediatag<?>, RecentlyAdded extends 
 
     Integer getHidden();
 
-    List<All> all();
+    PlexSectionQueryBuilder<?> all();
 
-    List<RecentlyAdded> recentlyAdded();
+    List<? extends PlexMediatag> recentlyAdded();
+
+    URI key();
+
 }

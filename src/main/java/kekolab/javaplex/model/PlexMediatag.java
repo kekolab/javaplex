@@ -1,15 +1,11 @@
 package kekolab.javaplex.model;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.hc.core5.net.URIBuilder;
+public interface PlexMediatag extends PlexSectionItem {
 
-import kekolab.javaplex.PlexException;
-
-public interface PlexMediatag<S extends PlexSection<?, ?>> extends PlexSectionItem<S> {
     Boolean getAllowSync();
 
     Double getUserRating();
@@ -30,6 +26,8 @@ public interface PlexMediatag<S extends PlexSection<?, ?>> extends PlexSectionIt
 
     Date getLastRatedAt();
 
+    URI ratingKey();
+
     PlexUser getUser();
 
     PlexPlayer getPlayer();
@@ -40,13 +38,4 @@ public interface PlexMediatag<S extends PlexSection<?, ?>> extends PlexSectionIt
 
     Integer getSessionKey();
 
-    default URI serverSchemeUri(PlexMediaServer server) {
-		try {
-			return new URIBuilder().setScheme("server").setHost(server.getMachineIdentifier())
-					.appendPath("com.plexapp.plugins.library").appendPath("library").appendPath("metadata")
-					.appendPath(Integer.toString(getRatingKey())).build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-	}
 }

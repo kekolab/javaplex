@@ -1,20 +1,20 @@
 package kekolab.javaplex;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import kekolab.javaplex.model.PlexInviteRequest;
+import kekolab.javaplex.model.PlexSharedServer;
 import kekolab.javaplex.model.PlexSharingSettings;
 
-class InviteRequest extends BaseItem {
+public class InviteRequest extends BaseItem implements PlexInviteRequest {
     @JsonProperty("server_id")
     private String serverId;
     @JsonProperty("shared_server")
-    private InviteRequest.SharedServer sharedServer;
+    private PlexSharedServer sharedServer;
     @JsonProperty("sharing_settings")
     private PlexSharingSettings sharingSettings;
 
+    @Override
     public String getServerId() {
         return serverId;
     }
@@ -23,46 +23,21 @@ class InviteRequest extends BaseItem {
         this.serverId = serverId;
     }
 
-    public InviteRequest.SharedServer getSharedServer() {
+    @Override
+    public PlexSharedServer getSharedServer() {
         return sharedServer;
     }
 
-    public void setSharedServer(InviteRequest.SharedServer sharedServer) {
+    public void setSharedServer(PlexSharedServer sharedServer) {
         this.sharedServer = sharedServer;
     }
 
+    @Override
     public PlexSharingSettings getSharingSettings() {
         return sharingSettings;
     }
 
     public void setSharingSettings(PlexSharingSettings sharingSettings) {
         this.sharingSettings = sharingSettings;
-    }
-
-    public static class SharedServer {
-        @JsonProperty("library_section_ids")
-        private List<Integer> librarySectionIds;
-        @JsonProperty("invited_email")
-        private String invitedEmail;
-
-        public List<Integer> getLibrarySectionIds() {
-            return librarySectionIds;
-        }
-
-        public void setLibrarySectionIds(List<Integer> librarySectionIds) {
-            this.librarySectionIds = librarySectionIds;
-        }
-
-        public String getInvitedEmail() {
-            return invitedEmail;
-        }
-
-        public void setInvitedEmail(String invitedEmail) {
-            this.invitedEmail = invitedEmail;
-        }
-
-        public SharedServer() {
-            librarySectionIds = new ArrayList<>();
-        }
     }
 }

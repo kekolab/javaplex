@@ -1,0 +1,5 @@
+package kekolab.javaplex.model;
+
+public interface PlexArtistOrAlbumOrTrackSecondaryDirectory extends PlexArtistSecondaryDirectory, PlexAlbumSecondaryDirectory, PlexTrackSecondaryDirectory {
+
+}

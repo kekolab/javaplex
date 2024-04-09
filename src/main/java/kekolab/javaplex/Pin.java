@@ -13,7 +13,7 @@ import kekolab.javaplex.model.PlexPin;
  * @see PlexAuthenticator
  *
  */
-class Pin extends BaseItem implements PlexPin {
+public class Pin extends BaseItem implements PlexPin {
 	@JsonProperty
 	private Integer id;
 	@JsonProperty
@@ -36,6 +36,7 @@ class Pin extends BaseItem implements PlexPin {
 	 * @return the id of this pin
 	 */
 
+	@Override
 	public Integer getId() {
 		return id;
 	}
@@ -46,6 +47,7 @@ class Pin extends BaseItem implements PlexPin {
 	 *         <code>https://plex.tv/link</code>
 	 */
 
+	@Override
 	public String getCode() {
 		return code;
 	}
@@ -55,6 +57,7 @@ class Pin extends BaseItem implements PlexPin {
 	 * @return the expiration date of this pin
 	 */
 
+	@Override
 	public Date getExpiresAt() {
 		return expiresAt;
 	}
@@ -64,6 +67,7 @@ class Pin extends BaseItem implements PlexPin {
 	 * @return the client identifier of this pin
 	 */
 
+	@Override
 	public String getClientIdentifier() {
 		return clientIdentifier;
 	}
@@ -73,6 +77,7 @@ class Pin extends BaseItem implements PlexPin {
 	 * @return the trusted attribute of this pin
 	 */
 
+	@Override
 	public Boolean getTrusted() {
 		return trusted;
 	}
@@ -82,6 +87,7 @@ class Pin extends BaseItem implements PlexPin {
 	 * @return the user id of this pin
 	 */
 
+	@Override
 	public Integer getUserId() {
 		return userId;
 	}
@@ -91,6 +97,7 @@ class Pin extends BaseItem implements PlexPin {
 	 * @return the authentication token associated with this pin
 	 */
 
+	@Override
 	public String getAuthToken() {
 		return authToken;
 	}
@@ -100,6 +107,7 @@ class Pin extends BaseItem implements PlexPin {
 	 * @return the authentication token associated with this pin
 	 */
 
+	@Override
 	public String getAuth_Token() {
 		return auth_Token;
 	}

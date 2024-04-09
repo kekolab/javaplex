@@ -2,15 +2,17 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexLocation;
 
-class Location extends MediatagAttribute implements PlexLocation {
+public class Location extends MediatagAttribute implements PlexLocation {
 	private String path;
 	private Integer id;
 
+	@Override
 	public String getPath() {
 		ensureDetailed(path);
 		return path;
 	}
 
+	@Override
 	public Integer getId() {
 		ensureDetailed(id);
 		return id;

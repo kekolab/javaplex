@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface PlexMediaServer {
+
     Boolean getAllowCameraUpload();
 
     Boolean getAllowChannelAccess();
@@ -113,4 +114,5 @@ public interface PlexMediaServer {
     PlexTranscode transcode();
 
     PlexPlaylists playlists();
+
 }

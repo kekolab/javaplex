@@ -2,19 +2,22 @@ package kekolab.javaplex.model;
 
 import java.net.URI;
 
-// TODO Should be splitted in different classes... Chapter, Review, Tag, ...
 public interface PlexTag {
-	Integer getCount();
 
-	String getThumb();
+    Integer getCount();
 
-	URI thumb();
+    String getThumb();
 
-	String getFilter();
+    URI thumb();
 
-	String getTag();
+    Integer getId();
 
-	String getPath();
+    String getFilter();
 
-	String getTagKey();
+    String getTag();
+
+    String getPath();
+
+    String getTagKey();
+
 }

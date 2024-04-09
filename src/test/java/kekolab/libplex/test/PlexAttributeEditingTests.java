@@ -2,7 +2,6 @@ package kekolab.libplex.test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +20,12 @@ public class PlexAttributeEditingTests extends PlexMediaServerTests {
     @BeforeEach
     public void init() {
         artist = getServer().library().sections().stream().filter(PlexMusicSection.class::isInstance)
-                .map(PlexMusicSection.class::cast).findFirst().get().all().get(0);
+                .map(PlexMusicSection.class::cast).findFirst().get().all().execute().get(0);
     }
 
     @Test
     public void editCountry() {
-        List<PlexTag> originalCountries = new ArrayList<>(artist.getCountries());
+        List<PlexTag> originalCountries = artist.getCountries();
         PlexArtistEditor editor = artist.editor();
         editor.setCountries(Collections.emptyList(), Optional.empty());
         editor.commit();

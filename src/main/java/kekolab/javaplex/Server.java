@@ -11,10 +11,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
+import kekolab.javaplex.mappers.BooleanDeserializer;
+import kekolab.javaplex.mappers.TimestampDeserializer;
 import kekolab.javaplex.model.PlexServer;
 import kekolab.javaplex.model.PlexServerShares;
 
-class Server extends BaseItem implements PlexServer {
+public class Server extends BaseItem implements PlexServer {
 	private String accessToken;
 	private String name;
 	private String address;
@@ -78,7 +80,7 @@ class Server extends BaseItem implements PlexServer {
 		}
 	}
 
-	void update(Server server) {
+	void update(PlexServer server) {
 		setAccessToken(server.getAccessToken());
 		setAddress(server.getAddress());
 		setCreatedAt(server.getCreatedAt());
@@ -95,11 +97,13 @@ class Server extends BaseItem implements PlexServer {
 		setVersion(server.getVersion());
 	}
 
+	@Override
 	public List<PlexServer.Section> getSections() {
 		ensureDetailed(sections);
 		return sections;
 	}
 
+	@Override
 	public PlexServerShares serverShares() {
 		try {
 			return new ServerShares(client, token, getMachineIdentifier());
@@ -112,6 +116,7 @@ class Server extends BaseItem implements PlexServer {
 		this.sections = sections;
 	}
 
+	@Override
 	public String getAccessToken() {
 		ensureDetailed(accessToken);
 		return accessToken;
@@ -121,6 +126,7 @@ class Server extends BaseItem implements PlexServer {
 		this.accessToken = accessToken;
 	}
 
+	@Override
 	public String getName() {
 		ensureDetailed(name);
 		return name;
@@ -130,6 +136,7 @@ class Server extends BaseItem implements PlexServer {
 		this.name = name;
 	}
 
+	@Override
 	public Integer getPort() {
 		ensureDetailed(port);
 		return port;
@@ -139,6 +146,7 @@ class Server extends BaseItem implements PlexServer {
 		this.port = port;
 	}
 
+	@Override
 	public String getVersion() {
 		ensureDetailed(version);
 		return version;
@@ -148,6 +156,7 @@ class Server extends BaseItem implements PlexServer {
 		this.version = version;
 	}
 
+	@Override
 	public String getScheme() {
 		ensureDetailed(scheme);
 		return scheme;
@@ -157,6 +166,7 @@ class Server extends BaseItem implements PlexServer {
 		this.scheme = scheme;
 	}
 
+	@Override
 	public String getHost() {
 		ensureDetailed(host);
 		return host;
@@ -166,6 +176,7 @@ class Server extends BaseItem implements PlexServer {
 		this.host = host;
 	}
 
+	@Override
 	public String getLocalAddresses() {
 		ensureDetailed(localAddresses);
 		return localAddresses;
@@ -175,6 +186,7 @@ class Server extends BaseItem implements PlexServer {
 		this.localAddresses = localAddresses;
 	}
 
+	@Override
 	public String getMachineIdentifier() {
 		ensureDetailed(machineIdentifier);
 		return machineIdentifier;
@@ -184,6 +196,7 @@ class Server extends BaseItem implements PlexServer {
 		this.machineIdentifier = machineIdentifier;
 	}
 
+	@Override
 	public Date getCreatedAt() {
 		ensureDetailed(createdAt);
 		return createdAt;
@@ -193,6 +206,7 @@ class Server extends BaseItem implements PlexServer {
 		this.createdAt = createdAt;
 	}
 
+	@Override
 	public Date getUpdatedAt() {
 		ensureDetailed(updatedAt);
 		return updatedAt;
@@ -202,6 +216,7 @@ class Server extends BaseItem implements PlexServer {
 		this.updatedAt = updatedAt;
 	}
 
+	@Override
 	public Boolean getOwned() {
 		ensureDetailed(owned);
 		return owned;
@@ -211,6 +226,7 @@ class Server extends BaseItem implements PlexServer {
 		this.owned = owned;
 	}
 
+	@Override
 	public Boolean getSynced() {
 		ensureDetailed(synced);
 		return synced;
@@ -220,6 +236,7 @@ class Server extends BaseItem implements PlexServer {
 		this.synced = synced;
 	}
 
+	@Override
 	public String getAddress() {
 		ensureDetailed(address);
 		return address;

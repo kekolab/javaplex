@@ -1,10 +1,11 @@
 package kekolab.javaplex.model;
 
-import java.util.*;
+import java.util.List;
 
-public interface PlexCollections<S extends PlexSection<?, ?>> {
-    List<PlexCollection<?, S>> list();
+public interface PlexCollections {
 
-    void delete(PlexCollection<?, S> target);
+    List<? extends PlexCollection> list();
+
+    void delete(PlexCollection target);
 
 }

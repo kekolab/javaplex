@@ -2,7 +2,7 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexPlayer;
 
-class Player extends BaseItem implements PlexPlayer {
+public class Player extends BaseItem implements PlexPlayer {
     private String address;
     private String device;
     private String machineIdentifier;
@@ -21,6 +21,7 @@ class Player extends BaseItem implements PlexPlayer {
     private Boolean secure;
     private Integer userID;
 
+    @Override
     public String getAddress() {
         return address;
     }
@@ -29,6 +30,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.address = address;
     }
 
+    @Override
     public String getDevice() {
         return device;
     }
@@ -37,6 +39,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.device = device;
     }
 
+    @Override
     public String getMachineIdentifier() {
         return machineIdentifier;
     }
@@ -45,6 +48,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.machineIdentifier = machineIdentifier;
     }
 
+    @Override
     public String getModel() {
         return model;
     }
@@ -53,6 +57,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.model = model;
     }
 
+    @Override
     public String getPlatform() {
         return platform;
     }
@@ -61,6 +66,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.platform = platform;
     }
 
+    @Override
     public String getPlatformVersion() {
         return platformVersion;
     }
@@ -69,6 +75,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.platformVersion = platformVersion;
     }
 
+    @Override
     public String getProduct() {
         return product;
     }
@@ -77,6 +84,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.product = product;
     }
 
+    @Override
     public String getProfile() {
         return profile;
     }
@@ -85,6 +93,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.profile = profile;
     }
 
+    @Override
     public String getRemotePublicAddress() {
         return remotePublicAddress;
     }
@@ -93,6 +102,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.remotePublicAddress = remotePublicAddress;
     }
 
+    @Override
     public String getState() {
         return state;
     }
@@ -101,6 +111,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.state = state;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -109,6 +120,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.title = title;
     }
 
+    @Override
     public String getVendor() {
         return vendor;
     }
@@ -117,6 +129,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.vendor = vendor;
     }
 
+    @Override
     public String getVersion() {
         return version;
     }
@@ -125,6 +138,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.version = version;
     }
 
+    @Override
     public Boolean getLocal() {
         return local;
     }
@@ -133,6 +147,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.local = local;
     }
 
+    @Override
     public Boolean getRelayed() {
         return relayed;
     }
@@ -141,6 +156,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.relayed = relayed;
     }
 
+    @Override
     public Boolean getSecure() {
         return secure;
     }
@@ -149,6 +165,7 @@ class Player extends BaseItem implements PlexPlayer {
         this.secure = secure;
     }
 
+    @Override
     public Integer getUserID() {
         return userID;
     }

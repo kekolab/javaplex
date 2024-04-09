@@ -7,13 +7,14 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.StringListDeserializer;
 import kekolab.javaplex.model.PlexMedia;
 import kekolab.javaplex.model.PlexPhoto;
 import kekolab.javaplex.model.PlexPhotoEditor;
 import kekolab.javaplex.model.PlexPhotoSection;
 import kekolab.javaplex.model.PlexPhotoalbum;
 
-class Photo extends Child<PlexPhotoalbum, PlexPhotoSection> implements PlexPhoto {
+public class Photo extends Child implements PlexPhoto {
 	private Integer createdAtTZOffset;
 	@JsonDeserialize(using = StringListDeserializer.class)
 	private List<String> createdAtAccuracy;
@@ -31,7 +32,7 @@ class Photo extends Child<PlexPhotoalbum, PlexPhotoSection> implements PlexPhoto
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Photo p = (Photo) source;
+		PlexPhoto p = (PlexPhoto) source;
 		setCreatedAtTZOffset(p.getCreatedAtTZOffset());
 		setCreatedAtAccuracy(p.getCreatedAtAccuracy());
 		setMedia(p.getMedia());
@@ -39,26 +40,31 @@ class Photo extends Child<PlexPhotoalbum, PlexPhotoSection> implements PlexPhoto
 		setYear(p.getYear());
 	}
 
+	@Override
 	public Integer getCreatedAtTZOffset() {
 		ensureDetailed(createdAtTZOffset);
 		return createdAtTZOffset;
 	}
 
+	@Override
 	public List<String> getCreatedAtAccuracy() {
 		ensureDetailed(createdAtAccuracy);
 		return createdAtAccuracy;
 	}
 
+	@Override
 	public Date getOriginallyAvailableAt() {
 		ensureDetailed(originallyAvailableAt);
 		return originallyAvailableAt;
 	}
 
+	@Override
 	public Integer getYear() {
 		ensureDetailed(year);
 		return year;
 	}
 
+	@Override
 	public List<PlexMedia> getMedia() {
 		ensureDetailed(media);
 		return media;
@@ -86,11 +92,21 @@ class Photo extends Child<PlexPhotoalbum, PlexPhotoSection> implements PlexPhoto
 
 	@Override
 	public int typeId() {
-		return PlexPhoto.super.typeId();
+		return TYPE_ID;
 	}
 
 	@Override
 	public PlexPhotoEditor editor() {
 		return new PhotoEditor(this);
+	}
+
+	@Override
+	public PlexPhotoSection section() {
+		return (PlexPhotoSection) super.section();
+	}
+
+	@Override
+	public PlexPhotoalbum parent() {
+		return (PlexPhotoalbum) super.parent();
 	}
 }

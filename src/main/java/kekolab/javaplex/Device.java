@@ -9,10 +9,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
+import kekolab.javaplex.mappers.StringListDeserializer;
+import kekolab.javaplex.mappers.TimestampDeserializer;
 import kekolab.javaplex.model.PlexConnection;
 import kekolab.javaplex.model.PlexDevice;
 
-class Device extends BaseItem implements PlexDevice {
+public class Device extends BaseItem implements PlexDevice {
 	private String name;
 	private String product;
 	private String productVersion;
@@ -48,6 +50,7 @@ class Device extends BaseItem implements PlexDevice {
 		provides = new ArrayList<>();
 	}
 
+	@Override
 	public String getProduct() {
 		return product;
 	}
@@ -56,6 +59,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.product = product;
 	}
 
+	@Override
 	public String getProductVersion() {
 		return productVersion;
 	}
@@ -64,6 +68,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.productVersion = productVersion;
 	}
 
+	@Override
 	public String getPlatform() {
 		return platform;
 	}
@@ -72,6 +77,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.platform = platform;
 	}
 
+	@Override
 	public String getPlatformVersion() {
 		return platformVersion;
 	}
@@ -80,6 +86,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.platformVersion = platformVersion;
 	}
 
+	@Override
 	public String getDevice() {
 		return device;
 	}
@@ -88,6 +95,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.device = device;
 	}
 
+	@Override
 	public String getClientIdentifier() {
 		return clientIdentifier;
 	}
@@ -96,6 +104,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.clientIdentifier = clientIdentifier;
 	}
 
+	@Override
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -104,6 +113,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.createdAt = createdAt;
 	}
 
+	@Override
 	public Date getLastSeenAt() {
 		return lastSeenAt;
 	}
@@ -112,6 +122,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.lastSeenAt = lastSeenAt;
 	}
 
+	@Override
 	public List<String> getProvides() {
 		return provides;
 	}
@@ -120,6 +131,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.provides = provides;
 	}
 
+	@Override
 	public Integer getOwned() {
 		return owned;
 	}
@@ -128,6 +140,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.owned = owned;
 	}
 
+	@Override
 	public String getAccessToken() {
 		return accessToken;
 	}
@@ -136,6 +149,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.accessToken = accessToken;
 	}
 
+	@Override
 	public String getPublicAddress() {
 		return publicAddress;
 	}
@@ -144,6 +158,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.publicAddress = publicAddress;
 	}
 
+	@Override
 	public Integer getHttpsRequired() {
 		return httpsRequired;
 	}
@@ -152,6 +167,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.httpsRequired = httpsRequired;
 	}
 
+	@Override
 	public Integer getRelay() {
 		return relay;
 	}
@@ -160,6 +176,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.relay = relay;
 	}
 
+	@Override
 	public Integer getDnsRebindingProtection() {
 		return dnsRebindingProtection;
 	}
@@ -168,6 +185,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.dnsRebindingProtection = dnsRebindingProtection;
 	}
 
+	@Override
 	public Integer getNatLoopbackSupported() {
 		return natLoopbackSupported;
 	}
@@ -176,6 +194,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.natLoopbackSupported = natLoopbackSupported;
 	}
 
+	@Override
 	public Integer getPublicAddressMatches() {
 		return publicAddressMatches;
 	}
@@ -184,6 +203,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.publicAddressMatches = publicAddressMatches;
 	}
 
+	@Override
 	public Integer getPresence() {
 		return presence;
 	}
@@ -192,6 +212,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.presence = presence;
 	}
 
+	@Override
 	public List<PlexConnection> getConnections() {
 		return connections;
 	}
@@ -200,6 +221,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.connections = connections;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -208,6 +230,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.name = name;
 	}
 
+	@Override
 	public Integer getSynced() {
 		return synced;
 	}
@@ -220,6 +243,7 @@ class Device extends BaseItem implements PlexDevice {
 		this.client = client;
 	}
 
+	@Override
 	public boolean isServer() {
 		return getProvides().stream().anyMatch(p -> p.equalsIgnoreCase("server"));
 	}

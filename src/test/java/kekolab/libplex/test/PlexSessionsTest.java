@@ -15,11 +15,11 @@ public class PlexSessionsTest extends PlexMediaServerTests {
 
     @Test
     public void sessions() {
-        List<PlexMediatag<?>> mediatags = getServer().status().sessions();
+        List<? extends PlexMediatag> mediatags = getServer().status().sessions();
         assertNotNull(mediatags);
 
         // The following assertions need to have a session ongoing
-        PlexMediatag<?> mediatag = mediatags.get(0);
+        PlexMediatag mediatag = mediatags.get(0);
         assertNotNull(mediatag.getSession());
         assertNotNull(mediatag.getSessionKey());
         assertNotNull(mediatag.getPlayer());

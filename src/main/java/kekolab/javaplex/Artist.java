@@ -17,7 +17,7 @@ import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTag;
 import kekolab.javaplex.model.PlexTrack;
 
-class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
+public class Artist extends Mediatag implements PlexArtist {
 	private Integer albumSort;
 	private Integer childCount;
 	@JsonProperty("Country")
@@ -54,7 +54,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Artist a = (Artist) source;
+		PlexArtist a = (PlexArtist) source;
 		setAlbumSort(a.getAlbumSort());
 		setChildCount(a.getChildCount());
 		setCountries(a.getCountries());
@@ -67,7 +67,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		setThumb(a.getThumb());
 	}
 
-
+	@Override
 	public List<PlexTag> getStyles() {
 		ensureDetailed(styles);
 		return styles;
@@ -77,6 +77,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.styles = styles;
 	}
 
+	@Override
 	public Integer getAlbumSort() {
 		ensureDetailed(albumSort);
 		return albumSort;
@@ -86,6 +87,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.albumSort = albumSort;
 	}
 
+	@Override
 	public List<PlexTag> getLocations() {
 		ensureDetailed(locations);
 		return locations;
@@ -95,6 +97,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.locations = locations;
 	}
 
+	@Override
 	public List<PlexTag> getCountries() {
 		ensureDetailed(countries);
 		return countries;
@@ -104,6 +107,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.countries = countries;
 	}
 
+	@Override
 	public List<PlexTag> getMoods() {
 		ensureDetailed(moods);
 		return moods;
@@ -113,6 +117,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.moods = moods;
 	}
 
+	@Override
 	public List<PlexTag> getSimilars() {
 		ensureDetailed(similars);
 		return similars;
@@ -122,6 +127,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.similars = similars;
 	}
 
+	@Override
 	public List<PlexTag> getGenres() {
 		ensureDetailed(genres);
 		return genres;
@@ -131,6 +137,7 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.genres = genres;
 	}
 
+	@Override
 	public Integer getChildCount() {
 		ensureDetailed(childCount);
 		return childCount;
@@ -141,14 +148,17 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 	}
 
 	@Override
-	public MusicSection section() {
-		return (MusicSection) super.section();
+	public PlexMusicSection section() {
+		return (PlexMusicSection) super.section();
 	}
 
+
+	@Override
 	public List<PlexAlbum> children() {
 		return new MetadataContainer<PlexAlbum, Directory>(key(), getServer()).getMetadata();
 	}
 
+	@Override
 	public List<PlexTrack> grandchildren() {
 		URI uri;
 		try {
@@ -159,11 +169,13 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		return new MetadataContainer<PlexTrack, Directory>(uri, getServer()).getMetadata();
 	}
 
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
 	}
 
+	@Override
 	public URI art() {
 		ensureDetailed(art.getValue());
 		return art.uri();
@@ -173,11 +185,13 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.art.setValue(art);
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.getValue());
 		return thumb.uri();
@@ -187,29 +201,34 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public Boolean getCountriesLocked() {
 		return getFieldLocked("country");
 	}
 
+	@Override
 	public Boolean getGenresLocked() {
 		return getFieldLocked("genre");
 	}
 
+	@Override
 	public Boolean getSimilarsLocked() {
 		return getFieldLocked("similar");
 	}
 
+	@Override
 	public Boolean getMoodsLocked() {
 		return getFieldLocked("mood");
 	}
 
+	@Override
 	public Boolean getStylesLocked() {
 		return getFieldLocked("style");
 	}
 
 	@Override
 	public int typeId() {
-		return PlexArtist.super.typeId();
+		return TYPE_ID;
 	}
 
 	@Override
@@ -217,5 +236,6 @@ class Artist extends Mediatag<PlexMusicSection> implements PlexArtist {
 		return new ArtistEditor(this);
 	}
 
+	
 
 }

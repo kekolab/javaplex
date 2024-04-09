@@ -10,7 +10,7 @@ import kekolab.javaplex.model.PlexDevice;
 import kekolab.javaplex.model.PlexMediaServer;
 import kekolab.javaplex.model.PlexMediatag;
 import kekolab.javaplex.model.PlexMovie;
-import kekolab.javaplex.model.PlexMovieFilter;
+import kekolab.javaplex.model.PlexMovieSecondaryDirectory;
 import kekolab.javaplex.model.PlexMovieSection;
 
 public class PlexMovieSectionTests extends PlexTests {
@@ -28,7 +28,7 @@ public class PlexMovieSectionTests extends PlexTests {
 
 	@Test
 	public void byCountries() {
-		PlexMovieFilter filter = section.byCountry().get(1);
+		PlexMovieSecondaryDirectory filter = section.byCountry().get(1);
 		List<PlexMovie> movies = filter.movies();
 		System.out.println("Selected: " + filter.getTitle());
 		movies.stream().map(PlexMediatag::getTitle).forEach(System.out::println);

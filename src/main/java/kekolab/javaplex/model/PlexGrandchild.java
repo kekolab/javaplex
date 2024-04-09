@@ -2,8 +2,8 @@ package kekolab.javaplex.model;
 
 import java.net.URI;
 
-public interface PlexGrandchild<GP extends PlexGrandparent<?, ?, S>, P extends PlexParent<?, S>, S extends PlexSection<?, ?>> extends PlexChild<P, S> {
-    GP grandparent();
+public interface PlexGrandchild extends PlexChild {
+    PlexMediatag grandparent();
 
     String getGrandparentArt();
 

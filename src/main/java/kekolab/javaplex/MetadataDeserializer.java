@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import kekolab.javaplex.mappers.ObjectNodeDeserializer;
 import kekolab.javaplex.model.PlexAlbum;
 import kekolab.javaplex.model.PlexAlbumCollection;
 import kekolab.javaplex.model.PlexArtist;
@@ -13,8 +14,6 @@ import kekolab.javaplex.model.PlexClip;
 import kekolab.javaplex.model.PlexCollection;
 import kekolab.javaplex.model.PlexEpisode;
 import kekolab.javaplex.model.PlexEpisodeCollection;
-import kekolab.javaplex.model.PlexMediatag;
-import kekolab.javaplex.model.PlexMetadata;
 import kekolab.javaplex.model.PlexMovie;
 import kekolab.javaplex.model.PlexMovieCollection;
 import kekolab.javaplex.model.PlexPhoto;
@@ -29,14 +28,14 @@ import kekolab.javaplex.model.PlexTrack;
 import kekolab.javaplex.model.PlexTrackCollection;
 import kekolab.javaplex.model.PlexVideoPlaylist;
 
-public class MetadataDeserializer extends ObjectNodeDeserializer<PlexMetadata> {
+public class MetadataDeserializer extends ObjectNodeDeserializer<Metadata> {
 	private static final long serialVersionUID = 7550593827443213344L;
 
 	public MetadataDeserializer() {
-		super(PlexMetadata.class);
+		super(Metadata.class);
 	}
 
-	protected Class<? extends PlexMetadata> chooseDeserializingClass(ObjectNode node) throws IOException {
+	protected Class<? extends Metadata> chooseDeserializingClass(ObjectNode node) throws IOException {
 		if (node.has("type")) {
 			String type = extractTextFieldValueFromObjectNode(node, "type");
 			if (type.equals(PlexArtist.TYPE_DESCRIPTION))
@@ -76,25 +75,37 @@ public class MetadataDeserializer extends ObjectNodeDeserializer<PlexMetadata> {
 		 */
 	}
 
-	private Class<? extends PlexMediatag<?>> chooseDeserializingClassForPhotoMetadataType(ObjectNode node) {
+	private Class<? extends Mediatag> chooseDeserializingClassForPhotoMetadataType(ObjectNode node) {
 		if (node.has("composite"))
 			return Photoalbum.class;
 		return Photo.class;
 	}
 
-	private Class<? extends PlexPlaylist<?>> chooseDeserializingClassForPlaylist(ObjectNode node) throws IOException {
+	private Class<? extends Playlist> chooseDeserializingClassForPlaylist(ObjectNode node) throws IOException {
 		String subtype = extractTextFieldValueFromObjectNode(node, "playlistType");
+		boolean smart = extractBooleanFieldValueFromObjectNode(node, "smart");
+		if (smart) {
+			if (subtype.equals(PlexAudioPlaylist.SUBTYPE_DESCRIPTION))
+				return AudioSmartPlaylist.class;
+			if (subtype.equals(PlexVideoPlaylist.SUBTYPE_DESCRIPTION))
+				return VideoSmartPlaylist.class;
+			if (subtype.equals(PlexPhotoPlaylist.SUBTYPE_DESCRIPTION))
+				return PhotoSmartPlaylist.class;
+			throw new IOException(
+					"Cannot determine the right class to deserialize a smart playlist with subtype " + subtype);
+		}
+		
 		if (subtype.equals(PlexAudioPlaylist.SUBTYPE_DESCRIPTION))
-			return AudioPlaylist.class;
+			return ClassicAudioPlaylist.class;
 		if (subtype.equals(PlexVideoPlaylist.SUBTYPE_DESCRIPTION))
-			return VideoPlaylist.class;
+			return ClassicVideoPlaylist.class;
 		if (subtype.equals(PlexPhotoPlaylist.SUBTYPE_DESCRIPTION))
-			return PhotoPlaylist.class;
+			return ClassicPhotoPlaylist.class;
 		throw new IOException(
 				"Cannot determine the right class to deserialize playlist with subtype " + subtype);
 	}
 
-	private Class<? extends PlexCollection<?, ?>> chooseDeserializingClassForCollection(ObjectNode node)
+	private Class<? extends Collection> chooseDeserializingClassForCollection(ObjectNode node)
 			throws IOException {
 		String subtype = extractTextFieldValueFromObjectNode(node, "subtype");
 		if (subtype.equals(PlexMovieCollection.MOVIE_COLLECTION_SUBTYPE))

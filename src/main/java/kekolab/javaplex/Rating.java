@@ -2,12 +2,13 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexRating;
 
-class Rating extends MediatagAttribute implements PlexRating {
+public class Rating extends MediatagAttribute implements PlexRating  {
 	private String image;
 	private Double value;
 	private String type;
 	private Integer count;
 
+	@Override
 	public Integer getCount() {
 		return count;
 	}
@@ -16,16 +17,19 @@ class Rating extends MediatagAttribute implements PlexRating {
 		this.count = count;
 	}
 
+	@Override
 	public String getImage() {
 		ensureDetailed(image);
 		return image;
 	}
 
+	@Override
 	public String getType() {
 		ensureDetailed(type);
 		return type;
 	}
 
+	@Override
 	public Double getValue() {
 		ensureDetailed(value);
 		return value;

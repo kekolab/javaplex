@@ -5,49 +5,50 @@ import java.util.List;
 
 public interface PlexPart {
 
-	Integer getHeight();
+    Integer getHeight();
 
-	Integer getWidth();
+    Integer getWidth();
 
-	String getProtocol();
+    String getProtocol();
 
-	String getDecision();
+    String getDecision();
 
-	Boolean getSelected();
+    Boolean getSelected();
 
-	Integer getOrientation();
+    Integer getOrientation();
 
-	Integer getId();
+    Integer getId();
 
-	Long getDuration();
+    Long getDuration();
 
-	String getFile();
+    String getFile();
 
-	String getContainer();
+    String getContainer();
 
-	String getVideoProfile();
+    String getVideoProfile();
 
-	Long getSize();
+    Long getSize();
 
-	String getAudioProfile();
+    String getAudioProfile();
 
-	Boolean getHas64bitOffsets();
+    Boolean getHas64bitOffsets();
 
-	Boolean getOptimizedForStreaming();
+    Boolean getOptimizedForStreaming();
 
-	Integer getHasThumbnail();
+    Integer getHasThumbnail();
 
-	List<PlexStream> getStreams();
+    List<PlexStream> getStreams();
 
-	Boolean getAccessible();
+    Boolean getAccessible();
 
-	Boolean getExists();
+    Boolean getExists();
 
-	Integer getDeepAnalysisVersion();
+    Integer getDeepAnalysisVersion();
 
-	List<Integer> getRequiredBandwidths();
+    List<Integer> getRequiredBandwidths();
 
-	String getKey();
+    String getKey();
 
-	URI key();
+    URI key();
+
 }

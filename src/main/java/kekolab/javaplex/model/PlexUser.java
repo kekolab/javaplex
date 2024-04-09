@@ -3,6 +3,7 @@ package kekolab.javaplex.model;
 import java.net.URI;
 
 public interface PlexUser {
+
     String getId();
 
     String getTitle();
@@ -10,4 +11,5 @@ public interface PlexUser {
     String getThumb();
 
     URI thumb();
+
 }

@@ -8,20 +8,21 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.Conditions;
 import kekolab.javaplex.model.PlexAlbum;
 import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexCondition;
 import kekolab.javaplex.model.PlexConnection;
 import kekolab.javaplex.model.PlexDevice;
 import kekolab.javaplex.model.PlexFilter;
+import kekolab.javaplex.model.PlexFilterBuilder;
 import kekolab.javaplex.model.PlexLibrary;
 import kekolab.javaplex.model.PlexMediaServer;
 import kekolab.javaplex.model.PlexMusicSection;
+import kekolab.javaplex.model.PlexSectionSecondaryDirectory;
 import kekolab.javaplex.model.PlexTrack;
 
 public class PlexConditionsTests extends PlexTests {
 	private PlexLibrary library;
+	private PlexMusicSection section;
 
 	@BeforeEach
 	public void init() {
@@ -30,133 +31,118 @@ public class PlexConditionsTests extends PlexTests {
 				.orElseThrow();
 		PlexMediaServer mediaServer = getApi().getMediaServer(connection);
 		library = mediaServer.library();
+		section = library.sections().stream().filter(PlexMusicSection.class::isInstance)
+				.map(PlexMusicSection.class::cast).findAny().get();
 	}
-	
+
 	@Test
 	public void listArtistWithArtistTitleCondition() {
-		PlexCondition filter = Conditions.ifArtistTitle().contains("Angelina");
-		List<PlexArtist> artists = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get().all(filter);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.TITLE).contains("Angelina");
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertEquals(1, artists.size());
 	}
 
 	@Test
 	public void listAlbumsWithArtistTitleCondition() {
-		PlexCondition filter = Conditions.ifArtistTitle().contains("Alanis");
-		List<PlexAlbum> albums = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get().albums(filter);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.TITLE).contains("Alanis");
+		List<PlexAlbum> albums = section.albums().filtered(condition).execute();
 		albums.stream().map(PlexAlbum::getTitle).forEach(System.out::println);
 	}
 
 	@Test
 	public void listTracksWithArtistTitleCondition() {
-		PlexCondition filter = Conditions.ifArtistTitle().contains("Alanis");
-		List<PlexTrack> albums = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get().tracks(filter);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.TITLE).contains("Alanis");
+		List<PlexTrack> albums = section.tracks().filtered(condition).execute();
 		albums.stream().map(PlexTrack::getTitle).forEach(System.out::println);
 	}
 
 	@Test
 	public void artistUnmatchedCondition() {
-		PlexCondition filter = Conditions.ifArtistUnmatched().isTrue();
-		List<PlexArtist> artists = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get().all(filter);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.UNMATCHED).isTrue();
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 	}
 
 	@Test
 	public void artistGenreCondition() {
-		PlexMusicSection musicSection = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get();
-		PlexFilter genreFilter = musicSection.byGenre().get(0);
-		PlexCondition filter = Conditions.ifArtistGenre().is(genreFilter);
-		System.out.println("Genre selected: " + genreFilter.getTitle());
-		List<PlexArtist> artists = musicSection.all(filter);
+		PlexSectionSecondaryDirectory filter = section.byGenre().get(0);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.GENRE).is(filter);
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
+		System.out.println("Genre selected: " + filter.getTitle());
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 	}
 
 	@Test
 	public void artistCountryCondition() {
-		PlexMusicSection musicSection = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get();
-		PlexFilter tagFilter = musicSection.byCountry().get(0);
-		PlexCondition filter = Conditions.ifArtistCountry().is(tagFilter);
-		System.out.println("Country selected: " + tagFilter.getTitle());
-		List<PlexArtist> artists = musicSection.all(filter);
+		PlexSectionSecondaryDirectory filter = section.byCountry().get(0);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.COUNTRY).is(filter);
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
+		System.out.println("Country selected: " + filter.getTitle());
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 	}
 
 	@Test
 	public void artistMoodCondition() {
-		PlexMusicSection musicSection = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get();
-		PlexFilter tagFilter = musicSection.byMood().get(1);
-		PlexCondition filter = Conditions.ifArtistMood().is(tagFilter);
-		List<PlexArtist> artists = musicSection.all(filter);
-		System.out.println("Mood selected: " + tagFilter.getTitle());
+		PlexSectionSecondaryDirectory filter = section.byMood().get(1);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.MOOD).is(filter);
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
+		System.out.println("Mood selected: " + filter.getTitle());
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 	}
 
 	@Test
 	public void artistStyleCondition() {
-		PlexMusicSection musicSection = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get();
-		PlexFilter tagFilter = musicSection.byStyle().get(0);
-		PlexCondition filter = Conditions.ifArtistStyle().is(tagFilter);
-		List<PlexArtist> artists = musicSection.all(filter);
-		System.out.println("Style selected: " + tagFilter.getTitle());
+		PlexSectionSecondaryDirectory filter = section.byStyle().get(1);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.STYLE).is(filter);
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
+		System.out.println("Style selected: " + filter.getTitle());
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 	}
 
 	@Test
 	public void artistCollectionCondition() {
-		PlexMusicSection musicSection = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get();
-		PlexFilter tagFilter = musicSection.byCollection().get(0);
-		PlexCondition filter = Conditions.ifArtistCollection().is(tagFilter);
-		List<PlexTrack> artists = musicSection.tracks(filter);
-		System.out.println("Collection selected: " + tagFilter.getTitle());
-		artists.stream().map(PlexTrack::getTitle).forEach(System.out::println);
+		PlexSectionSecondaryDirectory filter = section.byCollection().get(0);
+		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.COLLECTION).is(filter);
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
+		System.out.println("Collection selected: " + filter.getTitle());
+		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 	}
 
 	@Test
 	public void orCondition() {
-		PlexCondition filter = Conditions.or(Conditions.ifArtistTitle().contains("Angelina"),
-				Conditions.ifArtistTitle().contains("Alanis"),
-				Conditions.ifArtistTitle().contains("Posse"));
-		List<PlexArtist> artists = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get().all(filter);
+		PlexFilter condition = PlexFilterBuilder.or(PlexFilterBuilder.when(PlexArtist.TITLE).contains("Angelina"),
+				PlexFilterBuilder.when(PlexArtist.TITLE).contains("Alanis"),
+				PlexFilterBuilder.when(PlexArtist.TITLE).contains("Posse"));
+		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertEquals(3, artists.size());
 	}
 
 	@Test
 	public void andCondition() {
-		PlexCondition filter = Conditions.and(Conditions.ifArtistTitle().contains("l"),
-				Conditions.ifArtistTitle().contains("m"));
-		List<PlexArtist> artists = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get().all(filter);
+		PlexFilter filter = PlexFilterBuilder.and(PlexFilterBuilder.when(PlexArtist.TITLE).contains("l"),
+				PlexFilterBuilder.when(PlexArtist.TITLE).contains("m"));
+		List<PlexArtist> artists = section.all().filtered(filter).execute();
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertEquals(2, artists.size());
 	}
 
 	@Test
-	public void compoundCondition() {
-		PlexCondition filter = Conditions.or(
-				Conditions.and(Conditions.ifArtistTitle().contains("l"),
-						Conditions.ifArtistTitle().contains("m")),
-				Conditions.or(Conditions.ifArtistTitle().contains("Angelina"),
-						Conditions.ifArtistTitle().contains("Alanis"),
-						Conditions.ifArtistTitle().contains("Posse")));
-		List<PlexArtist> artists = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get().all(filter);
+	public void compositeCondition() {
+		PlexFilter filter = PlexFilterBuilder.or(
+				PlexFilterBuilder.or(PlexFilterBuilder.when(PlexArtist.TITLE).contains("Angelina"),
+						PlexFilterBuilder.when(PlexArtist.TITLE).contains("Alanis"),
+						PlexFilterBuilder.when(PlexArtist.TITLE).contains("Posse")),
+				PlexFilterBuilder.and(PlexFilterBuilder.when(PlexArtist.TITLE).contains("l"),
+						PlexFilterBuilder.when(PlexArtist.TITLE).contains("m")));
+		List<PlexArtist> artists = section.all().filtered(filter).execute();
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertEquals(5, artists.size());
 	}

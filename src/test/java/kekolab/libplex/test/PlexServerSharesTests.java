@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 
 import kekolab.javaplex.SharingSettings;
 import kekolab.javaplex.model.PlexServer;
-import kekolab.javaplex.model.PlexServer.Section;
 import kekolab.javaplex.model.PlexServerShare;
 import kekolab.javaplex.model.PlexServerShares;
 
@@ -43,7 +42,7 @@ public class PlexServerSharesTests extends PlexTests {
     public void inviteFriendWithDefaultSharingSettings() throws URISyntaxException {
         PlexServer server = getApi().getServers().list().get(0);
         PlexServerShares serverShares = server.serverShares();
-        List<Section> sectionsToShare = server.getSections();
+        List<PlexServer.Section> sectionsToShare = server.getSections();
         PlexServerShare share = serverShares.inviteFriend(DUMMY_EMAIL, sectionsToShare);
         assertNotNull(share);
         assertEquals(DUMMY_EMAIL, share.getEmail());
@@ -70,7 +69,7 @@ public class PlexServerSharesTests extends PlexTests {
     public void inviteFriendWithCustomSettings() throws URISyntaxException {
         PlexServer server = getApi().getServers().list().get(0);
         PlexServerShares serverShares = server.serverShares();
-        List<Section> sectionsToShare = server.getSections();
+        List<PlexServer.Section> sectionsToShare = server.getSections();
 
         SharingSettings sharingSettings = new SharingSettings();
         sharingSettings.setAllowCameraUpload(true);

@@ -2,27 +2,31 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexLyricsStream;
 
-class LyricsStream extends Stream implements PlexLyricsStream {
+public class LyricsStream extends Stream implements PlexLyricsStream {
 	private String format;
 	private String provider;
 	private Integer minLines;
 	private Boolean timed;
 
+	@Override
 	public String getFormat() {
 		ensureDetailed(format);
 		return format;
 	}
 
+	@Override
 	public String getProvider() {
 		ensureDetailed(provider);
 		return provider;
 	}
 
+	@Override
 	public Integer getMinLines() {
 		ensureDetailed(minLines);
 		return minLines;
 	}
 
+	@Override
 	public Boolean getTimed() {
 		ensureDetailed(timed);
 		return timed;

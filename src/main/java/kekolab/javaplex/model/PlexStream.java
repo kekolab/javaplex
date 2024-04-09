@@ -4,42 +4,42 @@ import java.util.List;
 
 public interface PlexStream {
 
-	String getDecision();
+    String getDecision();
 
-	String getLocation();
+    String getLocation();
 
-	Boolean getDefault();
+    Boolean getDefault();
 
-	String getCodec();
+    String getCodec();
 
-	Integer getId();
+    Integer getId();
 
-	Integer getStreamType();
+    Integer getStreamType();
 
-	Integer getIndex();
+    Integer getIndex();
 
-	String getKey();
+    String getKey();
 
-	Integer getBitrate();
+    Integer getBitrate();
 
-	Boolean getForced();
+    Boolean getForced();
 
-	String getDisplayTitle();
+    String getDisplayTitle();
 
-	Boolean getHeaderCompression();
+    Boolean getHeaderCompression();
 
-	String getLanguage();
+    String getLanguage();
 
-	String getLanguageCode();
+    String getLanguageCode();
 
-	String getLanguageTag();
+    String getLanguageTag();
 
-	String getExtendedDisplayTitle();
+    String getExtendedDisplayTitle();
 
-	String getTitle();
+    String getTitle();
 
-	Integer getStreamIdentifier();
+    Integer getStreamIdentifier();
 
-	List<Integer> getRequiredBandwidths();
+    List<Integer> getRequiredBandwidths();
 
 }

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("MediaContainer")
-class MediaContainer extends BaseItem {
+public class MediaContainer extends BaseItem {
 	@JsonIgnore
 	private boolean fetched;
 	@JsonIgnore
@@ -20,14 +20,14 @@ class MediaContainer extends BaseItem {
 
 	private Integer size;
 
-	MediaContainer(URI uri, PlexHTTPClient client, Optional<String> token) {
+	public MediaContainer(URI uri, PlexHTTPClient client, Optional<String> token) {
 		this.uri = uri;
 		this.client = client;
 		this.token = token;
 		this.fetched = false;
 	}
 
-	void ensureFetched(Object field) {
+	protected void ensureFetched(Object field) {
 		final boolean fieldIsNullOrEmpty = field == null || (field instanceof Collection collection && collection.isEmpty());
 		if (!fetched && fieldIsNullOrEmpty) {
 			// I set fetched to true here because Jackson will call the getters when deserializing
@@ -42,11 +42,6 @@ class MediaContainer extends BaseItem {
 		}
 	}
 
-	@Deprecated
-	protected void ensureFetched() {
-		ensureFetched(null);
-	}
-
 	public void setSize(Integer size) {
 		this.size = size;
 	}
@@ -54,11 +49,6 @@ class MediaContainer extends BaseItem {
 	public Integer getSize() {
 		ensureFetched(size);
 		return size;
-	}
-
-	@Deprecated
-	public URI uri() {
-		return uri;
 	}
 
 	URI getUri() {
@@ -74,17 +64,7 @@ class MediaContainer extends BaseItem {
 		return client;
 	}
 
-	@Deprecated
-	protected String token() {
-		return token.get();
-	}
-
 	Optional<String> getToken() {
 		return token;
-	}
-
-	@Deprecated
-	void fetched(boolean fetched) {
-		this.fetched = fetched;
 	}
 }

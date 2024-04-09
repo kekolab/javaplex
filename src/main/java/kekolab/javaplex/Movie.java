@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.StringListDeserializer;
 import kekolab.javaplex.model.PlexMovie;
 import kekolab.javaplex.model.PlexMovieEditor;
 import kekolab.javaplex.model.PlexMovieSection;
@@ -14,7 +15,7 @@ import kekolab.javaplex.model.PlexRating;
 import kekolab.javaplex.model.PlexRole;
 import kekolab.javaplex.model.PlexTag;
 
-class Movie extends Video<PlexMovieSection> implements PlexMovie {
+public class Movie extends Video implements PlexMovie {
 	private Double audienceRating;
 	private String audienceRatingImage;
 	private String chapterSource;
@@ -53,8 +54,6 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 	private List<PlexTag> writers;
 	private UriProvider art, thumb;
 
-	
-
 	public Movie() {
 		art = new UriProvider(this::uri);
 		countries = new ArrayList<>();
@@ -68,71 +67,85 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		writers = new ArrayList<>();
 	}
 
+	@Override
 	public Double getRating() {
 		ensureDetailed(rating);
 		return rating;
 	}
 
+	@Override
 	public Double getAudienceRating() {
 		ensureDetailed(audienceRating);
 		return audienceRating;
 	}
 
+	@Override
 	public String getTagline() {
 		ensureDetailed(tagline);
 		return tagline;
 	}
 
+	@Override
 	public String getAudienceRatingImage() {
 		ensureDetailed(audienceRatingImage);
 		return audienceRatingImage;
 	}
 
+	@Override
 	public Integer getHasPremiumExtras() {
 		ensureDetailed(hasPremiumExtras);
 		return hasPremiumExtras;
 	}
 
+	@Override
 	public Integer getHasPremiumPrimaryExtra() {
 		ensureDetailed(hasPremiumPrimaryExtra);
 		return hasPremiumPrimaryExtra;
 	}
 
+	@Override
 	public String getRatingImage() {
 		ensureDetailed(ratingImage);
 		return ratingImage;
 	}
 
+	@Override
 	public List<PlexTag> getGenres() {
 		ensureDetailed(genres);
 		return genres;
 	}
 
+	@Override
 	public List<PlexTag> getDirectors() {
 		ensureDetailed(directors);
 		return directors;
 	}
 
+	@Override
 	public List<PlexTag> getWriters() {
 		ensureDetailed(writers);
 		return writers;
 	}
 
+	@Override
 	public List<PlexTag> getProducers() {
 		ensureDetailed(producers);
 		return producers;
 	}
 
+	@Override
 	public List<PlexTag> getCountries() {
 		ensureDetailed(countries);
 		return countries;
 	}
 
+	@Override
 	public List<PlexRole> getRoles() {
 		ensureDetailed(roles);
 		return roles;
 	}
 
+	@Override
 	public List<PlexTag> getSimilars() {
 		ensureDetailed(similars);
 		return similars;
@@ -194,6 +207,7 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.hasPremiumPrimaryExtra = hasPremiumPrimaryExtra;
 	}
 
+	@Override
 	public String getChapterSource() {
 		ensureDetailed(chapterSource);
 		return chapterSource;
@@ -203,6 +217,7 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.chapterSource = chapterSource;
 	}
 
+	@Override
 	public List<PlexRating> getRatings() {
 		ensureDetailed(ratings);
 		return ratings;
@@ -212,6 +227,7 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.ratings = ratings;
 	}
 
+	@Override
 	public String getSubtype() {
 		ensureDetailed(subtype);
 		return subtype;
@@ -221,6 +237,7 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.subtype = subtype;
 	}
 
+	@Override
 	public List<String> getCreatedAtAccuracy() {
 		ensureDetailed(createdAtAccuracy);
 		return createdAtAccuracy;
@@ -230,6 +247,7 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.createdAtAccuracy = createdAtAccuracy;
 	}
 
+	@Override
 	public Integer getCreatedAtTZOffset() {
 		ensureDetailed(createdAtTZOffset);
 		return createdAtTZOffset;
@@ -240,15 +258,17 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 	}
 
 	@Override
-	public MovieSection section() {
-		return (MovieSection) super.section();
+	public PlexMovieSection section() {
+		return (PlexMovieSection) super.section();
 	}
 
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
 	}
 
+	@Override
 	public URI art() {
 		ensureDetailed(art.uri());
 		return art.uri();
@@ -258,11 +278,13 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.art.setValue(art);
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.uri());
 		return thumb.uri();
@@ -272,22 +294,27 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public Boolean getCountriesLocked() {
 		return getFieldLocked("country");
 	}
 
+	@Override
 	public Boolean getDirectorsLocked() {
 		return getFieldLocked("director");
 	}
 
+	@Override
 	public Boolean getGenresLocked() {
 		return getFieldLocked("genre");
 	}
 
+	@Override
 	public Boolean getWritersLocked() {
 		return getFieldLocked("writer");
 	}
 
+	@Override
 	public Boolean getProducersLocked() {
 		return getFieldLocked("producer");
 	}
@@ -299,6 +326,6 @@ class Movie extends Video<PlexMovieSection> implements PlexMovie {
 
 	@Override
 	public int typeId() {
-		return PlexMovie.super.typeId();
+		return TYPE_ID;
 	}
 }

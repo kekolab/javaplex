@@ -5,7 +5,7 @@ import java.net.URI;
 import kekolab.javaplex.model.PlexTag;
 
 // TODO Should be splitted in different classes... Chapter, Review, Tag, ...
-class Tag extends MediatagAttribute implements PlexTag {
+public class Tag extends MediatagAttribute implements PlexTag {
 	private Integer id;
 	private String filter;
 	private String tag;
@@ -13,6 +13,7 @@ class Tag extends MediatagAttribute implements PlexTag {
 	private String tagKey;
 	private Integer count;
 
+	@Override
 	public Integer getCount() {
 		return count;
 	}
@@ -27,6 +28,7 @@ class Tag extends MediatagAttribute implements PlexTag {
 		thumb = new UriProvider(null);
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
@@ -36,20 +38,24 @@ class Tag extends MediatagAttribute implements PlexTag {
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public URI thumb() {
 		return thumb.uri();
 	}
 
+	@Override
 	public Integer getId() {
 		ensureDetailed(id);
 		return id;
 	}
 
+	@Override
 	public String getFilter() {
 		ensureDetailed(filter);
 		return filter;
 	}
 
+	@Override
 	public String getTag() {
 		if (getParentTag() != null) // When editing this could be null. This is the only method called in
 									// TaglistFieldEditor.queryParameters
@@ -57,6 +63,7 @@ class Tag extends MediatagAttribute implements PlexTag {
 		return tag;
 	}
 
+	@Override
 	public String getPath() {
 		ensureDetailed(path);
 		return path;
@@ -78,6 +85,7 @@ class Tag extends MediatagAttribute implements PlexTag {
 		this.id = id;
 	}
 
+	@Override
 	public String getTagKey() {
 		ensureDetailed(tagKey);
 		return tagKey;

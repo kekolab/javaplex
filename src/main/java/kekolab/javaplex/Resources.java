@@ -15,14 +15,13 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import kekolab.javaplex.model.PlexDevice;
 import kekolab.javaplex.model.PlexResources;
 
-
-class Resources extends MediaContainer implements PlexResources {
+public class Resources extends MediaContainer implements PlexResources {
 	private static final URI URI;
 
 	static {
 		try {
 			URI = new URIBuilder("https://plex.tv/api/resources.xml").addParameter("includeHttps", "1")
-							.addParameter("includeRelays", "1").build();
+					.addParameter("includeRelays", "1").build();
 		} catch (URISyntaxException e) {
 			throw new PlexException("Unknown exception. Please see attached stacktrace", e);
 		}
@@ -32,15 +31,16 @@ class Resources extends MediaContainer implements PlexResources {
 	@JacksonXmlElementWrapper(useWrapping = false)
 	@JsonDeserialize(contentAs = Device.class)
 	private List<PlexDevice> devices;
-	
+
 	Resources(PlexHTTPClient client, String token) {
 		super(URI, client, Optional.of(token));
 		devices = new ArrayList<>();
 	}
 
-	public List<PlexDevice> getDevices() {		
+	@Override
+	public List<PlexDevice> getDevices() {
 		ensureFetched(devices);
-		devices.forEach(d -> ((Device)d).setClient(getClient()));
+		devices.forEach(d -> ((Device) d).setClient(getClient()));
 		return devices;
 	}
 

@@ -7,57 +7,46 @@ import kekolab.javaplex.model.PlexSeasonCollection;
 import kekolab.javaplex.model.PlexShow;
 import kekolab.javaplex.model.PlexShowCollection;
 import kekolab.javaplex.model.PlexShowCollections;
-import kekolab.javaplex.model.PlexShowSection;
 
-class ShowCollections extends Collections<PlexShowSection> implements PlexShowCollections {
+public class ShowCollections extends Collections implements PlexShowCollections {
 
-    ShowCollections(ShowSection section) {
+    protected ShowCollections(ShowSection section) {
         super(section);
     }
 
-    @Override
     public PlexShowCollection create(String title, PlexShow show) {
-        return (PlexShowCollection) super.create(title, show);
+        return (ShowCollection) super.create(title, show);
     }
 
-    @Override
-    public PlexShowCollection add(PlexShow show, PlexShowCollection collection) {
-        return (PlexShowCollection) super.add(show, collection);
-    }
-
-    @Override
-    public PlexShowCollection remove(PlexShow show, PlexShowCollection collection) {
-        return (PlexShowCollection) super.remove(show, collection);
-    }
-
-    @Override
     public PlexSeasonCollection create(String title, PlexSeason season) {
         return (PlexSeasonCollection) super.create(title, season);
     }
 
-    @Override
-    public PlexSeasonCollection add(PlexSeason season, PlexSeasonCollection collection) {
-        return (PlexSeasonCollection) super.add(season, collection);
-    }
-
-    @Override
-    public PlexSeasonCollection remove(PlexSeason season, PlexSeasonCollection collection) {
-        return (PlexSeasonCollection) super.remove(season, collection);
-    }
-
-    @Override
     public PlexEpisodeCollection create(String title, PlexEpisode episode) {
         return (PlexEpisodeCollection) super.create(title, episode);
     }
 
-    @Override
-    public PlexEpisodeCollection add(PlexEpisode episode, PlexEpisodeCollection collection) {
-        return (PlexEpisodeCollection) super.add(episode, collection);
+    public PlexShowCollection add(PlexShowCollection collection, PlexShow show) {
+        return (PlexShowCollection) super.add(collection, show);
     }
 
-    @Override
-    public PlexEpisodeCollection remove(PlexEpisode episode, PlexEpisodeCollection collection) {
-        return (PlexEpisodeCollection) super.remove(episode, collection);
+    public PlexSeasonCollection add(PlexSeasonCollection collection, PlexSeason season) {
+        return (PlexSeasonCollection) super.add(collection, season);
     }
 
+    public PlexEpisodeCollection add(PlexEpisodeCollection collection, PlexEpisode episode) {
+        return (PlexEpisodeCollection) super.add(collection, episode);
+    }
+
+    public PlexShowCollection remove(PlexShowCollection collection, PlexShow show) {
+        return (PlexShowCollection) super.remove(collection, show);
+    }
+
+    public PlexSeasonCollection remove(PlexSeasonCollection collection, PlexSeason season) {
+        return (PlexSeasonCollection) super.remove(collection, season);
+    }
+
+    public PlexEpisodeCollection remove(PlexEpisodeCollection collection, PlexEpisode episode) {
+        return (PlexEpisodeCollection) super.remove(collection, episode);
+    }
 }

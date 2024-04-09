@@ -4,55 +4,79 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
-public interface PlexAlbum extends PlexParent<PlexTrack, PlexMusicSection>, PlexChild<PlexArtist, PlexMusicSection> {
-	int TYPE_ID = 9;
-	String TYPE_DESCRIPTION = "album";
 
-	Double getRating();
 
-	List<PlexTag> getStyles();
+public interface PlexAlbum extends PlexMediatag, PlexParent, PlexChild {
+    int TYPE_ID = 9;
+    String TYPE_DESCRIPTION = "album";
 
-	List<PlexTag> getFormats();
+    PlexFilterableString TITLE = () -> "album.title";
+    PlexFilterableInteger YEAR = () -> "album.year";
+    PlexFilterableInteger DECADE = () -> "album.decade";
+    PlexFilterableTag GENRE = () -> "album.genre";
+    PlexFilterableInteger PLAYS = () -> "album.viewCount";
+    PlexFilterableDate LAST_PLAYED = () -> "album.lastViewedAt";
+    PlexFilterableInteger RATING = () -> "album.userRating";
+    PlexFilterableInteger CRITIC_RATING = () -> "album.rating";
+    PlexFilterableString RECORD_LABEL = () -> "album.studio";
+    PlexFilterableTag MOOD = () -> "album.mood";
+    PlexFilterableTag STYLE = () -> "album.style";
+    PlexFilterableTag FORMAT = () -> "album.format";
+    PlexFilterableTag TYPE = () -> "album.subformat";
+    PlexFilterableTag COLLECTION = () -> "album.collection";
+    PlexFilterableDate DATE_ADDED = () -> "album.addedAt";
+    PlexFilterableDate DATE_RELEASED = () -> "album.originallyAvailableAt";
+    PlexFilterableBoolean UNMATCHED = () -> "album.unmatched";
+    PlexFilterableTag SOURCE = () -> "album.source";
+    PlexFilterableTag LABEL = () -> "album.label";
 
-	Integer getLoudnessAnalysisVersion();
+    Double getRating();
 
-	List<PlexTag> getSubformats();
+    List<PlexTag> getStyles();
 
-	List<PlexTag> getDirectors();
+    List<PlexTag> getFormats();
 
-	Integer getLeafCount();
+    Integer getLoudnessAnalysisVersion();
 
-	List<PlexTag> getMoods();
+    List<PlexTag> getSubformats();
 
-	String getStudio();
+    List<PlexTag> getDirectors();
 
-	Integer getViewedLeafCount();
+    Integer getLeafCount();
 
-	List<PlexTag> getGenres();
+    List<PlexTag> getMoods();
 
-	Date getOriginallyAvailableAt();
+    String getStudio();
 
-	Integer getYear();
+    Integer getViewedLeafCount();
 
-	String getArt();
+    List<PlexTag> getGenres();
 
-	URI art();
+    Date getOriginallyAvailableAt();
 
-	String getThumb();
+    Integer getYear();
 
-	URI thumb();
+    PlexMusicSection section();
 
-	Boolean getGenresLocked();
+    String getArt();
 
-	Boolean getMoodsLocked();
+    URI art();
 
-	Boolean getStylesLocked();
+    String getThumb();
 
-	@Override
-	default int typeId() {
-		return TYPE_ID;
-	}
+    URI thumb();
 
-	@Override
-	PlexAlbumEditor editor();
+    Boolean getGenresLocked();
+
+    Boolean getMoodsLocked();
+
+    Boolean getStylesLocked();
+
+    PlexAlbumEditor editor();
+
+    List<PlexTrack> children();
+
+    PlexArtist parent();
+
+    
 }

@@ -1,11 +1,13 @@
 package kekolab.javaplex.model;
 
 public interface PlexRating {
-	Integer getCount();
 
-	String getImage();
+    Integer getCount();
 
-	String getType();
+    String getImage();
 
-	Double getValue();
+    String getType();
+
+    Double getValue();
+
 }

@@ -13,17 +13,16 @@ import org.junit.jupiter.api.Test;
 import kekolab.javaplex.PlexException;
 import kekolab.javaplex.model.PlexArtist;
 import kekolab.javaplex.model.PlexArtistCollection;
-import kekolab.javaplex.model.PlexAudioPlaylist;
+import kekolab.javaplex.model.PlexClassicAudioPlaylist;
+import kekolab.javaplex.model.PlexClassicPlaylist;
 import kekolab.javaplex.model.PlexConnection;
 import kekolab.javaplex.model.PlexDevice;
 import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexMetadata;
 import kekolab.javaplex.model.PlexMusicCollections;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexPlaylists;
 import kekolab.javaplex.model.PlexSection;
 import kekolab.javaplex.model.PlexTrack;
-import kekolab.javaplex.model.WithCollections;
 
 public class PlexMediaServerTests extends PlexTests {
 	private static PlexMediaServer server;
@@ -52,17 +51,17 @@ public class PlexMediaServerTests extends PlexTests {
 	public void refresh() {
 		PlexArtist artist = (PlexArtist) getServer().library().search("xuxa").get(0).getItem();
 		PlexPlaylists playlists = getServer().playlists();
-		PlexAudioPlaylist audioPlaylist = playlists.list().stream().filter(PlexAudioPlaylist.class::isInstance)
-				.map(PlexAudioPlaylist.class::cast).findAny().get();
+		PlexClassicAudioPlaylist audioPlaylist = playlists.list().stream().filter(PlexClassicAudioPlaylist.class::isInstance)
+				.map(PlexClassicAudioPlaylist.class::cast).findAny().get();
 		assertFalse(audioPlaylist.children().stream().anyMatch(t -> {
 			return t.getGrandparentTitle().equals(artist.getTitle());
 		}));
-		playlists.add(artist, audioPlaylist);
+		playlists.add(audioPlaylist, artist);
 		List<PlexTrack> tracks = audioPlaylist.children().stream().filter(t -> {
 			return t.getGrandparentTitle().equals(artist.getTitle());
 		}).toList();
 		assertEquals(1, tracks.size());
-		playlists.remove(tracks.get(0), audioPlaylist);
+		playlists.remove(audioPlaylist, tracks.get(0));
 		tracks = audioPlaylist.children().stream().filter(t -> {
 			return t.getGrandparentTitle().equals(artist.getTitle());
 		}).toList();
@@ -94,8 +93,10 @@ public class PlexMediaServerTests extends PlexTests {
 		PlexPlaylists playlists = getServer().playlists();
 		assertTrue(playlists.list().stream().noneMatch(p -> p.getTitle().equals("xuxa")));
 		PlexArtist xuxa = (PlexArtist) getServer().library().search("xuxa").get(0).getItem();
-		PlexAudioPlaylist playlist = playlists.create("xuxa", xuxa);
-		assertTrue(playlist.children().stream().anyMatch(c -> {
+		PlexClassicPlaylist playlist = playlists.create("xuxa", xuxa);
+		assertTrue(playlist instanceof PlexClassicAudioPlaylist);
+		PlexClassicAudioPlaylist audioPlaylist = (PlexClassicAudioPlaylist) playlist;
+		assertTrue(audioPlaylist.children().stream().anyMatch(c -> {
 			return c.getGrandparentTitle().equals(xuxa.getTitle());
 		}));
 		playlists.delete(playlist);
@@ -111,30 +112,27 @@ public class PlexMediaServerTests extends PlexTests {
 			PlexMusicCollections collections = section.collections();
 			for (PlexArtistCollection collection : collections.list().stream()
 					.filter(PlexArtistCollection.class::isInstance).map(PlexArtistCollection.class::cast).toList()) {
-				collections.add((PlexArtist) getServer().library().search("xuxa").get(0).getItem(), collection);
+				collections.add(collection, (PlexArtist) getServer().library().search("xuxa").get(0).getItem());
 				PlexArtist xuxa = collection.children().stream().filter(c -> c.getTitle().toLowerCase().equals("xuxa"))
 						.findAny().get();
-				collections.remove(xuxa, collection);
+				collections.remove(collection, xuxa);
 				assertTrue(collection.children().stream().noneMatch(c -> c.getTitle().toLowerCase().equals("xuxa")));
-				collections.remove(xuxa, collection);
+				collections.remove(collection, xuxa);
 			}
 		}
 	}
 
 	@Test
 	public void listCollections() {
-		for (WithCollections<?, ?> section : getServer().library().sections().stream()
-				.filter(WithCollections.class::isInstance)
-				.map(WithCollections.class::cast).toList()) {
+		for (PlexMusicSection section : getServer().library().musicSections()) {
 			section.collections().list()
-					.forEach(collection -> 
-					System.out.println(collection.getClass() + " - " + collection.getTitle()));
+					.forEach(collection -> System.out.println(collection.getClass() + " - " + collection.getTitle()));
 		}
 	}
 
 	@Test
 	public void createCollection() {
-		for (PlexSection<?, ?> section : getServer().library().sections().stream()
+		for (PlexSection section : getServer().library().sections().stream()
 				.filter(s -> s.getType().equals("artist"))
 				.toList()) {
 			PlexArtist xuxa = (PlexArtist) getServer().library().search("xuxa").get(0).getItem();
@@ -150,14 +148,8 @@ public class PlexMediaServerTests extends PlexTests {
 	}
 
 	@Test
-	public void traverse() {
-		getServer().library().all().stream().filter(PlexMetadata.class::isInstance).map(PlexMetadata.class::cast)
-				.forEach(PlexMetadata::getFields);
-	}
-
-	@Test
 	public void sections() {
-		for (PlexSection<?, ?> section : getServer().library().sections()) {
+		for (PlexSection section : getServer().library().sections()) {
 			System.out.println(section.getClass());
 
 			/*

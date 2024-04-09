@@ -12,13 +12,13 @@ import org.apache.hc.core5.net.URIBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.TimestampDeserializer;
 import kekolab.javaplex.model.PlexLocation;
 import kekolab.javaplex.model.PlexMediatag;
-import kekolab.javaplex.model.PlexMetadata;
 import kekolab.javaplex.model.PlexSection;
+import kekolab.javaplex.model.PlexSectionQueryBuilder;
 
-abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMediatag<?>>
-		extends Directory implements PlexSection<All, RecentlyAdded> {
+public abstract class Section extends Directory implements PlexSection {
 	private Boolean allowSync;
 	private String agent;
 	private Boolean content;
@@ -55,10 +55,12 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 		this.art.setValue(art);
 	}
 
+	@Override
 	public String getArt() {
 		return (String) art.getValue();
 	}
 
+	@Override
 	public URI art() {
 		return art.uri();
 	}
@@ -67,10 +69,12 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 		this.composite.setValue(composite);
 	}
 
+	@Override
 	public String getComposite() {
 		return (String) composite.getValue();
 	}
 
+	@Override
 	public URI composite() {
 		return composite.uri();
 	}
@@ -79,74 +83,92 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public String getThumb() {
 		return (String) thumb.getValue();
 	}
 
+	@Override
 	public URI thumb() {
 		return thumb.uri();
 	}
 
+	@Override
 	public Boolean getAllowSync() {
 		return allowSync;
 	}
 
+	@Override
 	public Boolean getFilters() {
 		return filters;
 	}
 
+	@Override
 	public String getType() {
 		return type;
 	}
 
+	@Override
 	public String getAgent() {
 		return agent;
 	}
 
+	@Override
 	public String getScanner() {
 		return scanner;
 	}
 
+	@Override
 	public String getLanguage() {
 		return language;
 	}
 
+	@Override
 	public String getUuid() {
 		return uuid;
 	}
 
+	@Override
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
+	@Override
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 
+	@Override
 	public Date getScannedAt() {
 		return scannedAt;
 	}
 
+	@Override
 	public Boolean getContent() {
 		return content;
 	}
 
+	@Override
 	public Boolean getDirectory() {
 		return directory;
 	}
 
+	@Override
 	public Long getContentChangedAt() {
 		return contentChangedAt;
 	}
 
+	@Override
 	public List<PlexLocation> getLocations() {
 		return locations;
 	}
 
+	@Override
 	public Boolean getRefreshing() {
 		return refreshing;
 	}
 
+	@Override
 	public Integer getHidden() {
 		return hidden;
 	}
@@ -215,26 +237,19 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 		this.hidden = hidden;
 	}
 
-	public List<All> all() {
-		return executeRequestAndGetMetadata("all");
+	@Override
+	public PlexSectionQueryBuilder<?> all() {
+		return new SectionQueryBuilder<>()
+				.withSection(this)
+				.withPath("all");
 	}
 
-	public List<RecentlyAdded> recentlyAdded() {
-		return executeRequestAndGetMetadata("recentlyAdded");
-	}
-
-	private <M extends PlexMetadata> List<M> executeRequestAndGetMetadata(String key) {
-		URI uri;
-		try {
-			uri = new URIBuilder(key()).appendPath(key).build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-		return new MetadataContainer<M, Directory>(uri, getServer()).getMetadata();
-	}
-
-	protected <M extends PlexMediatag<?>> List<M> executeRequestAndCastMetadata(String key, Class<M> cls) {
-		return executeRequestAndGetMetadata(key).stream().map(m -> cls.cast(m)).toList();
+	@Override
+	public List<? extends PlexMediatag> recentlyAdded() {
+		return new SectionQueryBuilder<>()
+				.withSection(this)
+				.withPath("recentlyAdded")
+				.execute();
 	}
 
 	@Override
@@ -247,10 +262,10 @@ abstract class Section<All extends PlexMediatag<?>, RecentlyAdded extends PlexMe
 		}
 	}
 
-	<T> List<T> byFeature(String feature, Function<Filter, T> function) {
+	<T> List<T> byFeature(String feature, Function<SectionSecondaryDirectory, T> function) {
 		try {
 			URI uri = new URIBuilder(key()).appendPath(feature).build();
-			return new MetadataContainer<PlexMetadata, Filter>(uri, getServer()).getDirectories().stream()
+			return new MetadataContainer<Metadata, SectionSecondaryDirectory>(uri, getServer()).getDirectories().stream()
 					.map(function).toList();
 		} catch (URISyntaxException e) {
 			throw new PlexException(e); // TODO

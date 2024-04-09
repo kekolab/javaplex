@@ -3,67 +3,100 @@ package kekolab.javaplex.model;
 import java.net.URI;
 import java.util.List;
 
-public interface PlexMovie extends PlexVideo<PlexMovieSection> {
-	int TYPE_ID = 1;
-	String TYPE_DESCRIPTION = "movie";
 
-	Double getRating();
 
-	Double getAudienceRating();
+public interface PlexMovie extends PlexVideo {
+    int TYPE_ID = 1;
+    String TYPE_DESCRIPTION = "movie";
 
-	String getTagline();
+    PlexFilterableString TITLE = () -> "title";
+    PlexFilterableString STUDIO = () -> "studio";
+    PlexFilterableTag CONTENT_RATING = () -> "contentRating";
+    PlexFilterableInteger YEAR = () -> "year";
+    PlexFilterableInteger DECADE = () -> "decade";
+    PlexFilterableBoolean UNMATCHED = () -> "unmatched";
+    PlexFilterableBoolean DUPLICATED = () -> "duplicated";
+    PlexFilterableTag GENRE = () -> "genre";
+    PlexFilterableTag COLLECTION = () -> "collection";
+    PlexFilterableTag DIRECTOR = () -> "director";
+    PlexFilterableTag WRITER = () -> "writer";
+    PlexFilterableTag PRODUCER = () -> "producer";
+    PlexFilterableTag ACTOR = () -> "actor";
+    PlexFilterableTag COUNTRY = () -> "country";
+    PlexFilterableDate DATE_ADDED = () -> "addedAt";
+    PlexFilterableInteger PLAYS = () -> "viewCount";
+    PlexFilterableDate LAST_PLAYED = () -> "lastViewedAt";
+    PlexFilterableBoolean UNPLAYED = () -> "unwatched";
+    PlexFilterableInteger RESOLUTION = () -> "resolution";
+    PlexFilterableBoolean HDR = () -> "hdr";
+    PlexFilterableInteger FILE_SIZE = () -> "mediaSize";
+    PlexFilterableInteger BITRATE = () -> "mediaBitrate";
+    PlexFilterableTag SUBTITLE_LANGUAGE = () -> "subtitleLanguage";
+    PlexFilterableTag AUDIO_LANGUAGE = () -> "audioLanguage";
+    PlexFilterableBoolean IN_PROGRESS = () -> "inProgress";
+    PlexFilterableBoolean TRASHED = () -> "trash";
+    PlexFilterableTag LABEL = () -> "label";
 
-	String getAudienceRatingImage();
+    Double getRating();
 
-	Integer getHasPremiumExtras();
+    Double getAudienceRating();
 
-	Integer getHasPremiumPrimaryExtra();
+    String getTagline();
 
-	String getRatingImage();
+    String getAudienceRatingImage();
 
-	List<PlexTag> getGenres();
+    Integer getHasPremiumExtras();
 
-	List<PlexTag> getDirectors();
+    Integer getHasPremiumPrimaryExtra();
 
-	List<PlexTag> getWriters();
+    String getRatingImage();
 
-	List<PlexTag> getProducers();
+    List<PlexTag> getGenres();
 
-	List<PlexTag> getCountries();
+    List<PlexTag> getDirectors();
 
-	List<PlexRole> getRoles();
+    List<PlexTag> getWriters();
 
-	List<PlexTag> getSimilars();
+    List<PlexTag> getProducers();
 
-	List<PlexRating> getRatings();
+    List<PlexTag> getCountries();
 
-	String getSubtype();
+    List<PlexRole> getRoles();
 
-	List<String> getCreatedAtAccuracy();
+    List<PlexTag> getSimilars();
 
-	Integer getCreatedAtTZOffset();
+    String getChapterSource();
 
-	String getArt();
+    List<PlexRating> getRatings();
 
-	URI art();
+    String getSubtype();
 
-	String getThumb();
+    List<String> getCreatedAtAccuracy();
 
-	URI thumb();
+    Integer getCreatedAtTZOffset();
 
-	Boolean getCountriesLocked();
+    PlexMovieSection section();
 
-	Boolean getDirectorsLocked();
+    String getArt();
 
-	Boolean getGenresLocked();
+    URI art();
 
-	Boolean getWritersLocked();
+    String getThumb();
 
-	Boolean getProducersLocked();
+    URI thumb();
 
-	default int typeId() {
-		return TYPE_ID;
-	}
+    Boolean getCountriesLocked();
 
-	PlexMovieEditor editor();
+    Boolean getDirectorsLocked();
+
+    Boolean getGenresLocked();
+
+    Boolean getWritersLocked();
+
+    Boolean getProducersLocked();
+
+    PlexMovieEditor editor();
+
+    int typeId();
+
 }

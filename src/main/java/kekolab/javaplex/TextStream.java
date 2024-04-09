@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import kekolab.javaplex.model.PlexTextStream;
 
-class TextStream extends Stream implements PlexTextStream {
-
+public class TextStream extends Stream implements PlexTextStream {
 	private Boolean selected;
 	private Boolean hearingImpaired;
 	@JsonProperty("transient")
@@ -17,16 +16,19 @@ class TextStream extends Stream implements PlexTextStream {
 	private Integer userID;
 	private Double score;
 
+	@Override
 	public Boolean getSelected() {
 		ensureDetailed(selected);
 		return selected;
 	}
 
+	@Override
 	public Integer getTransient() {
 		ensureDetailed(_transient);
 		return _transient;
 	}
 
+	@Override
 	public String getFormat() {
 		ensureDetailed(format);
 		return format;
@@ -44,6 +46,7 @@ class TextStream extends Stream implements PlexTextStream {
 		this.format = format;
 	}
 
+	@Override
 	public Integer getSubIndex() {
 		ensureDetailed(subIndex);
 		return subIndex;
@@ -53,6 +56,7 @@ class TextStream extends Stream implements PlexTextStream {
 		this.subIndex = subIndex;
 	}
 
+	@Override
 	public Boolean getHearingImpaired() {
 		ensureDetailed(hearingImpaired);
 		return hearingImpaired;
@@ -62,6 +66,7 @@ class TextStream extends Stream implements PlexTextStream {
 		this.hearingImpaired = hearingImpaired;
 	}
 
+	@Override
 	public String getProviderTitle() {
 		ensureDetailed(providerTitle);
 		return providerTitle;
@@ -71,6 +76,7 @@ class TextStream extends Stream implements PlexTextStream {
 		this.providerTitle = providerTitle;
 	}
 
+	@Override
 	public String getSourceKey() {
 		ensureDetailed(sourceKey);
 		return sourceKey;
@@ -80,6 +86,7 @@ class TextStream extends Stream implements PlexTextStream {
 		this.sourceKey = sourceKey;
 	}
 
+	@Override
 	public Integer getUserID() {
 		ensureDetailed(userID);
 		return userID;
@@ -89,6 +96,7 @@ class TextStream extends Stream implements PlexTextStream {
 		this.userID = userID;
 	}
 
+	@Override
 	public Double getScore() {
 		ensureDetailed(score);
 		return score;

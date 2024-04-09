@@ -2,64 +2,64 @@ package kekolab.javaplex.model;
 
 import java.util.List;
 
-public interface PlexMedia { // TODO Forse sarebbe opportuno distinguere tra
-								// i media di audio, video e foto
+public interface PlexMedia {
 
-	String getProtocol();
+    String getProtocol();
 
-	Boolean getSelected();
+    Boolean getSelected();
 
-	Integer getId();
+    Integer getId();
 
-	Integer getBitrate();
+    Integer getBitrate();
 
-	Integer getWidth();
+    Integer getWidth();
 
-	Integer getHeight();
+    Integer getHeight();
 
-	Integer getAudioChannels();
+    Integer getAudioChannels();
 
-	String getAudioCodec();
+    String getAudioCodec();
 
-	String getVideoCodec();
+    String getVideoCodec();
 
-	String getContainer();
+    String getContainer();
 
-	String getVideoFrameRate();
+    String getVideoFrameRate();
 
-	String getVideoProfile();
+    String getVideoProfile();
 
-	Long getDuration();
+    Long getDuration();
 
-	Double getAspectRatio();
+    Double getAspectRatio();
 
-	String getVideoResolution();
+    String getVideoResolution();
 
-	List<PlexPart> getParts();
+    List<PlexPart> getParts();
 
-	Boolean getOptimizedForStreaming();
+    Boolean getOptimizedForStreaming();
 
-	String getAudioProfile();
+    String getAudioProfile();
 
-	Boolean getHas64bitOffsets();
+    Boolean getHas64bitOffsets();
 
-	Integer getOrientation();
+    Integer getOrientation();
 
-	String getKey();
+    String getKey();
 
-	String getFile();
+    String getFile();
 
-	Long getSize();
+    Long getSize();
 
-	Integer getIso();
+    Integer getIso();
 
-	String getAperture();
+    String getAperture();
 
-	String getExposure();
+    String getExposure();
 
-	String getMake();
+    String getMake();
 
-	String getModel();
+    String getModel();
 
-	String getLens();
+    String getLens();
+
 }

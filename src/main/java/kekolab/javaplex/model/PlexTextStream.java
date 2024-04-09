@@ -1,23 +1,25 @@
 package kekolab.javaplex.model;
 
 public interface PlexTextStream extends PlexStream {
-	int TYPE_ID = 3;
 
-	Boolean getSelected();
+    int TYPE_ID = 3;
 
-	Integer getTransient();
+    Boolean getSelected();
 
-	String getFormat();
+    Integer getTransient();
 
-	Integer getSubIndex();
+    String getFormat();
 
-	Boolean getHearingImpaired();
+    Integer getSubIndex();
 
-	String getProviderTitle();
+    Boolean getHearingImpaired();
 
-	String getSourceKey();
+    String getProviderTitle();
 
-	Integer getUserID();
+    String getSourceKey();
 
-	Double getScore();
+    Integer getUserID();
+
+    Double getScore();
+
 }

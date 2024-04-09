@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import kekolab.javaplex.model.PlexMedia;
 import kekolab.javaplex.model.PlexPart;
 
-class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sarebbe opportuno distinguere tra
+public class Media extends MediatagAttribute implements PlexMedia  { // TODO Forse sarebbe opportuno distinguere tra
 	// i media di audio, video e foto
 	@JsonProperty("Part")
 	@JsonDeserialize(contentAs = Part.class)
@@ -43,6 +43,7 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 	private String protocol;
 	private Boolean selected;
 
+	@Override
 	public String getProtocol() {
 		return protocol;
 	}
@@ -51,6 +52,7 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.protocol = protocol;
 	}
 
+	@Override
 	public Boolean getSelected() {
 		return selected;
 	}
@@ -59,66 +61,79 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.selected = selected;
 	}
 
+	@Override
 	public Integer getId() {
 		ensureDetailed(id);
 		return id;
 	}
 
+	@Override
 	public Integer getBitrate() {
 		ensureDetailed(bitrate);
 		return bitrate;
 	}
 
+	@Override
 	public Integer getWidth() {
 		ensureDetailed(width);
 		return width;
 	}
 
+	@Override
 	public Integer getHeight() {
 		ensureDetailed(height);
 		return height;
 	}
 
+	@Override
 	public Integer getAudioChannels() {
 		ensureDetailed(audioChannels);
 		return audioChannels;
 	}
 
+	@Override
 	public String getAudioCodec() {
 		ensureDetailed(audioCodec);
 		return audioCodec;
 	}
 
+	@Override
 	public String getVideoCodec() {
 		ensureDetailed(videoCodec);
 		return videoCodec;
 	}
 
+	@Override
 	public String getContainer() {
 		ensureDetailed(container);
 		return container;
 	}
 
+	@Override
 	public String getVideoFrameRate() {
 		ensureDetailed(videoFrameRate);
 		return videoFrameRate;
 	}
 
+	@Override
 	public String getVideoProfile() {
 		ensureDetailed(videoProfile);
 		return videoProfile;
 	}
 
+	@Override
 	public Long getDuration() {
 		ensureDetailed(duration);
 		return duration;
 	}
 
+	@Override
 	public Double getAspectRatio() {
 		ensureDetailed(aspectRatio);
 		return aspectRatio;
 	}
 
+	@Override
 	public String getVideoResolution() {
 		ensureDetailed(videoResolution);
 		return videoResolution;
@@ -128,6 +143,7 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.videoResolution = videoResolution;
 	}
 
+	@Override
 	public List<PlexPart> getParts() {
 		ensureDetailed(parts);
 		return parts;
@@ -137,16 +153,19 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.parts = parts;
 	}
 
+	@Override
 	public Boolean getOptimizedForStreaming() {
 		ensureDetailed(optimizedForStreaming);
 		return optimizedForStreaming;
 	}
 
+	@Override
 	public String getAudioProfile() {
 		ensureDetailed(audioProfile);
 		return audioProfile;
 	}
 
+	@Override
 	public Boolean getHas64bitOffsets() {
 		ensureDetailed(has64bitOffsets);
 		return has64bitOffsets;
@@ -164,26 +183,31 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.has64bitOffsets = has64bitOffsets;
 	}
 
+	@Override
 	public Integer getOrientation() {
 		ensureDetailed(orientation);
 		return orientation;
 	}
 
+	@Override
 	public String getKey() {
 		ensureDetailed(key);
 		return key;
 	}
 
+	@Override
 	public String getFile() {
 		ensureDetailed(getFile());
 		return file;
 	}
 
+	@Override
 	public Long getSize() {
 		ensureDetailed(size);
 		return size;
 	}
 
+	@Override
 	public Integer getIso() {
 		ensureDetailed(iso);
 		return iso;
@@ -193,6 +217,7 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.iso = iso;
 	}
 
+	@Override
 	public String getAperture() {
 		ensureDetailed(aperture);
 		return aperture;
@@ -202,6 +227,7 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.aperture = aperture;
 	}
 
+	@Override
 	public String getExposure() {
 		ensureDetailed(exposure);
 		return exposure;
@@ -211,16 +237,19 @@ class Media extends MediatagAttribute implements PlexMedia { // TODO Forse sareb
 		this.exposure = exposure;
 	}
 
+	@Override
 	public String getMake() {
 		ensureDetailed(make);
 		return make;
 	}
 
+	@Override
 	public String getModel() {
 		ensureDetailed(model);
 		return model;
 	}
 
+	@Override
 	public String getLens() {
 		ensureDetailed(lens);
 		return lens;

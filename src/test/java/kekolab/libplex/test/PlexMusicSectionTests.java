@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import kekolab.javaplex.model.PlexAlbum;
 import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexArtistOrAlbumFilter;
+import kekolab.javaplex.model.PlexArtistOrAlbumSecondaryDirectory;
 import kekolab.javaplex.model.PlexConnection;
 import kekolab.javaplex.model.PlexDevice;
 import kekolab.javaplex.model.PlexMediaServer;
@@ -35,7 +35,7 @@ public class PlexMusicSectionTests extends PlexTests {
 
 	@Test
 	public void byGenres() {
-		PlexArtistOrAlbumFilter plexMusicGenreFilter = section.byGenre().get(0);
+		PlexArtistOrAlbumSecondaryDirectory plexMusicGenreFilter = section.byGenre().get(0);
 		List<PlexArtist> artists = plexMusicGenreFilter.artists();
 		artists.stream().map(PlexMediatag::getTitle).forEach(System.out::println);
 		List<PlexAlbum> albums = plexMusicGenreFilter.albums();

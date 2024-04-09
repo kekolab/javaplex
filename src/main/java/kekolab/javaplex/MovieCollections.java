@@ -3,28 +3,22 @@ package kekolab.javaplex;
 import kekolab.javaplex.model.PlexMovie;
 import kekolab.javaplex.model.PlexMovieCollection;
 import kekolab.javaplex.model.PlexMovieCollections;
-import kekolab.javaplex.model.PlexMovieSection;
 
-class MovieCollections extends Collections<PlexMovieSection> implements PlexMovieCollections {
+public class MovieCollections extends Collections implements PlexMovieCollections  {
 
-    MovieCollections(MovieSection section) {
+    protected MovieCollections(MovieSection section) {
         super(section);
     }
 
-    @Override
-    public PlexMovieCollection create(String title, PlexMovie movie) {
-        return (PlexMovieCollection) super.create(title, movie);
+    public PlexMovieCollection create(String title, PlexMovie item) {
+        return (PlexMovieCollection) super.create(title, item);
     }
 
-    @Override
-    public PlexMovieCollection add(PlexMovie movie, PlexMovieCollection collection) {
-        return (PlexMovieCollection) super.add(movie, collection);
+    public PlexMovieCollection add(PlexMovieCollection collection, PlexMovie movie) {
+        return (PlexMovieCollection) super.add(collection, movie);
     }
 
-    @Override
-    public PlexMovieCollection remove(PlexMovie movie, PlexMovieCollection collection) {
-        return (PlexMovieCollection) super.remove(movie, collection);
+    public PlexMovieCollection remove(PlexMovieCollection collection, PlexMovie movie) {
+        return (PlexMovieCollection) super.remove(collection, movie);
     }
-
-    
 }

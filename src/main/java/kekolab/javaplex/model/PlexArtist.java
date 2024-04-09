@@ -3,48 +3,65 @@ package kekolab.javaplex.model;
 import java.net.URI;
 import java.util.List;
 
-public interface PlexArtist extends PlexGrandparent<PlexAlbum, PlexTrack, PlexMusicSection> {
-	int TYPE_ID = 8;
-	String TYPE_DESCRIPTION = "artist";
 
-	List<PlexTag> getStyles();
 
-	Integer getAlbumSort();
+public interface PlexArtist extends PlexMediatag, PlexGrandparent {
+    int TYPE_ID = 8;
+    String TYPE_DESCRIPTION = "artist";
+    
+    PlexFilterableString TITLE = () -> "artist.title";
+    PlexFilterableInteger USER_RATING = () -> "artist.userRating";
+    PlexFilterableTag GENRE = () -> "artist.genre";
+    PlexFilterableTag COLLECTION = () -> "artist.collection";
+    PlexFilterableTag COUNTRY = () -> "artist.country";
+    PlexFilterableTag MOOD = () -> "artist.mood";
+    PlexFilterableTag STYLE = () -> "artist.style";
+    PlexFilterableDate DATE_ADDED = () -> "artist.addedAt";
+    PlexFilterableDate LAST_PLAYED = () -> "artist.lastViewedAt";
+    PlexFilterableBoolean UNMATCHED = () -> "artist.unmatched";
 
-	List<PlexTag> getLocations();
+    List<PlexTag> getStyles();
 
-	List<PlexTag> getCountries();
+    Integer getAlbumSort();
 
-	List<PlexTag> getMoods();
+    List<PlexTag> getLocations();
 
-	List<PlexTag> getSimilars();
+    List<PlexTag> getCountries();
 
-	List<PlexTag> getGenres();
+    List<PlexTag> getMoods();
 
-	Integer getChildCount(); // TODO Move in Plexparent?
+    List<PlexTag> getSimilars();
 
-	String getArt();
+    List<PlexTag> getGenres();
 
-	URI art();
+    Integer getChildCount();
 
-	String getThumb();
+    PlexMusicSection section();
 
-	URI thumb();
+    List<PlexAlbum> children();
 
-	default int typeId() {
-		return TYPE_ID;
-	}
+    List<PlexTrack> grandchildren();
 
-	Boolean getCountriesLocked();
+    String getArt();
 
-	Boolean getGenresLocked();
+    URI art();
 
-	Boolean getSimilarsLocked();
+    String getThumb();
 
-	Boolean getMoodsLocked();
+    URI thumb();
 
-	Boolean getStylesLocked();
+    Boolean getCountriesLocked();
 
-	@Override
-	PlexArtistEditor editor();
+    Boolean getGenresLocked();
+
+    Boolean getSimilarsLocked();
+
+    Boolean getMoodsLocked();
+
+    Boolean getStylesLocked();
+
+    int typeId();
+
+    PlexArtistEditor editor();
+
 }

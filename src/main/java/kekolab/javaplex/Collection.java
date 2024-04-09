@@ -7,12 +7,9 @@ import java.util.List;
 import org.apache.hc.core5.net.URIBuilder;
 
 import kekolab.javaplex.model.PlexCollection;
-import kekolab.javaplex.model.PlexCollectionEditor;
 import kekolab.javaplex.model.PlexMediatag;
-import kekolab.javaplex.model.PlexSection;
 
-class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
-		extends SectionItem<S> implements PlexCollection<M, S> {
+public class Collection extends SectionItem implements PlexCollection {
 	private Integer childCount;
 	private String contentRating;
 	private Integer index;
@@ -23,8 +20,6 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 	private UriProvider art;
 	private UriProvider thumb;
 
-
-
 	public Collection() {
 		art = new UriProvider(this::uri);
 		thumb = new UriProvider(this::uri);
@@ -33,7 +28,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Collection<?, ?> collection = (Collection<?, ?>) source;
+		PlexCollection collection = (PlexCollection) source;
 		setChildCount(collection.getChildCount());
 		setContentRating(collection.getContentRating());
 		setIndex(collection.getIndex());
@@ -44,7 +39,8 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		setArt(collection.getArt());
 		setThumb(collection.getThumb());
 	}
-	
+
+	@Override
 	public Integer getChildCount() {
 		ensureDetailed(childCount);
 		return childCount;
@@ -54,6 +50,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.childCount = childCount;
 	}
 
+	@Override
 	public String getContentRating() {
 		ensureDetailed(contentRating);
 		return contentRating;
@@ -63,6 +60,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.contentRating = contentRating;
 	}
 
+	@Override
 	public Integer getIndex() {
 		ensureDetailed(index);
 		return index;
@@ -72,6 +70,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.index = index;
 	}
 
+	@Override
 	public Integer getMaxYear() {
 		ensureDetailed(maxYear);
 		return maxYear;
@@ -81,6 +80,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.maxYear = maxYear;
 	}
 
+	@Override
 	public Integer getMinYear() {
 		ensureDetailed(minYear);
 		return minYear;
@@ -90,6 +90,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.minYear = minYear;
 	}
 
+	@Override
 	public Integer getRatingCount() {
 		ensureDetailed(ratingCount);
 		return ratingCount;
@@ -99,6 +100,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.ratingCount = ratingCount;
 	}
 
+	@Override
 	public String getSubtype() {
 		ensureDetailed(subtype);
 		return subtype;
@@ -108,8 +110,9 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.subtype = subtype;
 	}
 
-	public List<M> children() {
-		return new MetadataContainer<M, Directory>(key(), getServer()).getMetadata();
+	@Override
+	public List<? extends PlexMediatag> children() {
+		return new MetadataContainer<PlexMediatag, Directory>(key(), getServer()).getMetadata();
 	}
 
 	@Override
@@ -124,6 +127,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		return null;
 	}
 
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
@@ -133,11 +137,13 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.art.setValue(art);
 	}
 
+	@Override
 	public URI art() {
 		ensureDetailed(art.getValue());
 		return art.uri();
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
@@ -147,6 +153,7 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.getValue());
 		return thumb.uri();
@@ -157,12 +164,13 @@ class Collection<M extends PlexMediatag<S>, S extends PlexSection<?, ?>>
 		return TYPE_ID;
 	}
 
+	@Override
 	public Boolean getContentRatingLocked() {
 		return getFieldLocked("contentRating");
 	}
 
 	@Override
-	public PlexCollectionEditor editor() {
+	public CollectionEditor editor() {
 		return new CollectionEditor(this);
 	}
 }

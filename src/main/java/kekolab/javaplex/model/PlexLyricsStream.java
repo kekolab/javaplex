@@ -1,13 +1,15 @@
 package kekolab.javaplex.model;
 
 public interface PlexLyricsStream extends PlexStream {
-	int TYPE_ID = 4;
 
-	String getFormat();
+    int TYPE_ID = 4;
 
-	String getProvider();
+    String getFormat();
 
-	Integer getMinLines();
+    String getProvider();
 
-	Boolean getTimed();
+    Integer getMinLines();
+
+    Boolean getTimed();
+
 }

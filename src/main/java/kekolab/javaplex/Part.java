@@ -7,10 +7,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import kekolab.javaplex.mappers.IntegerListDeserializer;
 import kekolab.javaplex.model.PlexPart;
 import kekolab.javaplex.model.PlexStream;
 
-class Part extends MediatagAttribute implements PlexPart {
+public class Part extends MediatagAttribute implements PlexPart  {
 	@JsonProperty("Stream")
 	@JsonDeserialize(contentUsing = StreamDeserializer.class)
 	private List<PlexStream> streams;
@@ -37,6 +38,7 @@ class Part extends MediatagAttribute implements PlexPart {
 	private String decision;
 	private Boolean selected;
 
+	@Override
 	public Integer getHeight() {
 		return height;
 	}
@@ -45,6 +47,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.height = height;
 	}
 
+	@Override
 	public Integer getWidth() {
 		return width;
 	}
@@ -53,6 +56,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.width = width;
 	}
 
+	@Override
 	public String getProtocol() {
 		return protocol;
 	}
@@ -61,6 +65,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.protocol = protocol;
 	}
 
+	@Override
 	public String getDecision() {
 		return decision;
 	}
@@ -69,6 +74,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.decision = decision;
 	}
 
+	@Override
 	public Boolean getSelected() {
 		return selected;
 	}
@@ -82,6 +88,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		key = new UriProvider(() -> getParentTag().getServer().getUri());
 	}
 
+	@Override
 	public Integer getOrientation() {
 		ensureDetailed(orientation);
 		return orientation;
@@ -91,6 +98,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.orientation = orientation;
 	}
 
+	@Override
 	public Integer getId() {
 		ensureDetailed(id);
 		return id;
@@ -100,16 +108,19 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.id = id;
 	}
 
+	@Override
 	public Long getDuration() {
 		ensureDetailed(duration);
 		return duration;
 	}
 
+	@Override
 	public String getFile() {
 		ensureDetailed(file);
 		return file;
 	}
 
+	@Override
 	public String getContainer() {
 		ensureDetailed(container);
 		return container;
@@ -127,11 +138,13 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.container = container;
 	}
 
+	@Override
 	public String getVideoProfile() {
 		ensureDetailed(videoProfile);
 		return videoProfile;
 	}
 
+	@Override
 	public Long getSize() {
 		ensureDetailed(size);
 		return size;
@@ -145,16 +158,19 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.size = size;
 	}
 
+	@Override
 	public String getAudioProfile() {
 		ensureDetailed(audioProfile);
 		return audioProfile;
 	}
 
+	@Override
 	public Boolean getHas64bitOffsets() {
 		ensureDetailed(has64bitOffsets);
 		return has64bitOffsets;
 	}
 
+	@Override
 	public Boolean getOptimizedForStreaming() {
 		ensureDetailed(optimizedForStreaming);
 		return optimizedForStreaming;
@@ -172,6 +188,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.optimizedForStreaming = optimizedForStreaming;
 	}
 
+	@Override
 	public Integer getHasThumbnail() {
 		ensureDetailed(hasThumbnail);
 		return hasThumbnail;
@@ -181,6 +198,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.hasThumbnail = hasThumbnail;
 	}
 
+	@Override
 	public List<PlexStream> getStreams() {
 		ensureDetailed(streams);
 		return streams;
@@ -190,6 +208,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.streams = streams;
 	}
 
+	@Override
 	public Boolean getAccessible() {
 		ensureDetailed(accessible);
 		return accessible;
@@ -199,6 +218,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.accessible = accessible;
 	}
 
+	@Override
 	public Boolean getExists() {
 		ensureDetailed(exists);
 		return exists;
@@ -208,6 +228,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.exists = exists;
 	}
 
+	@Override
 	public Integer getDeepAnalysisVersion() {
 		ensureDetailed(deepAnalysisVersion);
 		return deepAnalysisVersion;
@@ -217,6 +238,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.deepAnalysisVersion = deepAnalysisVersion;
 	}
 
+	@Override
 	public List<Integer> getRequiredBandwidths() {
 		ensureDetailed(requiredBandwidths);
 		return requiredBandwidths;
@@ -226,6 +248,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.requiredBandwidths = requiredBandwidths;
 	}
 
+	@Override
 	public String getKey() {
 		return (String) key.getValue();
 	}
@@ -234,6 +257,7 @@ class Part extends MediatagAttribute implements PlexPart {
 		this.key.setValue(key);
 	}
 
+	@Override
 	public URI key() {
 		return key.uri();
 	}

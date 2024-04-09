@@ -9,9 +9,7 @@ import java.util.Optional;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
 
-import kekolab.javaplex.model.PlexMetadataEditor;
-
-class MetadataEditor implements PlexMetadataEditor {
+public class MetadataEditor {
     private final Metadata source;
     private final URI editUri;
     private List<FieldEditor<?>> fieldEditors;
@@ -20,7 +18,7 @@ class MetadataEditor implements PlexMetadataEditor {
         fieldEditors.add(fieldEditor);
     }
 
-    MetadataEditor(Metadata source, URI editUri) {
+    protected MetadataEditor(Metadata source, URI editUri) {
         this.source = source;
         this.editUri = editUri;
         fieldEditors = new ArrayList<>();
@@ -32,7 +30,6 @@ class MetadataEditor implements PlexMetadataEditor {
         return joined;
     }
 
-    @Override
     public void commit() {
         List<NameValuePair> queryParameters = fieldEditors.stream().map(FieldEditor::queryParameters)
                 .reduce(new ArrayList<>(), MetadataEditor::joinLists);

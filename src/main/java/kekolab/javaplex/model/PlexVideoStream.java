@@ -1,48 +1,49 @@
 package kekolab.javaplex.model;
 
 public interface PlexVideoStream extends PlexStream {
-	int TYPE_ID = 1;
 
-	String getCodecID();
+    int TYPE_ID = 1;
 
-	String getChromaSubsampling();
+    String getCodecID();
 
-	Integer getBitDepth();
+    String getChromaSubsampling();
 
-	Integer getCodedHeight();
+    Integer getBitDepth();
 
-	Integer getCodedWidth();
+    Integer getCodedHeight();
 
-	Boolean getAnamorphic();
+    Integer getCodedWidth();
 
-	String getPixelAspectRatio();
+    Boolean getAnamorphic();
 
-	Integer getHeight();
+    String getPixelAspectRatio();
 
-	Integer getLevel();
+    Integer getHeight();
 
-	Integer getRefFrames();
+    Integer getLevel();
 
-	Integer getWidth();
+    Integer getRefFrames();
 
-	Boolean getHasScalingMatrix();
+    Integer getWidth();
 
-	String getChromaLocation();
+    Boolean getHasScalingMatrix();
 
-	String getColorPrimaries();
+    String getChromaLocation();
 
-	String getColorRange();
+    String getColorPrimaries();
 
-	Double getFrameRate();
+    String getColorRange();
 
-	String getColorSpace();
+    Double getFrameRate();
 
-	String getColorTrc();
+    String getColorSpace();
 
-	String getProfile();
+    String getColorTrc();
 
-	String getScanType();
+    String getProfile();
 
-	Integer getOrientation();
+    String getScanType();
+
+    Integer getOrientation();
 
 }

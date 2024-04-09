@@ -5,23 +5,23 @@ import java.util.Optional;
 
 import kekolab.javaplex.model.PlexAlbumEditor;
 
-class AlbumEditor extends SectionItemEditor implements PlexAlbumEditor {
-	private FieldEditor<List<String>> genreEditor;
-	private FieldEditor<Boolean> genreLockEditor;
-	private FieldEditor<List<String>> moodEditor;
-	private FieldEditor<Boolean> moodLockEditor;
-	private FieldEditor<List<String>> styleEditor;
-	private FieldEditor<Boolean> styleLockEditor;
+public class AlbumEditor extends SectionItemEditor implements PlexAlbumEditor {
+    private FieldEditor<List<String>> genreEditor;
+    private FieldEditor<Boolean> genreLockEditor;
+    private FieldEditor<List<String>> moodEditor;
+    private FieldEditor<Boolean> moodLockEditor;
+    private FieldEditor<List<String>> styleEditor;
+    private FieldEditor<Boolean> styleLockEditor;
 
-    AlbumEditor(Album source) {
+    protected AlbumEditor(Album source) {
         super(source);
 
         genreEditor = new TagListFieldEditor("genre", source::getGenres);
-		genreLockEditor = new BooleanFieldEditor("genre.locked", source::getGenresLocked);
-		moodEditor = new TagListFieldEditor("mood", source::getMoods);
-		moodLockEditor = new BooleanFieldEditor("mood.locked", source::getMoodsLocked);
-		styleEditor = new TagListFieldEditor("style", source::getStyles);
-		styleLockEditor = new BooleanFieldEditor("style.locked", source::getStylesLocked);
+        genreLockEditor = new BooleanFieldEditor("genre.locked", source::getGenresLocked);
+        moodEditor = new TagListFieldEditor("mood", source::getMoods);
+        moodLockEditor = new BooleanFieldEditor("mood.locked", source::getMoodsLocked);
+        styleEditor = new TagListFieldEditor("style", source::getStyles);
+        styleLockEditor = new BooleanFieldEditor("style.locked", source::getStylesLocked);
 
         addFieldEditor(genreEditor);
         addFieldEditor(genreLockEditor);
@@ -29,22 +29,19 @@ class AlbumEditor extends SectionItemEditor implements PlexAlbumEditor {
         addFieldEditor(moodLockEditor);
         addFieldEditor(styleEditor);
         addFieldEditor(styleLockEditor);
-        
+
     }
 
-    @Override
     public void setMoods(List<String> values, Optional<Boolean> lock) {
         editField(moodEditor, values, moodLockEditor, lock);
     }
 
-    @Override
     public void setStyles(List<String> values, Optional<Boolean> lock) {
         editField(styleEditor, values, styleLockEditor, lock);
     }
 
-    @Override
     public void setGenres(List<String> values, Optional<Boolean> lock) {
         editField(genreEditor, values, genreLockEditor, lock);
     }
-    
+
 }

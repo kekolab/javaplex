@@ -2,7 +2,7 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexAudioStream;
 
-class AudioStream extends Stream implements PlexAudioStream {
+public class AudioStream extends Stream implements PlexAudioStream {
 	private Boolean selected;
 	private Integer channels;
 	private Integer samplingRate;
@@ -18,6 +18,7 @@ class AudioStream extends Stream implements PlexAudioStream {
 	private Double peak;
 	private String bitrateMode;
 
+	@Override
 	public String getBitrateMode() {
 		return bitrateMode;
 	}
@@ -26,66 +27,79 @@ class AudioStream extends Stream implements PlexAudioStream {
 		this.bitrateMode = bitrateMode;
 	}
 
+	@Override
 	public Double getAlbumGain() {
 		ensureDetailed(albumGain);
 		return albumGain;
 	}
 
+	@Override
 	public Double getAlbumPeak() {
 		ensureDetailed(albumPeak);
 		return albumPeak;
 	}
 
+	@Override
 	public Double getAlbumRange() {
 		ensureDetailed(albumRange);
 		return albumRange;
 	}
 
+	@Override
 	public Double getGain() {
 		ensureDetailed(gain);
 		return gain;
 	}
 
+	@Override
 	public Double getLoudness() {
 		ensureDetailed(loudness);
 		return loudness;
 	}
 
+	@Override
 	public Double getLra() {
 		ensureDetailed(lra);
 		return lra;
 	}
 
+	@Override
 	public Double getPeak() {
 		ensureDetailed(peak);
 		return peak;
 	}
 
+	@Override
 	public String getProfile() {
 		ensureDetailed(profile);
 		return profile;
 	}
 
+	@Override
 	public Boolean getSelected() {
 		ensureDetailed(selected);
 		return selected;
 	}
 
+	@Override
 	public Integer getChannels() {
 		ensureDetailed(channels);
 		return channels;
 	}
 
+	@Override
 	public Integer getSamplingRate() {
 		ensureDetailed(samplingRate);
 		return samplingRate;
 	}
 
+	@Override
 	public String getAudioChannelLayout() {
 		ensureDetailed(audioChannelLayout);
 		return audioChannelLayout;
 	}
 
+	@Override
 	public Integer getBitDepth() {
 		ensureDetailed(bitDepth);
 		return bitDepth;

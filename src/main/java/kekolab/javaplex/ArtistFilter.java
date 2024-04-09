@@ -4,18 +4,17 @@ import java.net.URI;
 import java.util.List;
 
 import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexArtistFilter;
-import kekolab.javaplex.model.PlexMusicSection;
+import kekolab.javaplex.model.PlexArtistSecondaryDirectory;
 
-class ArtistFilter implements PlexArtistFilter {
-    private final Filter filter;
-    private final PlexMusicSection section;
-    
-    ArtistFilter(Filter delegate, PlexMusicSection section) {
+public class ArtistFilter implements PlexArtistSecondaryDirectory {
+    private final SectionSecondaryDirectory filter;
+    private final MusicSection section;
+
+    public ArtistFilter(SectionSecondaryDirectory delegate, MusicSection section) {
         this.section = section;
         this.filter = delegate;
-    } 
-    
+    }
+
     @Override
     public List<PlexArtist> artists() {
         return filter.apply(section, PlexArtist.TYPE_ID);
@@ -49,5 +48,5 @@ class ArtistFilter implements PlexArtistFilter {
     @Override
     public String getTitle() {
         return filter.getTitle();
-    }   
+    }
 }

@@ -1,6 +1,13 @@
 package kekolab.javaplex.model;
 
-public interface PlexShowCollection extends PlexCollection<PlexShow, PlexShowSection> {
+import java.util.List;
+
+public interface PlexShowCollection extends PlexCollection {
 
     String SHOW_COLLECTION_SUBTYPE = "show";
+
+    List<PlexShow> children();
+
+    PlexShowSection section();
+
 }

@@ -4,7 +4,8 @@ import java.net.URI;
 
 import kekolab.javaplex.model.PlexDirectory;
 
-class Directory extends InitialisableItem implements PlexDirectory {
+public class Directory extends InitialisableItem implements PlexDirectory {
+	  
 	private UriProvider key;
 	private String title;
 
@@ -12,6 +13,7 @@ class Directory extends InitialisableItem implements PlexDirectory {
 		key = new UriProvider(this::uri);
 	}
 
+	@Override
 	public String getKey() {
 		return (String) key.getValue();
 	}
@@ -20,10 +22,12 @@ class Directory extends InitialisableItem implements PlexDirectory {
 		this.key.setValue(key);
 	}
 
+	@Override
 	public URI key() {
 		return key.uri();
 	}
 
+	@Override
 	public String getTitle() {
 		return title;
 	}
@@ -32,9 +36,9 @@ class Directory extends InitialisableItem implements PlexDirectory {
 		this.title = title;
 	}
 
-	/*
+	/* TODO?
 	public MediaContainer contents() {
 		return new MediaContainer(key(), getClient(), getToken());
 	}
-	 */
+     */
 }

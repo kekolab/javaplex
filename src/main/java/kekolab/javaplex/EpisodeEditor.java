@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import kekolab.javaplex.model.PlexEpisodeEditor;
 
-class EpisodeEditor extends VideoEditor implements PlexEpisodeEditor {
+public class EpisodeEditor extends VideoEditor implements PlexEpisodeEditor {
     private FieldEditor<List<String>> writerEditor;
     private FieldEditor<Boolean> writerLockEditor;
     private FieldEditor<List<String>> directorEditor;
     private FieldEditor<Boolean> directorLockEditor;
 
-    EpisodeEditor(Episode source) {
+    protected EpisodeEditor(Episode source) {
         super(source);
 
         writerEditor = new TagListFieldEditor("writer", source::getWriters);
@@ -25,12 +25,10 @@ class EpisodeEditor extends VideoEditor implements PlexEpisodeEditor {
         addFieldEditor(directorLockEditor);
     }
 
-    @Override
     public void setWriters(List<String> values, Optional<Boolean> lock) {
         editField(writerEditor, values, writerLockEditor, lock);
     }
 
-    @Override
     public void setDirectors(List<String> values, Optional<Boolean> lock) {
         editField(directorEditor, values, directorLockEditor, lock);
     }

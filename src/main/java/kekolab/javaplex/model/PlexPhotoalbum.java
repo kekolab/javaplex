@@ -2,26 +2,28 @@ package kekolab.javaplex.model;
 
 import java.net.URI;
 
-public interface PlexPhotoalbum extends PlexParent<PlexChild<?, PlexPhotoSection>, PlexPhotoSection> {
-	int TYPE_ID = 11;
-	String TYPE_DESCRIPTION = "photo";
-	
-	String getComposite();
 
-	URI composite();
 
-	String getArt();
+public interface PlexPhotoalbum extends PlexMediatag, PlexParent {
+    int TYPE_ID = 11;
+    String TYPE_DESCRIPTION = "photo";
 
-	URI art();
+    String getComposite();
 
-	String getThumb();
+    URI composite();
 
-	URI thumb();
+    String getArt();
 
-	default int typeId() {
-		return TYPE_ID;
-	}
+    URI art();
 
-	@Override
-	PlexPhotoalbumEditor editor();
+    String getThumb();
+
+    URI thumb();
+
+    int typeId();
+
+    PlexPhotoalbumEditor editor();
+
+    PlexPhotoSection section();
+
 }

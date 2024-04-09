@@ -10,11 +10,12 @@ import org.apache.hc.core5.net.URIBuilder;
 import kekolab.javaplex.model.PlexTranscode;
 import kekolab.javaplex.model.PlexTranscodeSession;
 
-class Transcode extends ServerMediaContainer implements PlexTranscode {
-	Transcode(MediaServer server) throws URISyntaxException {
+public class Transcode extends ServerMediaContainer implements PlexTranscode {
+	public Transcode(MediaServer server) throws URISyntaxException {
 		super(new URIBuilder(server.getUri()).appendPath("transcode").build(), server);
 	}
 
+	@Override
 	public List<PlexTranscodeSession> sessions() {
 		URI uri;
 		try {
@@ -25,6 +26,7 @@ class Transcode extends ServerMediaContainer implements PlexTranscode {
 		return new MetadataContainer<Metadata, Directory>(uri, server()).getTranscodeSessions();
 	}
 
+	@Override
 	public void killSession(PlexTranscodeSession session) {
 		getClient().delete(session.key(), getToken(), Optional.empty());
 	}

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface PlexServer {
+
     List<PlexServer.Section> getSections();
 
     PlexServerShares serverShares();
@@ -34,16 +35,18 @@ public interface PlexServer {
 
     String getAddress();
 
-    public static interface Section {
+    public static interface Section  {
 
-        Integer getId();
 
-        String getKey();
+		public Integer getId();
+		
+		public String getKey();
 
-        String getTitle();
+		public String getTitle(); 
 
-        String getType();
+		public String getType();
 
-        Boolean getShared();
-    }
+		public Boolean getShared();
+	}
+
 }

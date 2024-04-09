@@ -2,19 +2,30 @@ package kekolab.javaplex.model;
 
 import java.util.List;
 
-public interface PlexPhotoSection extends PlexSection<PlexPhotoalbum, PlexPhotoalbum> {
-	String TYPE_DESCRIPTION = "photo";
+public interface PlexPhotoSection extends PlexSection {
 
-	Boolean getEnableAutoPhotoTags();
+    String TYPE_DESCRIPTION = "photo";
 
-	List<PlexPhotoSectionItemFilter> byYear();
-	List<PlexPhotoSectionItemFilter> byCameraMake();
-	List<PlexPhotoSectionItemFilter> byCameraModel();
-	List<PlexPhotoSectionItemFilter> byAperture();
-	List<PlexPhotoSectionItemFilter> byShutterSpeed();
-	List<PlexPhotoSectionItemFilter> byISO();
-	List<PlexPhotoSectionItemFilter> byLens();
-	List<PlexPhotoSectionItemFilter> byTag();
-	// TODO trashed
-	
+    Boolean getEnableAutoPhotoTags();
+
+    PlexSectionQueryBuilder<PlexPhotoalbum> all();
+
+    List<PlexPhotoalbum> recentlyAdded();
+
+    List<PlexPhotoSectionSecondaryDirectory> byYear();
+
+    List<PlexPhotoSectionSecondaryDirectory> byCameraMake();
+
+    List<PlexPhotoSectionSecondaryDirectory> byCameraModel();
+
+    List<PlexPhotoSectionSecondaryDirectory> byAperture();
+
+    List<PlexPhotoSectionSecondaryDirectory> byShutterSpeed();
+
+    List<PlexPhotoSectionSecondaryDirectory> byISO();
+
+    List<PlexPhotoSectionSecondaryDirectory> byLens();
+
+    List<PlexPhotoSectionSecondaryDirectory> byTag();
+
 }

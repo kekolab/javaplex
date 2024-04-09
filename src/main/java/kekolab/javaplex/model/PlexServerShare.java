@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface PlexServerShare {
-    // TODO Delete a PlexServerShare. To do so, send a DELETE to the endpoint
-    // https://clients.plex.tv/api/v2/shared_servers/{id}
+
     String getId();
 
     String getUsername();
@@ -47,4 +46,5 @@ public interface PlexServerShare {
     String getFilterTelevision();
 
     List<PlexServer.Section> getSections();
+
 }

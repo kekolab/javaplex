@@ -3,6 +3,7 @@ package kekolab.javaplex.model;
 import java.net.URI;
 
 public interface PlexTranscodeSession {
+
     String getKey();
 
     URI key();

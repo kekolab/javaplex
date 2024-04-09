@@ -1,6 +1,10 @@
 package kekolab.javaplex.model;
 
-public interface PlexAudioPlaylist extends PlexPlaylist<PlexTrack> {
+import java.util.List;
 
-	String SUBTYPE_DESCRIPTION = "audio";
+public interface PlexAudioPlaylist extends PlexPlaylist {
+
+    String SUBTYPE_DESCRIPTION = "audio";
+
+    List<PlexTrack> children();
 }

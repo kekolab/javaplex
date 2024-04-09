@@ -5,20 +5,21 @@ import java.net.URI;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import kekolab.javaplex.model.PlexMetadata;
 import kekolab.javaplex.model.PlexSearchResult;
 
-class SearchResult extends InitialisableItem implements PlexSearchResult {
+public class SearchResult extends InitialisableItem implements PlexSearchResult {
 	private Double score;
 	@JsonProperty("Metadata")
 	@JsonDeserialize(using = MetadataDeserializer.class)
-	private PlexMetadata item;
+	private Metadata item;
 
+	@Override
 	public Double getScore() {
 		return score;
 	}
 
-	public PlexMetadata getItem() {
+	@Override
+	public Metadata getItem() {
 		return item;
 	}
 

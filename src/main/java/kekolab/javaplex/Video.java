@@ -8,11 +8,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.model.PlexMedia;
-import kekolab.javaplex.model.PlexSection;
 import kekolab.javaplex.model.PlexVideo;
 import kekolab.javaplex.model.PlexVideoEditor;
 
-abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements PlexVideo<S> {
+public abstract class Video extends Mediatag implements PlexVideo {
 	private String contentRating;
 	private Long duration;
 	@JsonProperty("Media")
@@ -27,6 +26,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		media = new ArrayList<>();
 	}
 
+	@Override
 	public String getContentRating() {
 		ensureDetailed(contentRating);
 		return contentRating;
@@ -36,6 +36,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.contentRating = contentRating;
 	}
 
+	@Override
 	public Long getDuration() {
 		ensureDetailed(duration);
 		return duration;
@@ -45,6 +46,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.duration = duration;
 	}
 
+	@Override
 	public List<PlexMedia> getMedia() {
 		ensureDetailed(media);
 		return media;
@@ -54,6 +56,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.media = media;
 	}
 
+	@Override
 	public Date getOriginallyAvailableAt() {
 		ensureDetailed(originallyAvailableAt);
 		return originallyAvailableAt;
@@ -63,6 +66,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.originallyAvailableAt = originallyAvailableAt;
 	}
 
+	@Override
 	public String getOriginalTitle() {
 		ensureDetailed(originalTitle);
 		return originalTitle;
@@ -72,6 +76,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.originalTitle = originalTitle;
 	}
 
+	@Override
 	public String getStudio() {
 		ensureDetailed(studio);
 		return studio;
@@ -81,6 +86,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.studio = studio;
 	}
 
+	@Override
 	public Integer getYear() {
 		ensureDetailed(year);
 		return year;
@@ -90,6 +96,7 @@ abstract class Video<S extends PlexSection<?, ?>> extends Mediatag<S> implements
 		this.year = year;
 	}
 
+	@Override
 	public Boolean getContentRatingLocked() {
 		return getFieldLocked("contentRating");
 	}

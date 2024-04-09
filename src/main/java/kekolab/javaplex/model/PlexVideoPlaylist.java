@@ -1,7 +1,11 @@
 package kekolab.javaplex.model;
 
-public interface PlexVideoPlaylist extends PlexPlaylist<PlexVideo<?>> {
+import java.util.List;
 
-	String SUBTYPE_DESCRIPTION = "video";
+public interface PlexVideoPlaylist extends PlexPlaylist {
+
+    String SUBTYPE_DESCRIPTION = "video";
+
+    List<? extends PlexVideo> children();
 
 }

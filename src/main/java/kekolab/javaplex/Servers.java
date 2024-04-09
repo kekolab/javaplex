@@ -13,8 +13,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import kekolab.javaplex.model.PlexServer;
 import kekolab.javaplex.model.PlexServers;
 
-
-class Servers extends MediaContainer implements PlexServers {
+public class Servers extends MediaContainer implements PlexServers {
 	private static final URI URI;
 	private static final String SERVER_URI_TEMPLATE = "https://plex.tv/api/servers/{machineIdentifier}";
 
@@ -27,20 +26,22 @@ class Servers extends MediaContainer implements PlexServers {
 	}
 
 	@JsonProperty("Server")
-    @JacksonXmlElementWrapper(useWrapping = false)
+	@JacksonXmlElementWrapper(useWrapping = false)
 	@JsonDeserialize(contentAs = Server.class)
-    private List<PlexServer> servers;
-	
-	Servers(PlexHTTPClient client, String token) {
+	private List<PlexServer> servers;
+
+	public Servers(PlexHTTPClient client, String token) {
 		super(URI, client, Optional.of(token));
 		servers = new ArrayList<>();
 	}
 
-	Servers(PlexHTTPClient client, String token, String machineIdentifier) throws URISyntaxException {
-		super(new URI(SERVER_URI_TEMPLATE.replace("{machineIdentifier}", machineIdentifier)), client, Optional.of(token));
+	public Servers(PlexHTTPClient client, String token, String machineIdentifier) throws URISyntaxException {
+		super(new URI(SERVER_URI_TEMPLATE.replace("{machineIdentifier}", machineIdentifier)), client,
+				Optional.of(token));
 		servers = new ArrayList<>();
 	}
 
+	@Override
 	public List<PlexServer> getServers() {
 		ensureFetched(servers);
 		servers.forEach(s -> {

@@ -2,9 +2,9 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexPhotoalbumEditor;
 
-class PhotoalbumEditor extends SectionItemEditor implements PlexPhotoalbumEditor {
+public class PhotoalbumEditor extends SectionItemEditor implements PlexPhotoalbumEditor {
 
-    PhotoalbumEditor(Photoalbum source) {
+    protected PhotoalbumEditor(Photoalbum source) {
         super(source);
     }
 

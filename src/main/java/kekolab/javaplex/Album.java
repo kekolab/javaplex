@@ -11,11 +11,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import kekolab.javaplex.model.PlexAlbum;
 import kekolab.javaplex.model.PlexAlbumEditor;
 import kekolab.javaplex.model.PlexArtist;
+import kekolab.javaplex.model.PlexDirectory;
 import kekolab.javaplex.model.PlexMusicSection;
 import kekolab.javaplex.model.PlexTag;
 import kekolab.javaplex.model.PlexTrack;
 
-class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
+public class Album extends Child implements PlexAlbum {
 	@JsonProperty("Director")
 	@JsonDeserialize(contentAs = Tag.class)
 	private List<PlexTag> directors;
@@ -57,7 +58,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 	@Override
 	void update(Metadata source) {
 		super.update(source);
-		Album a = (Album) source;
+		PlexAlbum a = (PlexAlbum) source;
 		setDirectors(a.getDirectors());
 		setFormats(a.getFormats());
 		setGenres(a.getGenres());
@@ -75,6 +76,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		setThumb(a.getThumb());
 	}
 
+	@Override
 	public Double getRating() {
 		ensureDetailed(rating);
 		return rating;
@@ -84,6 +86,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.rating = rating;
 	}
 
+	@Override
 	public List<PlexTag> getStyles() {
 		ensureDetailed(styles);
 		return styles;
@@ -93,6 +96,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.styles = styles;
 	}
 
+	@Override
 	public List<PlexTag> getFormats() {
 		ensureDetailed(formats);
 		return formats;
@@ -102,6 +106,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.formats = formats;
 	}
 
+	@Override
 	public Integer getLoudnessAnalysisVersion() {
 		ensureDetailed(loudnessAnalysisVersion);
 		return loudnessAnalysisVersion;
@@ -111,6 +116,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.loudnessAnalysisVersion = loudnessAnalysisVersion;
 	}
 
+	@Override
 	public List<PlexTag> getSubformats() {
 		ensureDetailed(subformats);
 		return subformats;
@@ -120,6 +126,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.subformats = subformats;
 	}
 
+	@Override
 	public List<PlexTag> getDirectors() {
 		ensureDetailed(directors);
 		return directors;
@@ -129,6 +136,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.directors = directors;
 	}
 
+	@Override
 	public Integer getLeafCount() {
 		ensureDetailed(leafCount);
 		return leafCount;
@@ -138,6 +146,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.leafCount = leafCount;
 	}
 
+	@Override
 	public List<PlexTag> getMoods() {
 		ensureDetailed(moods);
 		return moods;
@@ -147,6 +156,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.moods = moods;
 	}
 
+	@Override
 	public String getStudio() {
 		ensureDetailed(studio);
 		return studio;
@@ -156,6 +166,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.studio = studio;
 	}
 
+	@Override
 	public Integer getViewedLeafCount() {
 		ensureDetailed(viewedLeafCount);
 		return viewedLeafCount;
@@ -165,6 +176,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.viewedLeafCount = viewedLeafCount;
 	}
 
+	@Override
 	public List<PlexTag> getGenres() {
 		ensureDetailed(genres);
 		return genres;
@@ -174,6 +186,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.genres = genres;
 	}
 
+	@Override
 	public Date getOriginallyAvailableAt() {
 		ensureDetailed(originallyAvailableAt);
 		return originallyAvailableAt;
@@ -183,6 +196,7 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.originallyAvailableAt = originallyAvailableAt;
 	}
 
+	@Override
 	public Integer getYear() {
 		ensureDetailed(year);
 		return year;
@@ -193,14 +207,26 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 	}
 
 	public List<PlexTrack> children() {
-		return new MetadataContainer<PlexTrack, Directory>(key(), getServer()).getMetadata();
+		return new MetadataContainer<PlexTrack, PlexDirectory>(key(), getServer()).getMetadata();
 	}
 
+	@Override
+	public PlexArtist parent() {
+		return (PlexArtist) super.parent();
+	}
+
+	@Override
+	public PlexMusicSection section() {
+		return (PlexMusicSection) super.section();
+	}
+
+	@Override
 	public String getArt() {
 		ensureDetailed(art.getValue());
 		return (String) art.getValue();
 	}
 
+	@Override
 	public URI art() {
 		ensureDetailed(art.getValue());
 		return art.uri();
@@ -210,11 +236,13 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.art.setValue(art);
 	}
 
+	@Override
 	public String getThumb() {
 		ensureDetailed(thumb.getValue());
 		return (String) thumb.getValue();
 	}
 
+	@Override
 	public URI thumb() {
 		ensureDetailed(thumb.getValue());
 		return thumb.uri();
@@ -224,22 +252,25 @@ class Album extends Child<PlexArtist, PlexMusicSection> implements PlexAlbum {
 		this.thumb.setValue(thumb);
 	}
 
+	@Override
 	public Boolean getGenresLocked() {
 		return getFieldLocked("genre");
 	}
 
+	@Override
 	public Boolean getMoodsLocked() {
 		return getFieldLocked("mood");
 	}
 
+	@Override
 	public Boolean getStylesLocked() {
 		return getFieldLocked("style");
 	}
 
-	@Override
 	public int typeId() {
-		return PlexAlbum.super.typeId();
+		return TYPE_ID;
 	}
+
 
 	@Override
 	public PlexAlbumEditor editor() {

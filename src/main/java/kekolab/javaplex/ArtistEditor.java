@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import kekolab.javaplex.model.PlexArtistEditor;
 
-class ArtistEditor extends SectionItemEditor implements PlexArtistEditor {
+public class ArtistEditor extends SectionItemEditor implements PlexArtistEditor {
     private FieldEditor<List<String>> countryEditor;
     private FieldEditor<Boolean> countryLockEditor;
     private FieldEditor<List<String>> genreEditor;
@@ -17,19 +17,19 @@ class ArtistEditor extends SectionItemEditor implements PlexArtistEditor {
     private FieldEditor<List<String>> styleEditor;
     private FieldEditor<Boolean> styleLockEditor;
 
-    ArtistEditor(Artist source) {
+    protected ArtistEditor(Artist source) {
         super(source);
-        
+
         countryEditor = new TagListFieldEditor("country", source::getCountries);
-		countryLockEditor = new BooleanFieldEditor("country.locked", source::getCountriesLocked);
-		genreEditor = new TagListFieldEditor("genre", source::getGenres);
-		genreLockEditor = new BooleanFieldEditor("genre.locked", source::getGenresLocked);
-		moodEditor = new TagListFieldEditor("mood", source::getMoods);
-		moodLockEditor = new BooleanFieldEditor("mood.locked", source::getMoodsLocked);
-		similarEditor = new TagListFieldEditor("similar", source::getSimilars);
-		similarLockEditor = new BooleanFieldEditor("similar.locked", source::getSimilarsLocked);
-		styleEditor = new TagListFieldEditor("style", source::getStyles);
-		styleLockEditor = new BooleanFieldEditor("style.locked", source::getStylesLocked);
+        countryLockEditor = new BooleanFieldEditor("country.locked", source::getCountriesLocked);
+        genreEditor = new TagListFieldEditor("genre", source::getGenres);
+        genreLockEditor = new BooleanFieldEditor("genre.locked", source::getGenresLocked);
+        moodEditor = new TagListFieldEditor("mood", source::getMoods);
+        moodLockEditor = new BooleanFieldEditor("mood.locked", source::getMoodsLocked);
+        similarEditor = new TagListFieldEditor("similar", source::getSimilars);
+        similarLockEditor = new BooleanFieldEditor("similar.locked", source::getSimilarsLocked);
+        styleEditor = new TagListFieldEditor("style", source::getStyles);
+        styleLockEditor = new BooleanFieldEditor("style.locked", source::getStylesLocked);
 
         addFieldEditor(countryEditor);
         addFieldEditor(countryLockEditor);
@@ -43,27 +43,22 @@ class ArtistEditor extends SectionItemEditor implements PlexArtistEditor {
         addFieldEditor(styleLockEditor);
     }
 
-    @Override
     public void setCountries(List<String> countries, Optional<Boolean> lock) {
         editField(countryEditor, countries, countryLockEditor, lock);
     }
 
-    @Override
     public void setSimilars(List<String> values, Optional<Boolean> lock) {
         editField(similarEditor, values, similarLockEditor, lock);
     }
 
-    @Override
     public void setMoods(List<String> values, Optional<Boolean> lock) {
         editField(moodEditor, values, moodLockEditor, lock);
     }
 
-    @Override
     public void setStyles(List<String> values, Optional<Boolean> lock) {
         editField(styleEditor, values, styleLockEditor, lock);
     }
 
-    @Override
     public void setGenres(List<String> values, Optional<Boolean> lock) {
         editField(genreEditor, values, genreLockEditor, lock);
     }

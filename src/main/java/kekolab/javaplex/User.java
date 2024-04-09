@@ -4,7 +4,7 @@ import java.net.URI;
 
 import kekolab.javaplex.model.PlexUser;
 
-class User extends BaseItem implements PlexUser {
+public class User extends BaseItem implements PlexUser  {
     private String id;
     private String title;
 
@@ -15,6 +15,7 @@ class User extends BaseItem implements PlexUser {
     }
 
    
+    @Override
     public String getId() {
         return id;
     }
@@ -23,6 +24,7 @@ class User extends BaseItem implements PlexUser {
         this.id = id;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -35,10 +37,12 @@ class User extends BaseItem implements PlexUser {
         this.thumb.setValue(thumb);
     }
 
+    @Override
     public String getThumb() {
         return (String) thumb.getValue();
     }
 
+    @Override
     public URI thumb() {
         return thumb.uri();
     }

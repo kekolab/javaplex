@@ -1,6 +1,13 @@
 package kekolab.javaplex.model;
 
-public interface PlexMovieCollection extends PlexCollection<PlexMovie, PlexMovieSection> {
+import java.util.List;
+
+public interface PlexMovieCollection extends PlexCollection {
 
     String MOVIE_COLLECTION_SUBTYPE = "movie";
+
+    List<PlexMovie> children();
+
+    PlexMovieSection section();
+
 }

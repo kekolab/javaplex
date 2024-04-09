@@ -2,8 +2,8 @@ package kekolab.javaplex.model;
 
 import java.net.URI;
 
-public interface PlexChild<P extends PlexParent<?, S>, S extends PlexSection<?, ?>> extends PlexMediatag<S> {
-    P parent();
+public interface PlexChild {
+    PlexMediatag parent();
 
     String getParentGuid();
 

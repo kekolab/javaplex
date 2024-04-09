@@ -7,10 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
+import kekolab.javaplex.mappers.BooleanDeserializer;
+import kekolab.javaplex.mappers.TimestampDeserializer;
 import kekolab.javaplex.model.PlexServer;
 import kekolab.javaplex.model.PlexServerShare;
 
-class ServerShare extends BaseItem implements PlexServerShare {
+public class ServerShare extends BaseItem implements PlexServerShare {
+	// TODO Delete a PlexServerShare. To do so, send a DELETE to the endpoint
+    // https://clients.plex.tv/api/v2/shared_servers/{id}
 
 	private String id;
 	private String username;
@@ -46,6 +50,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 	@JsonDeserialize(contentAs = Server.Section.class)
 	private List<PlexServer.Section> sections;
 
+	@Override
 	public String getId() {
 		return id;
 	}
@@ -54,6 +59,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.id = id;
 	}
 
+	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -62,6 +68,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.username = username;
 	}
 
+	@Override
 	public String getEmail() {
 		return email;
 	}
@@ -70,6 +77,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.email = email;
 	}
 
+	@Override
 	public String getUserID() {
 		return userID;
 	}
@@ -78,6 +86,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.userID = userID;
 	}
 
+	@Override
 	public String getAccessToken() {
 		return accessToken;
 	}
@@ -86,6 +95,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.accessToken = accessToken;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -94,6 +104,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.name = name;
 	}
 
+	@Override
 	public Date getAcceptedAt() {
 		return acceptedAt;
 	}
@@ -102,6 +113,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.acceptedAt = acceptedAt;
 	}
 
+	@Override
 	public Date getInvitedAt() {
 		return invitedAt;
 	}
@@ -110,6 +122,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.invitedAt = invitedAt;
 	}
 
+	@Override
 	public Boolean getAllowSync() {
 		return allowSync;
 	}
@@ -118,6 +131,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.allowSync = allowSync;
 	}
 
+	@Override
 	public Boolean getAllowCameraUpload() {
 		return allowCameraUpload;
 	}
@@ -126,6 +140,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.allowCameraUpload = allowCameraUpload;
 	}
 
+	@Override
 	public Boolean getAllowChannels() {
 		return allowChannels;
 	}
@@ -134,6 +149,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.allowChannels = allowChannels;
 	}
 
+	@Override
 	public Boolean getAllowTuners() {
 		return allowTuners;
 	}
@@ -142,6 +158,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.allowTuners = allowTuners;
 	}
 
+	@Override
 	public Boolean getAllowSubtitleAdmin() {
 		return allowSubtitleAdmin;
 	}
@@ -150,6 +167,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.allowSubtitleAdmin = allowSubtitleAdmin;
 	}
 
+	@Override
 	public Boolean getOwned() {
 		return owned;
 	}
@@ -158,6 +176,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.owned = owned;
 	}
 
+	@Override
 	public Boolean getAllLibraries() {
 		return allLibraries;
 	}
@@ -166,6 +185,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.allLibraries = allLibraries;
 	}
 
+	@Override
 	public String getFilterAll() {
 		return filterAll;
 	}
@@ -174,6 +194,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.filterAll = filterAll;
 	}
 
+	@Override
 	public String getFilterMovies() {
 		return filterMovies;
 	}
@@ -182,6 +203,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.filterMovies = filterMovies;
 	}
 
+	@Override
 	public String getFilterMusic() {
 		return filterMusic;
 	}
@@ -190,6 +212,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.filterMusic = filterMusic;
 	}
 
+	@Override
 	public String getFilterPhotos() {
 		return filterPhotos;
 	}
@@ -198,6 +221,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.filterPhotos = filterPhotos;
 	}
 
+	@Override
 	public String getFilterTelevision() {
 		return filterTelevision;
 	}
@@ -206,6 +230,7 @@ class ServerShare extends BaseItem implements PlexServerShare {
 		this.filterTelevision = filterTelevision;
 	}
 
+	@Override
 	public List<PlexServer.Section> getSections() {
 		return sections;
 	}

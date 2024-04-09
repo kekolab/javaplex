@@ -2,42 +2,60 @@ package kekolab.javaplex.model;
 
 import java.util.List;
 
-public interface PlexShowSection extends PlexSection<PlexShow, PlexEpisode>, WithCollections<PlexShowCollections, PlexShowSection> {
 
-	String TYPE_DESCRIPTION = "show";
 
-	List<PlexEpisode> newest();
+public interface PlexShowSection extends PlexSection {
 
-	List<PlexEpisode> onDeck();
+    String TYPE_DESCRIPTION = "show";
 
-	List<PlexEpisode> recentlyViewed();
+    PlexSectionQueryBuilder<PlexShow> all();
 
-	List<PlexShow> recentlyViewedShows();
+    List<PlexEpisode> recentlyAdded();
 
-	List<PlexShow> unwatched();
+    List<PlexEpisode> newest();
 
-	List<PlexEpisode> episodes();
+    List<PlexEpisode> onDeck();
 
-	List<PlexShowFilter> byGenre();
-	List<PlexShowOrEpisodeFilter> byYear();
-	List<PlexShowFilter> byContentRating();
-	List<PlexShowFilter> byStudio();
-	List<PlexShowFilter> byNetwork();
-	List<PlexShowFilter> byCountry();
-	List<PlexShowOrEpisodeFilter> byCollection();
-	List<PlexShowFilter> byDirector();
-	List<PlexShowFilter> byActor();
-	List<PlexShowFilter> byWriter();
-	List<PlexShowFilter> byProducer();
-	// TODO show.unwacthedLeaves
-	// TODO show.unwacthed	
-	List<PlexShowFilter> byLabel();	
+    List<PlexEpisode> recentlyViewed();
 
-	List<PlexEpisodeFilter> byResolution();
-	// TODO episode.unwacthed	
-	// TODO episode.inProgress	
-	List<PlexEpisodeFilter> byAudioLanguage();
-	List<PlexEpisodeFilter> bySubtitleLanguage();
-	// TODO episode.unmatched	
-	// TODO episode.dupliacte	
+    List<PlexShow> recentlyViewedShows();
+
+    List<PlexShow> unwatched();
+
+    PlexSectionQueryBuilder<PlexSeason> seasons();
+
+    PlexSectionQueryBuilder<PlexEpisode> episodes();
+
+    PlexShowCollections collections();
+
+    List<PlexShowSecondaryDirectory> byGenre();
+
+    List<PlexShowOrEpisodeSecondaryDirectory> byYear();
+
+    List<PlexShowSecondaryDirectory> byContentRating();
+
+    List<PlexShowSecondaryDirectory> byStudio();
+
+    List<PlexShowSecondaryDirectory> byNetwork();
+
+    List<PlexShowSecondaryDirectory> byCountry();
+
+    List<PlexShowOrEpisodeSecondaryDirectory> byCollection();
+
+    List<PlexShowSecondaryDirectory> byDirector();
+
+    List<PlexShowSecondaryDirectory> byActor();
+
+    List<PlexShowSecondaryDirectory> byWriter();
+
+    List<PlexShowSecondaryDirectory> byProducer();
+
+    List<PlexShowSecondaryDirectory> byLabel();
+
+    List<PlexEpisodeSecondaryDirectory> byResolution();
+
+    List<PlexEpisodeSecondaryDirectory> byAudioLanguage();
+
+    List<PlexEpisodeSecondaryDirectory> bySubtitleLanguage();
+
 }

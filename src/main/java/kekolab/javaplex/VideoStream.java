@@ -2,7 +2,7 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexVideoStream;
 
-class VideoStream extends Stream implements PlexVideoStream {
+public class VideoStream extends Stream implements PlexVideoStream {
 	private Integer bitDepth;
 	private Integer codedHeight;
 	private Integer codedWidth;
@@ -24,6 +24,7 @@ class VideoStream extends Stream implements PlexVideoStream {
 	private String pixelAspectRatio;
 	private String codecID;
 
+	@Override
 	public String getCodecID() {
 		ensureDetailed(codecID);
 		return codecID;
@@ -35,6 +36,7 @@ class VideoStream extends Stream implements PlexVideoStream {
 
 	private Double frameRate;
 
+	@Override
 	public String getChromaSubsampling() {
 		ensureDetailed(chromaSubsampling);
 		return chromaSubsampling;
@@ -44,21 +46,25 @@ class VideoStream extends Stream implements PlexVideoStream {
 		this.chromaSubsampling = chromaSubsampling;
 	}
 
+	@Override
 	public Integer getBitDepth() {
 		ensureDetailed(bitDepth);
 		return bitDepth;
 	}
 
+	@Override
 	public Integer getCodedHeight() {
 		ensureDetailed(codedHeight);
 		return codedHeight;
 	}
 
+	@Override
 	public Integer getCodedWidth() {
 		ensureDetailed(codedWidth);
 		return codedWidth;
 	}
 
+	@Override
 	public Boolean getAnamorphic() {
 		ensureDetailed(anamorphic);
 		return anamorphic;
@@ -68,6 +74,7 @@ class VideoStream extends Stream implements PlexVideoStream {
 		this.anamorphic = anamorphic;
 	}
 
+	@Override
 	public String getPixelAspectRatio() {
 		ensureDetailed(pixelAspectRatio);
 		return pixelAspectRatio;
@@ -77,46 +84,55 @@ class VideoStream extends Stream implements PlexVideoStream {
 		this.pixelAspectRatio = pixelAspectRatio;
 	}
 
+	@Override
 	public Integer getHeight() {
 		ensureDetailed(height);
 		return height;
 	}
 
+	@Override
 	public Integer getLevel() {
 		ensureDetailed(level);
 		return level;
 	}
 
+	@Override
 	public Integer getRefFrames() {
 		ensureDetailed(refFrames);
 		return refFrames;
 	}
 
+	@Override
 	public Integer getWidth() {
 		ensureDetailed(width);
 		return width;
 	}
 
+	@Override
 	public Boolean getHasScalingMatrix() {
 		ensureDetailed(hasScalingMatrix);
 		return hasScalingMatrix;
 	}
 
+	@Override
 	public String getChromaLocation() {
 		ensureDetailed(chromaLocation);
 		return chromaLocation;
 	}
 
+	@Override
 	public String getColorPrimaries() {
 		ensureDetailed(colorPrimaries);
 		return colorPrimaries;
 	}
 
+	@Override
 	public String getColorRange() {
 		ensureDetailed(colorRange);
 		return colorRange;
 	}
 
+	@Override
 	public Double getFrameRate() {
 		ensureDetailed(frameRate);
 		return frameRate;
@@ -170,21 +186,25 @@ class VideoStream extends Stream implements PlexVideoStream {
 		this.frameRate = frameRate;
 	}
 
+	@Override
 	public String getColorSpace() {
 		ensureDetailed(colorSpace);
 		return colorSpace;
 	}
 
+	@Override
 	public String getColorTrc() {
 		ensureDetailed(colorTrc);
 		return colorTrc;
 	}
 
+	@Override
 	public String getProfile() {
 		ensureDetailed(profile);
 		return profile;
 	}
 
+	@Override
 	public String getScanType() {
 		ensureDetailed(scanType);
 		return scanType;
@@ -206,6 +226,7 @@ class VideoStream extends Stream implements PlexVideoStream {
 		this.scanType = scanType;
 	}
 
+	@Override
 	public Integer getOrientation() {
 		ensureDetailed(orientation);
 		return orientation;

@@ -3,24 +3,26 @@ package kekolab.javaplex.model;
 import java.util.Date;
 import java.util.List;
 
-public interface PlexVideo<S extends PlexSection<?, ?>> extends PlexMediatag<S> {
 
-	String getContentRating();
 
-	Long getDuration();
+public interface PlexVideo extends PlexMediatag {
 
-	List<PlexMedia> getMedia();
+    String getContentRating();
 
-	Date getOriginallyAvailableAt();
+    Long getDuration();
 
-	String getOriginalTitle();
+    List<PlexMedia> getMedia();
 
-	String getStudio();
+    Date getOriginallyAvailableAt();
 
-	Integer getYear();
+    String getOriginalTitle();
 
-	Boolean getContentRatingLocked();
+    String getStudio();
 
-	@Override
-	PlexVideoEditor editor();
+    Integer getYear();
+
+    Boolean getContentRatingLocked();
+
+    PlexVideoEditor editor();
+
 }

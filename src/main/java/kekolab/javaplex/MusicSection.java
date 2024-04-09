@@ -1,156 +1,122 @@
 package kekolab.javaplex;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.apache.hc.core5.http.message.BasicNameValuePair;
-import org.apache.hc.core5.net.URIBuilder;
 
 import kekolab.javaplex.model.PlexAlbum;
-import kekolab.javaplex.model.PlexAlbumFilter;
-import kekolab.javaplex.model.PlexAlbumOrTrackFilter;
+import kekolab.javaplex.model.PlexAlbumSecondaryDirectory;
+import kekolab.javaplex.model.PlexAlbumOrTrackSecondaryDirectory;
 import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexArtistFilter;
-import kekolab.javaplex.model.PlexArtistOrAlbumFilter;
-import kekolab.javaplex.model.PlexArtistOrAlbumOrTrackFilter;
-import kekolab.javaplex.model.PlexCondition;
-import kekolab.javaplex.model.PlexMusicCollections;
+import kekolab.javaplex.model.PlexArtistSecondaryDirectory;
+import kekolab.javaplex.model.PlexArtistOrAlbumSecondaryDirectory;
+import kekolab.javaplex.model.PlexArtistOrAlbumOrTrackSecondaryDirectory;
 import kekolab.javaplex.model.PlexMusicSection;
+import kekolab.javaplex.model.PlexSectionQueryBuilder;
 import kekolab.javaplex.model.PlexTrack;
-import kekolab.javaplex.model.PlexTrackFilter;
+import kekolab.javaplex.model.PlexTrackSecondaryDirectory;
 
-class MusicSection extends Section<PlexArtist, PlexAlbum> implements PlexMusicSection {
+public class MusicSection extends Section implements PlexMusicSection {
 
-	public List<PlexAlbum> albums() {
-		return executeRequestAndCastMetadata("albums", PlexAlbum.class);
+	@Override
+	public PlexSectionQueryBuilder<PlexArtist> all() {
+				return new SectionQueryBuilder<PlexArtist>()
+				.withSection(this)
+				.withPath("all");
 	}
 
 	@Override
-	public PlexMusicCollections collections() {
+	public List<PlexAlbum> recentlyAdded() {
+		return new SectionQueryBuilder<PlexAlbum>()
+				.withSection(this)
+				.withPath("recentlyAdded")
+				.execute();
+	}
+
+	@Override
+	public PlexSectionQueryBuilder<PlexAlbum> albums() {
+		return new SectionQueryBuilder<PlexAlbum>()
+				.withSection(this)
+				.withPath("all")
+				.addParameter(new BasicNameValuePair("type", Integer.toString(PlexAlbum.TYPE_ID)));
+	}
+
+	@Override
+	public PlexSectionQueryBuilder<PlexTrack> tracks() {
+		return new SectionQueryBuilder<PlexTrack>()
+				.withSection(this)
+				.withPath("all")
+				.addParameter(new BasicNameValuePair("type", Integer.toString(PlexTrack.TYPE_ID)));
+	}
+
+	@Override
+	public MusicCollections collections() {
 		return new MusicCollections(this);
 	}
 
 	@Override
-	public List<PlexTrack> tracks() {
-		return executeRequestAndCastMetadata("allLeaves", PlexTrack.class);
+	public List<PlexArtistOrAlbumSecondaryDirectory> byGenre() {
+		return byFeature("genre", f -> new ArtistOrAlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexArtist> all(PlexCondition filter) {
-		URIBuilder builder = new URIBuilder(key()).appendPath("all");
-		for (String queryParameter : filter.getConditionQuery().split("&")) {
-			String[] keyValuePair = queryParameter.split("=");
-			builder.addParameter(new BasicNameValuePair(keyValuePair[0], keyValuePair[1]));
-		}
-
-		try {
-			MetadataContainer<PlexArtist, ?> metadataContainer = new MetadataContainer<>(builder.build(), getServer());
-			return metadataContainer.getMetadata();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexAlbum> albums(PlexCondition filter) {
-		URIBuilder builder = new URIBuilder(key()).appendPath("all").addParameter("type",
-				Integer.toString(PlexAlbum.TYPE_ID));
-		for (String queryParameter : filter.getConditionQuery().split("&")) {
-			String[] keyValuePair = queryParameter.split("=");
-			builder.addParameter(new BasicNameValuePair(keyValuePair[0], keyValuePair[1]));
-		}
-
-		try {
-			MetadataContainer<PlexAlbum, ?> metadataContainer = new MetadataContainer<>(builder.build(), getServer());
-			return metadataContainer.getMetadata();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexTrack> tracks(PlexCondition filter) {
-		URIBuilder builder = new URIBuilder(key()).appendPath("all").addParameter("type",
-				Integer.toString(PlexTrack.TYPE_ID));
-		for (String queryParameter : filter.getConditionQuery().split("&")) {
-			String[] keyValuePair = queryParameter.split("=");
-			builder.addParameter(new BasicNameValuePair(keyValuePair[0], keyValuePair[1]));
-		}
-
-		try {
-			MetadataContainer<PlexTrack, ?> metadataContainer = new MetadataContainer<>(builder.build(), getServer());
-			return metadataContainer.getMetadata();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new PlexException(e);
-		}
-	}
-
-	@Override
-	public List<PlexArtistOrAlbumFilter> byGenre() {
-		return byFeature("genre", f -> new ArtistOrAlbumFilter(f, this));
-	}
-
-	@Override
-	public List<PlexArtistOrAlbumOrTrackFilter> byMood() {
-		return byFeature("mood", f -> new ArtistOrAlbumOrTrackFilter(f, this));
+	public List<PlexArtistOrAlbumOrTrackSecondaryDirectory> byMood() {
+		return byFeature("mood", f -> new ArtistOrAlbumOrTrackSecondaryDirectory(f, this));
 
 	}
 
 	@Override
-	public List<PlexArtistOrAlbumFilter> byStyle() {
-		return byFeature("style", f -> new ArtistOrAlbumFilter(f, this));
+	public List<PlexArtistOrAlbumSecondaryDirectory> byStyle() {
+		return byFeature("style", f -> new ArtistOrAlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexArtistFilter> byCountry() {
+	public List<PlexArtistSecondaryDirectory> byCountry() {
 		return byFeature("country", f -> new ArtistFilter(f, this));
 	}
 
 	@Override
-	public List<PlexArtistOrAlbumFilter> byCollection() {
-		return byFeature("collection", f -> new ArtistOrAlbumFilter(f, this));
+	public List<PlexArtistOrAlbumSecondaryDirectory> byCollection() {
+		return byFeature("collection", f -> new ArtistOrAlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexAlbumFilter> byYear() {
-		return byFeature("year", f -> new AlbumFilter(f, this));
+	public List<PlexAlbumSecondaryDirectory> byYear() {
+		return byFeature("year", f -> new AlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexAlbumFilter> byDecade() {
-		return byFeature("decade", f -> new AlbumFilter(f, this));
+	public List<PlexAlbumSecondaryDirectory> byDecade() {
+		return byFeature("decade", f -> new AlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexAlbumFilter> byStudio() {
-		return byFeature("studio", f -> new AlbumFilter(f, this));
+	public List<PlexAlbumSecondaryDirectory> byStudio() {
+		return byFeature("studio", f -> new AlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexAlbumFilter> byFormat() {
-		return byFeature("format", f -> new AlbumFilter(f, this));
+	public List<PlexAlbumSecondaryDirectory> byFormat() {
+		return byFeature("format", f -> new AlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexAlbumFilter> bySubformat() {
-		return byFeature("subformat", f -> new AlbumFilter(f, this));
+	public List<PlexAlbumSecondaryDirectory> bySubformat() {
+		return byFeature("subformat", f -> new AlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexAlbumOrTrackFilter> bySource() {
-		return byFeature("subformat", f -> new AlbumOrTrackFilter(f, this));
+	public List<PlexAlbumOrTrackSecondaryDirectory> bySource() {
+		return byFeature("subformat", f -> new AlbumOrTrackSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexAlbumFilter> byLabel() {
-		return byFeature("label", f -> new AlbumFilter(f, this));
+	public List<PlexAlbumSecondaryDirectory> byLabel() {
+		return byFeature("label", f -> new AlbumSecondaryDirectory(f, this));
 	}
 
 	@Override
-	public List<PlexTrackFilter> byUserRating() {
-		return byFeature("userRating", f -> new TrackFilter(f, this));
+	public List<PlexTrackSecondaryDirectory> byUserRating() {
+		return byFeature("userRating", f -> new TrackSecondaryDirectory(f, this));
 	}
 }

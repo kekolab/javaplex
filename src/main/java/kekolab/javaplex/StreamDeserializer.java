@@ -4,21 +4,21 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import kekolab.javaplex.mappers.ObjectNodeDeserializer;
 import kekolab.javaplex.model.PlexAudioStream;
 import kekolab.javaplex.model.PlexLyricsStream;
-import kekolab.javaplex.model.PlexStream;
 import kekolab.javaplex.model.PlexTextStream;
 import kekolab.javaplex.model.PlexVideoStream;
 
-public class StreamDeserializer extends ObjectNodeDeserializer<PlexStream> {
+public class StreamDeserializer extends ObjectNodeDeserializer<Stream> {
 	private static final long serialVersionUID = -1200655581653620432L;
 
 	public StreamDeserializer() {
-		super(PlexStream.class);
+		super(Stream.class);
 	}
 
 	@Override
-	protected Class<? extends PlexStream> chooseDeserializingClass(ObjectNode node) throws IOException {
+	protected Class<? extends Stream> chooseDeserializingClass(ObjectNode node) throws IOException {
 		if (node.has("streamType")) {
 			int type = extractIntegerFieldValueFromObjectNode(node, "streamType");
 			switch (type) {

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import kekolab.javaplex.model.PlexMovieEditor;
 
-class MovieEditor extends VideoEditor implements PlexMovieEditor {
+public class MovieEditor extends VideoEditor implements PlexMovieEditor {
     private FieldEditor<List<String>> countryEditor;
     private FieldEditor<Boolean> countryLockEditor;
     private FieldEditor<List<String>> directorEditor;
@@ -17,19 +17,19 @@ class MovieEditor extends VideoEditor implements PlexMovieEditor {
     private FieldEditor<List<String>> producerEditor;
     private FieldEditor<Boolean> producerLockEditor;
 
-    MovieEditor(Movie source) {
+    protected MovieEditor(Movie source) {
         super(source);
 
         countryEditor = new TagListFieldEditor("country", source::getCountries);
-		countryLockEditor = new BooleanFieldEditor("country.locked", source::getCountriesLocked);
-		directorEditor = new TagListFieldEditor("director", source::getDirectors);
-		directorLockEditor = new BooleanFieldEditor("director.locked", source::getDirectorsLocked);
-		genreEditor = new TagListFieldEditor("genre", source::getGenres);
-		genreLockEditor = new BooleanFieldEditor("genre.locked", source::getGenresLocked);
-		writerEditor = new TagListFieldEditor("writer", source::getWriters);
-		writerLockEditor = new BooleanFieldEditor("writer.locked", source::getWritersLocked);
-		producerEditor = new TagListFieldEditor("producer", source::getProducers);
-		producerLockEditor = new BooleanFieldEditor("country.locked", source::getProducersLocked);
+        countryLockEditor = new BooleanFieldEditor("country.locked", source::getCountriesLocked);
+        directorEditor = new TagListFieldEditor("director", source::getDirectors);
+        directorLockEditor = new BooleanFieldEditor("director.locked", source::getDirectorsLocked);
+        genreEditor = new TagListFieldEditor("genre", source::getGenres);
+        genreLockEditor = new BooleanFieldEditor("genre.locked", source::getGenresLocked);
+        writerEditor = new TagListFieldEditor("writer", source::getWriters);
+        writerLockEditor = new BooleanFieldEditor("writer.locked", source::getWritersLocked);
+        producerEditor = new TagListFieldEditor("producer", source::getProducers);
+        producerLockEditor = new BooleanFieldEditor("country.locked", source::getProducersLocked);
 
         addFieldEditor(countryEditor);
         addFieldEditor(countryLockEditor);
@@ -43,27 +43,22 @@ class MovieEditor extends VideoEditor implements PlexMovieEditor {
         addFieldEditor(producerLockEditor);
     }
 
-    @Override
     public void setWriters(List<String> values, Optional<Boolean> lock) {
         editField(writerEditor, values, writerLockEditor, lock);
     }
 
-    @Override
     public void setDirectors(List<String> values, Optional<Boolean> lock) {
         editField(directorEditor, values, directorLockEditor, lock);
     }
 
-    @Override
     public void setCountries(List<String> countries, Optional<Boolean> lock) {
         editField(countryEditor, countries, countryLockEditor, lock);
     }
 
-    @Override
     public void setGenres(List<String> values, Optional<Boolean> lock) {
         editField(genreEditor, values, genreLockEditor, lock);
     }
 
-    @Override
     public void setProducers(List<String> values, Optional<Boolean> lock) {
         editField(producerEditor, values, producerLockEditor, lock);
     }

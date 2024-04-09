@@ -1,13 +1,15 @@
 package kekolab.javaplex.model;
 
-
 import java.net.URI;
 import java.util.List;
 
-public interface PlexCollection<M extends PlexSectionItem<S>, S extends PlexSection<?, ?>> extends PlexSectionItem<S> {
+
+
+public interface PlexCollection extends PlexSectionItem {
+
     int TYPE_ID = 18;
     String TYPE_DESCRIPTION = "collection";
-    
+
     Integer getChildCount();
 
     String getContentRating();
@@ -22,7 +24,9 @@ public interface PlexCollection<M extends PlexSectionItem<S>, S extends PlexSect
 
     String getSubtype();
 
-    List<M> children();
+    List<? extends PlexMediatag> children();
+
+    URI ratingKey();
 
     String getArt();
 
@@ -32,12 +36,10 @@ public interface PlexCollection<M extends PlexSectionItem<S>, S extends PlexSect
 
     URI thumb();
 
-    default int typeId() {
-        return TYPE_ID;
-    }
+    int typeId();
 
     Boolean getContentRatingLocked();
 
-    @Override
     PlexCollectionEditor editor();
+
 }

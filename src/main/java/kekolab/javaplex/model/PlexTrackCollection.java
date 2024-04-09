@@ -1,7 +1,13 @@
 package kekolab.javaplex.model;
 
-public interface PlexTrackCollection extends PlexCollection<PlexTrack, PlexMusicSection> {
+import java.util.List;
+
+public interface PlexTrackCollection extends PlexCollection {
 
     String TRACK_COLLECTION_SUBTYPE = "track";
+
+    List<PlexTrack> children();
+
+    PlexMusicSection section();
 
 }

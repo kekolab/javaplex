@@ -1,15 +1,25 @@
 package kekolab.javaplex.model;
 
-public interface PlexMusicCollections extends PlexCollections<PlexMusicSection> {
-    PlexArtistCollection create(String title, PlexArtist artist);
-    PlexArtistCollection add(PlexArtist artist, PlexArtistCollection collection);
-    PlexArtistCollection remove(PlexArtist artist, PlexArtistCollection collection);
 
-    PlexAlbumCollection create(String title, PlexAlbum album);
-    PlexAlbumCollection add(PlexAlbum album, PlexAlbumCollection collection);
-    PlexAlbumCollection remove(PlexAlbum album, PlexAlbumCollection collection);
 
-    PlexTrackCollection create(String title, PlexTrack track);
-    PlexTrackCollection add(PlexTrack track, PlexTrackCollection collection);
-    PlexTrackCollection remove(PlexTrack track, PlexTrackCollection collection);
+public interface PlexMusicCollections extends PlexCollections {
+
+    PlexArtistCollection create(String title, PlexArtist PlexArtist);
+
+    PlexAlbumCollection create(String title, PlexAlbum PlexAlbum);
+
+    PlexTrackCollection create(String title, PlexTrack PlexTrack);
+
+    PlexArtistCollection add(PlexArtistCollection collection, PlexArtist PlexArtist);
+
+    PlexAlbumCollection add(PlexAlbumCollection collection, PlexAlbum PlexAlbum);
+
+    PlexTrackCollection add(PlexTrackCollection collection, PlexTrack PlexTrack);
+
+    PlexArtistCollection remove(PlexArtistCollection collection, PlexArtist PlexArtist);
+
+    PlexAlbumCollection remove(PlexAlbumCollection collection, PlexAlbum PlexAlbum);
+
+    PlexTrackCollection remove(PlexTrackCollection collection, PlexTrack PlexTrack);
+
 }

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-class BaseItem {
+public class BaseItem {
 	@JsonIgnore
 	private Map<String, List<Object>> unmappedProperties;
 

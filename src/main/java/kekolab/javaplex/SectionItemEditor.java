@@ -4,21 +4,16 @@ import java.util.Optional;
 
 import kekolab.javaplex.model.PlexSectionItemEditor;
 
-class SectionItemEditor extends MetadataEditor implements PlexSectionItemEditor {
-    
+public class SectionItemEditor extends MetadataEditor implements PlexSectionItemEditor {
+
     private FieldEditor<String> titleEditor;
-    
     private FieldEditor<Boolean> titleLockEditor;
-    
     private FieldEditor<String> summaryEditor;
-    
     private FieldEditor<Boolean> summaryLockEditor;
-    
     private FieldEditor<String> titleSortEditor;
-    
     private FieldEditor<Boolean> titleSortLockEditor;
 
-    SectionItemEditor(SectionItem<?> source) {
+    protected SectionItemEditor(SectionItem source) {
         super(source, source.ratingKey());
 
         titleEditor = new StringFieldEditor("title.value", source::getTitle, false);
@@ -42,17 +37,14 @@ class SectionItemEditor extends MetadataEditor implements PlexSectionItemEditor 
             lockEditor.setValue(lock.get());
     }
 
-    @Override
     public void setTitle(String value, Optional<Boolean> lock) {
         editField(titleEditor, value, titleLockEditor, lock);
     }
 
-    @Override
     public void setSummary(Optional<String> value, Optional<Boolean> lock) {
         editField(summaryEditor, value.orElse(null), summaryLockEditor, lock);
     }
 
-    @Override
     public void setTitleSort(Optional<String> value, Optional<Boolean> lock) {
         editField(titleSortEditor, value.orElse(null), titleSortLockEditor, lock);
     }

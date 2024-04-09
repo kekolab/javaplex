@@ -2,11 +2,12 @@ package kekolab.javaplex;
 
 import kekolab.javaplex.model.PlexSession;
 
-class Session extends BaseItem implements PlexSession{
+public class Session extends BaseItem implements PlexSession {
     private String id;
     private Long bandwidth;
     private String location;
 
+    @Override
     public String getId() {
         return id;
     }
@@ -15,6 +16,7 @@ class Session extends BaseItem implements PlexSession{
         this.id = id;
     }
 
+    @Override
     public Long getBandwidth() {
         return bandwidth;
     }
@@ -23,6 +25,7 @@ class Session extends BaseItem implements PlexSession{
         this.bandwidth = bandwidth;
     }
 
+    @Override
     public String getLocation() {
         return location;
     }

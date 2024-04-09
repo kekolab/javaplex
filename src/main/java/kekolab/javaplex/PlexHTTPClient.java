@@ -27,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+import kekolab.javaplex.model.PlexPin;
+
 public class PlexHTTPClient {
 	private static final String CONTEXT_ATTRIBUTE_PEER_CERTIFICATES = "peer-certificates";
 	private static final String HEADER_X_PLEX_PROVIDES = "X-Plex-Provides";
@@ -291,14 +293,14 @@ public class PlexHTTPClient {
 
 	// Method created for the authorizer, whose remote service does not return a
 	// MediaContainer
-	Pin requestPin(URI uri) {
+	PlexPin requestPin(URI uri) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "POST", Optional.empty()).build();
 		return execute(request, Optional.of(Pin.class)).get();
 	}
 
 	// Method created for the authorizer, whose remote service does not return a
 	// MediaContainer
-	Pin verifyPin(URI uri) {
+	PlexPin verifyPin(URI uri) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "GET", Optional.empty()).build();
 		return execute(request, Optional.of(Pin.class)).get();
 	}

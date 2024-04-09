@@ -1,67 +1,53 @@
 package kekolab.javaplex;
 
-import java.net.URI;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import kekolab.javaplex.model.PlexSection;
 import kekolab.javaplex.model.PlexSectionItem;
 
-abstract class SectionItem<S extends PlexSection<?, ?>> extends Metadata implements PlexSectionItem<S> {
+public abstract class SectionItem extends Metadata implements PlexSectionItem {
+    // TODO Delete a sectionItem? It is deleted just like a PlexCollection (see
+    // classes PlexCollections and Collections)
+
     private String librarySectionTitle;
     private Integer librarySectionID;
     private String librarySectionKey;
     private String titleSort;
-    @JsonIgnore
-    private UriProvider sectionUriProvider;
-
-    public SectionItem() {
-        sectionUriProvider = new UriProvider(() -> getServer().getUri());
-
-    }
 
     @Override
     void update(Metadata source) {
         super.update(source);
-        SectionItem<?> item = (SectionItem<?>) source;
+        PlexSectionItem item = (PlexSectionItem) source;
         setLibrarySectionID(item.getLibrarySectionID());
         setLibrarySectionKey(item.getLibrarySectionKey());
         setLibrarySectionTitle(item.getLibrarySectionTitle());
         setTitleSort(item.getTitleSort());
     }
 
-    public S section() {
+    @Override
+    public PlexSection section() {
         if (librarySectionID != null)
-            return (S) getServer().library().section(librarySectionID);
+            return getServer().library().section(librarySectionID);
         return null;
     }
 
-    public URI sectionUri() {
-        if (librarySectionKey != null) {
-            sectionUriProvider.setValue(librarySectionKey);
-            return sectionUriProvider.uri();
-        } else if (librarySectionID != null) {
-            sectionUriProvider.setValue("/library/sections/" + librarySectionID);
-            return sectionUriProvider.uri();
-        }
-        return null;
-    }
-
+    @Override
     public String getLibrarySectionTitle() {
         ensureDetailed(librarySectionTitle);
         return librarySectionTitle;
     }
 
+    @Override
     public Integer getLibrarySectionID() {
         ensureDetailed(librarySectionID);
         return librarySectionID;
     }
 
+    @Override
     public String getLibrarySectionKey() {
         ensureDetailed(librarySectionKey);
         return librarySectionKey;
     }
 
+    @Override
     public String getTitleSort() {
         return titleSort;
     }
@@ -82,16 +68,20 @@ abstract class SectionItem<S extends PlexSection<?, ?>> extends Metadata impleme
         this.librarySectionKey = librarySectionKey;
     }
 
+    @Override
     public abstract int typeId();
 
+    @Override
     public Boolean getTitleLocked() {
         return getFieldLocked("title");
     }
 
+    @Override
     public Boolean getSummaryLocked() {
         return getFieldLocked("summary");
     }
 
+    @Override
     public Boolean getTitleSortLocked() {
         return getFieldLocked("titleSort");
     }
