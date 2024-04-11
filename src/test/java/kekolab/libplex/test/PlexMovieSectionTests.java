@@ -1,5 +1,8 @@
 package kekolab.libplex.test;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,8 +33,8 @@ public class PlexMovieSectionTests extends PlexTests {
 	public void byCountries() {
 		PlexSectionSecondaryDirectory<PlexMovie> filter = section.movieCountries().get(1);
 		List<PlexMovie> movies = filter.list();
-		System.out.println("Selected: " + filter.getTitle());
-		movies.stream().map(PlexMediatag::getTitle).forEach(System.out::println);
+		assertNotNull(movies);
+		assertTrue(movies.size() > 0);
+		assertTrue(movies.stream().allMatch(m -> m.getCountries().stream().anyMatch(c -> c.getTag().equals(filter.getTitle()))));
 	}
-
 }

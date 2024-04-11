@@ -1,8 +1,9 @@
 package kekolab.libplex.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,42 +15,36 @@ import kekolab.javaplex.PlexMusicSection;
 import kekolab.javaplex.PlexTag;
 
 public class PlexAttributeEditingTests extends PlexMediaServerTests {
-    private PlexArtist artist;
+    private PlexArtist anArtist;
 
     @BeforeEach
     public void init() {
-        artist = getServer().library().sections().stream().filter(PlexMusicSection.class::isInstance)
+        anArtist = getServer().library().sections().stream().filter(PlexMusicSection.class::isInstance)
                 .map(PlexMusicSection.class::cast).findFirst().get().all().execute().get(0);
     }
 
     @Test
     public void editCountry() {
-        List<PlexTag> originalCountries = artist.getCountries();
-        artist.editCountries(Collections.emptyList(), Optional.empty());
-        List<PlexTag> countries = artist.getCountries();
-        assertTrue(countries.isEmpty());
-        /*
-         * List<PlexTag> newCountries = new ArrayList<>();
-         * PlexTag newCountry = new PlexTag();
-         * newCountry.setTag("Austria");
-         * newCountries.add(newCountry);
-         * artist.editCountries(newCountries);
-         * artist.commitEdits();
-         * countries = artist.getCountries();
-         * assertFalse(countries.isEmpty());
-         * assertTrue(countries.stream().allMatch(c ->
-         * newCountries.stream().map(PlexTag::getTag).anyMatch(oc ->
-         * oc.equals(c.getTag()))));
-         * 
-         * artist.editCountries(originalCountries);
-         * artist.commitEdits();
-         * countries = artist.getCountries();
-         * assertFalse(countries.isEmpty());
-         * assertTrue(countries.stream().allMatch(c ->
-         * originalCountries.stream().map(PlexTag::getTag).anyMatch(oc ->
-         * oc.equals(c.getTag()))));
-         */
+        String originalTitle = anArtist.getTitle();
+        String updatedTitle = "Unexisting Artist - Hopefully";
+        anArtist.editTitle(updatedTitle, Optional.empty());
+        assertEquals(updatedTitle, anArtist.getTitle());
+        anArtist.editTitle(originalTitle, Optional.empty());
+        assertEquals(originalTitle, anArtist.getTitle());
 
+        Boolean isOriginalTitleLocked = anArtist.getTitleLocked();
+        boolean updatedLock = isOriginalTitleLocked != null ? !isOriginalTitleLocked : true;
+        anArtist.editTitle(anArtist.getTitle(), Optional.of(updatedLock));
+        assertEquals(updatedLock, anArtist.getTitleLocked());
+        anArtist.editTitle(anArtist.getTitle(), Optional.of(isOriginalTitleLocked != null ? isOriginalTitleLocked : false));
+        assertEquals(isOriginalTitleLocked, anArtist.getTitleLocked());
+
+        List<PlexTag> originalCountries = anArtist.getCountries(); 
+        List<String> editedCountries = Arrays.asList("Country 1", "Country 2");
+        anArtist.editCountries(editedCountries, Optional.empty());
+        assertEquals(editedCountries.size(), anArtist.getCountries().size());
+        assertTrue(anArtist.getCountries().stream().allMatch(c -> editedCountries.stream().anyMatch(e -> e.equals(c.getTag()))));
+        anArtist.editCountries(originalCountries.stream().map(PlexTag::getTag).toList(), Optional.empty());
+        assertTrue(anArtist.getCountries().stream().allMatch(c -> originalCountries.stream().anyMatch(e -> e.getTag().equals(c.getTag()))));
     }
-
 }

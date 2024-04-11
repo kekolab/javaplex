@@ -45,17 +45,17 @@ public class PlexCollections<S extends PlexSection> {
         }
     }
 
-    public <M extends PlexMediatag<S>> List<PlexCollection<S, ? extends M>> list() {
+    public List<PlexCollection<S, ? extends PlexMediatag<S>>> list() {
         try {
             URI uri = new URIBuilder(section.key()).appendPath("collections").build();
-            return new PlexGeneralPurposeMediaContainer<PlexCollection<S, ? extends M>, PlexDirectory>(uri, section.getServer())
+            return new PlexGeneralPurposeMediaContainer<PlexCollection<S, ? extends PlexMediatag<S>>, PlexDirectory>(uri, section.getServer())
                     .getMetadata();
         } catch (URISyntaxException e) {
             throw new PlexException("Unknown exception. See attached stacktrace", e);
         }
     }
 
-    public <M extends PlexMediatag<S>> void delete(PlexCollection<S, M> target) {
+    public void delete(PlexCollection<S, ? extends PlexMediatag<S>> target) {
         PlexMediaServer server = section.getServer();
         server.getClient().delete(target.ratingKey(), server.getToken(), Optional.empty());
     }
