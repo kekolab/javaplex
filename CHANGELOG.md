@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] 2024-04-11
+
+### Added
+
+- Filterable queries. Now all the filterable section queries (such as `PlexMusicSection.albums` or `PlexMovieSection.all`) can be filter-queried by means of a PlexSectionQueryBuilder
+- Filters can be built by means of class `PlexFilterBuilder` and of `PlexFilterableField` defined in each `PlexMediatag`
+- Support for Smart playlists (old playlists have been renamed `PlexClassicPlaylist`)
+- Services introduces:
+  - `PlexPlaylists`: a service to create or delete or altering playlists
+  - `PlexCollections`: a service to create or delete or altering collections
+  - `PlexServerShares`: a service to work on `PlexServerShare`s
+  - ...
+
+### Changed
+
+- General refactoring, class renaming and simplification.
+- `PlexPlaylist` has become a parameterized class: no more three specific class (`PlexAudioPlaylist`, `PlexVideoPlaylist`, `PlexPhotoPlaylist`), which would've become six with the smart playlists
+- `PlexCollection` has become a parameterized class: no more six specific classes
+
+
 ## [4.1.1] 2024-03-28
 
 ### Fixed

@@ -146,6 +146,7 @@ A Plex Media Server has a hierarchical organisation of the content. Starting fro
           - Clip
     - Recently Added Content
     - On-Deck Content
+  - Playlists
 
 The recently-added content, can contain any of the _media_ defined above: Artist, Album, Track, TV Show, Season, Episode, Movie, PhotoAlbum, Photo, Clip.
 
@@ -159,13 +160,9 @@ You can navigate through the server using the methods provided. For example:
 PlexMediaServer server;
 PlexMusicSection aMusicSection = server
     .library() // The PlexLibrary
-    .sections() // All the sections
-    .stream()
-    .filter(PlexMusicSection.class::isInstance) // Only the music sections
-    .map(PlexMusicSection.class::cast) // Let's cast it
-    .findAny() // Let's find any
-    .get(); // Let's get it (if there is, otherwise an exception is thrown)
-List<PlexArtist> artists = aMusicSection.all(); // Let's get all the artists
+    .musicSections() // All the music sections
+    .get(0);
+List<PlexArtist> artists = aMusicSection.all().execute(); // Let's get all the artists
 ```
 
 #### Getting a season of a TV show
@@ -173,13 +170,9 @@ List<PlexArtist> artists = aMusicSection.all(); // Let's get all the artists
 ```java
 PlexMediaServer server;
 PlexSeason season = server.library()
- .sections()
- .stream()
- .filter(PlexShowSection.class::isInstance)
- .map(PlexShowSection.class::cast) 
- .findAny()
- .get()
- .all() // Get all the shows
+ .showSections()
+ .get(0)
+ .all().execute() // Get all the shows
  .get(0) // Get the first show
  .children() // Get all the seasons
  .get(0); // Get the first
@@ -193,13 +186,11 @@ List<PlexEpisode> episodes = season.children();
 
 ### Editing
 
-Editing some of the properties of an item is supported. To edit the property of a media (any of `PlexArtist`, `PlexAlbum`, `PlexTrack`, `PlexMovie`, ...), get the editor, alter what you want, and remember, to make the edits effective, to _commit_ the edits:
+Editing some of the properties of an item is supported. To edit the property of a media (any of `PlexArtist`, `PlexAlbum`, `PlexTrack`, `PlexMovie`, ...), user the methods starting with _edit_ **and not** the _setters_ (whose use should be reserver to Jackson for serialization and deserialization).
 
 ```java
 PlexArtist artist;  = ... // Retrieve the artist in some way
-PlexArtistEditor editor = artist.editor();
-editor.setTitle("newArtistName", Optional.empty());
-editor.commit();
+artist.editTitle("newArtistName", Optional.empty());
 ```
 
 ### Session infos
@@ -253,7 +244,7 @@ The library supports listing the active shares and creating new ones. If you wan
 ```java
 PlexServer server;
 PlexServerShares serverShares = server.serverShares();
-List<Section> sectionsToShare = server.getSections();
+List<PlexServer.Section> sectionsToShare = server.getSections();
 PlexServerShare share = serverShares.inviteFriend("dummy@example.com", sectionsToShare);
 ```
 
@@ -262,9 +253,9 @@ while if you want to customise the sharing settings:
 ```java
 PlexServer server;
 PlexServerShares serverShares = server.serverShares();
-List<Section> sectionsToShare = server.getSections();
+List<PlexServer.Section> sectionsToShare = server.getSections();
 
-SharingSettings sharingSettings = new SharingSettings();
+PlexSharingSettings sharingSettings = new PlexSharingSettings();
 sharingSettings.setAllowCameraUpload(true);
 sharingSettings.setAllowChannels(false);
 sharingSettings.setAllowSync(true);
@@ -279,15 +270,19 @@ PlexServerShare share = serverShares.inviteFriend("dummy@example.com", sectionsT
 
 The library also supports:
 
-- **Playlists** (_only non-smart ones_): listing, creating, deleting, adding items to and removing items from;
+- **Playlists** (_smart_ and _non-smart_ ones): listing, creating, deleting, adding items to and removing items from;
 - **Collections**: listing, creating, deleting, adding items to and removing items from;
 - **Searching**: items on the server can be searched using the method `PlexLibrary.search`
+
+### More examples and test classes
+
+In the test classes you can find more examples... Navigate them all... I do not guarantee that the test-class names are meaningful. A test on playlist might as well be in `PlexCollectionsTest.java`.
 
 ## To-do
 
 Some thigs which could be integrated, but I do not know when I will have the time to do:
 
-- [ ] **Smart playlists**: creating, deleting, listing, altering the filters, ...
+- [x] **Smart playlists**: creating, deleting, listing, altering the filters, ...
 - [ ] Add some meaningful logging
 
 Feel free to create a discussion, send an issue or contact me in any way you can think of to suggest, emend, correct add stuff.
@@ -307,9 +302,17 @@ proxyPass={PROXY_PASSWORD}
 
 ## Disclaimer
 
-This is a personal project and has no connection with Plex.
-I carry it on mainly at night and when I have some spare time from the (paying 😅) job.
+This is a very personal project. It is so personal that the tests, for example, are specific to my plex and rely on my artists, movies and playlists. I should rewrite them, but hey... if you have the time to fix the tests maybe you'd better add a functionality, no?
 
+Some weeks ago I discovered it was being used actively by somebody it honoured me, on the one side, and astonished me, on the other.
+
+Anyway, I carry it on mainly at night and when I have some spare time from the (paying 😅) job.
+
+Being such type of a project, I tend to use it more to improve my developing skills, study new language features, clean coding style, ..., than to mantain a long-term stable library. This means that I feel quite free to rearchtiecture, change class names, break compatibility from version to version. Still, I tend to respect the paradigm of [Semantic Versioning](https://semver.org/spec/v2.0.0.html), so... take a close look to first-digit changes 😜.
+
+## Copyright
+
+This project has no connection or affiliation with Plex.
 All trademarks belong to the respective owners.
 
 ## Contributors ✨
