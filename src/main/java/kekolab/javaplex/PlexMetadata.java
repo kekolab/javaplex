@@ -119,16 +119,16 @@ public abstract class PlexMetadata extends PlexDirectory {
 		setType(source.getType());
 		setUpdatedAt(source.getUpdatedAt());
 		setViewCount(source.getViewCount());
-		setTitle(source.getTitleSort());
+		setTitleSort(source.getTitleSort());
 	}
 
 	void refresh() {
-		ensureDetailed(null);
+		update(new PlexGeneralPurposeMediaContainer<PlexMetadata, PlexDirectory>(ratingKey(), getServer()).getMetadata().get(0));
 	}
 
 	void ensureDetailed(Object field) {
 		if (!detailed() && (field == null || field instanceof Collection collection && collection.isEmpty()))
-			update(new PlexGeneralPurposeMediaContainer<PlexMetadata, PlexDirectory>(ratingKey(), getServer()).getMetadata().get(0));
+			refresh();
 	}
 
 	private boolean detailed() {
