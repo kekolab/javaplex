@@ -17,20 +17,13 @@ import kekolab.javaplex.filtering.PlexFilter;
 
 public class PlexSmartPlaylist<S extends PlexSection, M extends PlexMediatag<S>> extends PlexPlaylist<M> {
 	private String content;
-
-	public String getContent() {
-		ensureDetailed(content);
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
+	private String icon;
 
 	void update(PlexMetadata source) {
 		super.update(source);
 		PlexSmartPlaylist<?, ?> p = (PlexSmartPlaylist<?, ?>) source;
 		setContent(p.getContent());
+		setIcon(p.getIcon());
 	}
 
 	public S section() {
@@ -58,21 +51,23 @@ public class PlexSmartPlaylist<S extends PlexSection, M extends PlexMediatag<S>>
 	public PlexFilter getFilter() {
 		List<NameValuePair> queryParams = contentURIBuilder().getQueryParams();
 		queryParams.removeIf(p -> p.getName().toLowerCase().equals("type") || p.getName().toLowerCase().equals("sort"));
-		PlexFilter filter = PlexFilter.parse(queryParams);
+		return PlexFilter.parse(queryParams);
+	}
 
-		try {
-			System.out.println(getContent());
-			System.out.println("DECODING");
-			System.out.println(URLDecoder.decode(getContent(), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("DECODED");
-		System.out.println(filter.getQueryParameters().stream().map(p -> p.getName() + "=" + p.getValue())
-				.reduce((a, b) -> a.concat("&").concat(b)).get());
-		;
+	public String getIcon() {
+		return icon;
+	}
 
-		return filter; // TODO
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getContent() {
+		ensureDetailed(content);
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }
