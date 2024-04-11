@@ -29,6 +29,7 @@ public abstract class PlexMetadata extends PlexDirectory {
 	@JsonDeserialize(using = TimestampDeserializer.class)
 	private Date updatedAt;
 	private Integer viewCount;
+	private String titleSort;
 
 	public PlexMetadata() {
 		fields = new ArrayList<>();
@@ -99,6 +100,14 @@ public abstract class PlexMetadata extends PlexDirectory {
 		this.summary = summary;
 	}
 
+	public String getTitleSort() {
+        return titleSort;
+    }
+
+    public void setTitleSort(String titleSort) {
+        this.titleSort = titleSort;
+    }
+
 	void update(PlexMetadata source) {
 		setAddedAt(source.getAddedAt());
 		setFields(source.getFields());
@@ -110,6 +119,7 @@ public abstract class PlexMetadata extends PlexDirectory {
 		setType(source.getType());
 		setUpdatedAt(source.getUpdatedAt());
 		setViewCount(source.getViewCount());
+		setTitle(source.getTitleSort());
 	}
 
 	void refresh() {

@@ -9,7 +9,7 @@ public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadat
     private String librarySectionTitle;
     private Integer librarySectionID;
     private String librarySectionKey;
-    private String titleSort;
+    
 
     @Override
     void update(PlexMetadata source) {
@@ -18,7 +18,6 @@ public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadat
         setLibrarySectionID(item.getLibrarySectionID());
         setLibrarySectionKey(item.getLibrarySectionKey());
         setLibrarySectionTitle(item.getLibrarySectionTitle());
-        setTitleSort(item.getTitleSort());
     }
 
     public S section() {
@@ -40,14 +39,6 @@ public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadat
     public String getLibrarySectionKey() {
         ensureDetailed(librarySectionKey);
         return librarySectionKey;
-    }
-
-    public String getTitleSort() {
-        return titleSort;
-    }
-
-    public void setTitleSort(String titleSort) {
-        this.titleSort = titleSort;
     }
 
     public void setLibrarySectionTitle(String librarySectionTitle) {
