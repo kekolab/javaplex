@@ -2,10 +2,8 @@ package kekolab.javaplex;
 
 import java.net.URI;
 
-import kekolab.javaplex.model.PlexGrandchild;
-import kekolab.javaplex.model.PlexMediatag;
-
-public abstract class Grandchild extends Child implements PlexGrandchild {
+public abstract class Grandchild<S extends PlexSection, P extends PlexMediatag<S>, GP extends PlexMediatag<S>>
+        extends Child<S, P> implements PlexGrandchild<S, P, GP> {
     private UriProvider grandparentArt, grandparentKey, grandparentRatingKey, grandparentTheme, grandparentThumb;
     private String grandparentGuid;
     private String grandparentTitle;
@@ -20,9 +18,9 @@ public abstract class Grandchild extends Child implements PlexGrandchild {
     }
 
     @Override
-    void update(Metadata source) {
+    void update(PlexMetadata source) {
         super.update(source);
-        Grandchild g = (Grandchild) source;
+        Grandchild<?, ?, ?> g = (Grandchild<?, ?, ?>) source;
         setGrandparentArt(g.getGrandparentArt());
         setGrandparentGuid(g.getGrandparentGuid());
         setGrandparentKey(g.getGrandparentKey());
@@ -34,11 +32,11 @@ public abstract class Grandchild extends Child implements PlexGrandchild {
     }
 
     @Override
-    public PlexMediatag grandparent() {
+    public GP grandparent() {
         URI uri = grandparentKey() != null ? grandparentKey()
                 : grandparentRatingKey() != null ? grandparentRatingKey() : null;
         if (uri != null)
-            return (PlexMediatag) new MetadataContainer<>(uri, getServer()).getMetadata().get(0);
+            return new PlexGeneralPurposeMediaContainer<GP, PlexDirectory>(uri, getServer()).getMetadata().get(0);
         return null;
     }
 

@@ -7,18 +7,17 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexArtistSecondaryDirectory;
-import kekolab.javaplex.model.PlexConnection;
-import kekolab.javaplex.model.PlexDevice;
-import kekolab.javaplex.model.PlexFilter;
-import kekolab.javaplex.model.PlexFilterBuilder;
-import kekolab.javaplex.model.PlexGrandchild;
-import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexMusicSection;
-import kekolab.javaplex.model.PlexSmartAudioPlaylist;
-import kekolab.javaplex.model.PlexSmartPlaylist;
-import kekolab.javaplex.model.PlexTrack;
+import kekolab.javaplex.PlexArtist;
+import kekolab.javaplex.PlexConnection;
+import kekolab.javaplex.PlexDevice;
+import kekolab.javaplex.PlexGrandchild;
+import kekolab.javaplex.PlexMediaServer;
+import kekolab.javaplex.PlexMusicSection;
+import kekolab.javaplex.PlexSectionSecondaryDirectory;
+import kekolab.javaplex.PlexSmartPlaylist;
+import kekolab.javaplex.PlexTrack;
+import kekolab.javaplex.filtering.PlexFilter;
+import kekolab.javaplex.filtering.PlexFilterBuilder;
 
 public class PlexPlaylistsTests extends PlexTests {
 	private PlexMediaServer server;
@@ -41,23 +40,22 @@ public class PlexPlaylistsTests extends PlexTests {
 	@Test
 	public void createSmartPlaylist() {
 		PlexMusicSection section = server.library().musicSections().get(0);
-		PlexArtistSecondaryDirectory country = section.byCountry().stream().filter(f -> f.getTitle().toLowerCase().contains("canada"))
+		PlexSectionSecondaryDirectory<PlexArtist> country = section.artistCountries().stream().filter(f -> f.getTitle().toLowerCase().contains("canada"))
 				.findAny().get();
 		PlexFilter filter = PlexFilterBuilder.when(PlexArtist.COUNTRY).is(country);
-		PlexSmartPlaylist playlist = server.playlists().createSmart("Canadian artists", section, filter);
-		assertTrue(playlist instanceof PlexSmartAudioPlaylist);
-		assertTrue(playlist.children().stream().map(PlexTrack.class::cast).map(PlexGrandchild::grandparent)
+		PlexSmartPlaylist<PlexMusicSection, PlexTrack> playlist = (PlexSmartPlaylist<PlexMusicSection, PlexTrack>) server.playlists().createSmart("Canadian artists", section, filter);
+		assertTrue(playlist.items().stream().map(PlexGrandchild::grandparent)
 				.allMatch(f -> f.getTitle().toLowerCase().contains("alanis") ||  f.getTitle().toLowerCase().contains("avril")));
 	}
 
 	@Test
 	public void alterSmartPlaylist() {
-		PlexSmartAudioPlaylist playlist = (PlexSmartAudioPlaylist) server.playlists().list().stream().filter(p -> p.getTitle().equalsIgnoreCase("canadian singers")).findAny().get();
-		PlexArtistSecondaryDirectory france = server.library().musicSections().get(0).byCountry().stream().filter(c -> c.getTitle().equalsIgnoreCase("france")).findAny().get();
+		PlexSmartPlaylist<PlexMusicSection, PlexTrack> playlist = (PlexSmartPlaylist<PlexMusicSection, PlexTrack>) server.playlists().list().stream().filter(p -> p.getTitle().equalsIgnoreCase("canadian singers")).findAny().get();
+		PlexSectionSecondaryDirectory<PlexArtist> france = server.library().musicSections().get(0).artistCountries().stream().filter(c -> c.getTitle().equalsIgnoreCase("france")).findAny().get();
 		PlexFilter filter = PlexFilterBuilder.when(PlexArtist.COUNTRY).is(france);
-		playlist = (PlexSmartAudioPlaylist) server.playlists().alter(playlist, filter);
+		playlist = server.playlists().alter(playlist, filter);
 		
-		assertTrue(playlist.children().stream().noneMatch(c -> c.grandparent().getTitle().toLowerCase().contains("alanis")));
-		assertTrue(playlist.children().stream().anyMatch(c -> c.grandparent().getTitle().toLowerCase().contains("zarra")));
+		assertTrue(playlist.items().stream().noneMatch(c -> c.grandparent().getTitle().toLowerCase().contains("alanis")));
+		assertTrue(playlist.items().stream().anyMatch(c -> c.grandparent().getTitle().toLowerCase().contains("zarra")));
 	}
 }

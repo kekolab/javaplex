@@ -27,8 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
-import kekolab.javaplex.model.PlexPin;
-
 public class PlexHTTPClient {
 	private static final String CONTEXT_ATTRIBUTE_PEER_CERTIFICATES = "peer-certificates";
 	private static final String HEADER_X_PLEX_PROVIDES = "X-Plex-Provides";
@@ -90,7 +88,7 @@ public class PlexHTTPClient {
 		return Optional.empty();
 	}
 
-	private <A extends MediaContainer> A parseResponse(ClassicHttpRequest request, ClassicHttpResponse response,
+	private <A extends PlexMediaContainer> A parseResponse(ClassicHttpRequest request, ClassicHttpResponse response,
 			A container) {
 		ensureResponseIsNotError(request, response);
 		try {
@@ -137,7 +135,7 @@ public class PlexHTTPClient {
 		}
 	}
 
-	private <A extends MediaContainer> A execute(ClassicHttpRequest request, A mediaContainer) {
+	private <A extends PlexMediaContainer> A execute(ClassicHttpRequest request, A mediaContainer) {
 		try {
 			return client.execute(request, response -> parseResponse(request, response, mediaContainer));
 		} catch (IOException e) {
@@ -145,7 +143,7 @@ public class PlexHTTPClient {
 		}
 	}
 
-	private void setRequestEntity(ClassicRequestBuilder builder, BaseItem entity) {
+	private void setRequestEntity(ClassicRequestBuilder builder, PlexBaseItem entity) {
 		builder.setHeader("Content-Type", "application/json");
 		try {
 			builder.setEntity(jsonMapper.writeValueAsString(entity));
@@ -154,8 +152,8 @@ public class PlexHTTPClient {
 		}
 	}
 
-	<A extends MediaContainer> Optional<A> post(URI uri, Optional<String> token,
-			Optional<? extends BaseItem> entity, Optional<Class<A>> responseEntityClass) {
+	<A extends PlexMediaContainer> Optional<A> post(URI uri, Optional<String> token,
+			Optional<? extends PlexBaseItem> entity, Optional<Class<A>> responseEntityClass) {
 		ClassicRequestBuilder requestBuilder = buildBaseRequestBuilder(uri, "POST", token);
 		entity.ifPresent(e -> setRequestEntity(requestBuilder, e));
 		return execute(requestBuilder.build(), responseEntityClass);
@@ -172,7 +170,7 @@ public class PlexHTTPClient {
 	}
 
 	@Deprecated
-	<A> A executeAndCreateFromResponse(ClassicRequestBuilder builder, BaseItem body, String contentType, Class<A> cls,
+	<A> A executeAndCreateFromResponse(ClassicRequestBuilder builder, PlexBaseItem body, String contentType, Class<A> cls,
 			String token) {
 		ObjectMapper mapper = contentType.toLowerCase().contains("xml") ? xmlMapper : jsonMapper;
 		try {
@@ -295,58 +293,58 @@ public class PlexHTTPClient {
 	// MediaContainer
 	PlexPin requestPin(URI uri) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "POST", Optional.empty()).build();
-		return execute(request, Optional.of(Pin.class)).get();
+		return execute(request, Optional.of(PlexPin.class)).get();
 	}
 
 	// Method created for the authorizer, whose remote service does not return a
 	// MediaContainer
 	PlexPin verifyPin(URI uri) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "GET", Optional.empty()).build();
-		return execute(request, Optional.of(Pin.class)).get();
+		return execute(request, Optional.of(PlexPin.class)).get();
 	}
 
-	<A extends MediaContainer> A get(Optional<String> token, A mediaContainer) {
+	<A extends PlexMediaContainer> A get(Optional<String> token, A mediaContainer) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "GET", token).build();
 		return execute(request, mediaContainer);
 	}
 
-	<A extends MediaContainer> Optional<A> get(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+	<A extends PlexMediaContainer> Optional<A> get(URI uri, Optional<String> token, Optional<Class<A>> cls) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "GET", token).build();
 		return execute(request, cls);
 	}
 
-	<A extends MediaContainer> A post(Optional<String> token, A mediaContainer) {
+	<A extends PlexMediaContainer> A post(Optional<String> token, A mediaContainer) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "POST", token).build();
 		return execute(request, mediaContainer);
 	}
 
-	<A extends MediaContainer> A post(Optional<String> token, Optional<? extends BaseItem> entity, A mediaContainer) {
+	<A extends PlexMediaContainer> A post(Optional<String> token, Optional<? extends PlexBaseItem> entity, A mediaContainer) {
 		ClassicRequestBuilder requestBuilder = buildBaseRequestBuilder(mediaContainer.getUri(), "POST", token);
 		entity.ifPresent(e -> setRequestEntity(requestBuilder, e));
 		return execute(requestBuilder.build(), mediaContainer);
 	}
 
-	<A extends MediaContainer> Optional<A> post(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+	<A extends PlexMediaContainer> Optional<A> post(URI uri, Optional<String> token, Optional<Class<A>> cls) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "POST", token).build();
 		return execute(request, cls);
 	}
 
-	<A extends MediaContainer> A put(Optional<String> token, A mediaContainer) {
+	<A extends PlexMediaContainer> A put(Optional<String> token, A mediaContainer) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "PUT", token).build();
 		return execute(request, mediaContainer);
 	}
 
-	<A extends MediaContainer> Optional<A> put(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+	<A extends PlexMediaContainer> Optional<A> put(URI uri, Optional<String> token, Optional<Class<A>> cls) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "PUT", token).build();
 		return execute(request, cls);
 	}
 
-	<A extends MediaContainer> A delete(Optional<String> token, A mediaContainer) {
+	<A extends PlexMediaContainer> A delete(Optional<String> token, A mediaContainer) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(mediaContainer.getUri(), "DELETE", token).build();
 		return execute(request, mediaContainer);
 	}
 
-	<A extends MediaContainer> Optional<A> delete(URI uri, Optional<String> token, Optional<Class<A>> cls) {
+	<A extends PlexMediaContainer> Optional<A> delete(URI uri, Optional<String> token, Optional<Class<A>> cls) {
 		ClassicHttpRequest request = buildBaseRequestBuilder(uri, "DELETE", token).build();
 		return execute(request, cls);
 	}

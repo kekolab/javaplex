@@ -19,12 +19,6 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.net.URIBuilder;
 
-import kekolab.javaplex.model.PlexConnection;
-import kekolab.javaplex.model.PlexDevice;
-import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexResources;
-import kekolab.javaplex.model.PlexServers;
-
 public class PlexApi {
     private final PlexHTTPClient client;
     private Optional<String> token;
@@ -51,7 +45,7 @@ public class PlexApi {
      *                                token
      */
     public PlexResources getResources() throws NoSuchElementException {
-        return new Resources(client, token.get());
+        return new PlexResources(client, token.get());
     }
 
     /**
@@ -60,11 +54,11 @@ public class PlexApi {
      * @throws NoSuchElementException
      */
     public PlexServers getServers() throws NoSuchElementException {
-        return new Servers(client, token.get());
+        return new PlexServers(client, token.get());
     }
 
     public PlexMediaServer getMediaServer(URI uri) {
-        return new MediaServer(uri, client, token);
+        return new PlexMediaServer(uri, client, token);
     }
 
     public PlexMediaServer getMediaServer(String host, int port) {
@@ -76,7 +70,7 @@ public class PlexApi {
     }
 
     public PlexMediaServer getMediaServer(PlexConnection connection) {
-        return new MediaServer(connection.uri(), client, token);
+        return new PlexMediaServer(connection.uri(), client, token);
     }
 
     public PlexMediaServer getMediaServer(PlexDevice device) {
@@ -86,7 +80,7 @@ public class PlexApi {
         throw new PlexException("No connections for the device");
         for (PlexConnection connection : device.getConnections()) {
             try {
-                return new MediaServer(connection.uri(), client, Optional.of(device.getAccessToken()));
+                return new PlexMediaServer(connection.uri(), client, Optional.of(device.getAccessToken()));
             } catch (Exception e) {
                 // TODO 
                 e.printStackTrace();

@@ -7,19 +7,19 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.model.PlexMediatag;
-import kekolab.javaplex.model.PlexTranscode;
-import kekolab.javaplex.model.PlexTranscodeSession;
+import kekolab.javaplex.PlexMediatag;
+import kekolab.javaplex.PlexTranscode;
+import kekolab.javaplex.PlexTranscodeSession;
 
 public class PlexSessionsTest extends PlexMediaServerTests {
 
     @Test
     public void sessions() {
-        List<? extends PlexMediatag> mediatags = getServer().status().sessions();
+        List<? extends PlexMediatag<?>> mediatags = getServer().status().sessions();
         assertNotNull(mediatags);
 
         // The following assertions need to have a session ongoing
-        PlexMediatag mediatag = mediatags.get(0);
+        PlexMediatag<?> mediatag = mediatags.get(0);
         assertNotNull(mediatag.getSession());
         assertNotNull(mediatag.getSessionKey());
         assertNotNull(mediatag.getPlayer());

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.model.PlexServer;
+import kekolab.javaplex.PlexServer;
 
 public class PlexServerTests extends PlexTests {
     

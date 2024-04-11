@@ -7,19 +7,13 @@ import java.util.Optional;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
 
-import kekolab.javaplex.model.PlexCollection;
-import kekolab.javaplex.model.PlexFilter;
-import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexMediatag;
-import kekolab.javaplex.model.PlexMetadata;
-import kekolab.javaplex.model.PlexPlaylist;
-import kekolab.javaplex.model.PlexSection;
+import kekolab.javaplex.filtering.PlexFilter;
 
-public class GenericCollectionsHelper {
-	private final PlexMetadata target;
-	private MediaServer server;
+public class GenericCollectionsHelper<M extends PlexMetadata> {
+	private final M target;
+	private PlexMediaServer server;
 
-	protected static URI uriParameter(PlexMediaServer server, PlexMediatag mediatag) {
+	protected static URI uriParameter(PlexMediaServer server, PlexMediatag<?> mediatag) {
 		try {
 			return new URIBuilder().setScheme("server").setHost(server.getMachineIdentifier())
 					.appendPath("com.plexapp.plugins.library").appendPath("library").appendPath("metadata")
@@ -39,8 +33,7 @@ public class GenericCollectionsHelper {
 
 	protected static URI uriParameter(PlexMediaServer server, PlexSection section, PlexFilter filter, String sort) {
 		try {
-			return uriParameterBuilder(server, section, filter)
-					.addParameter(new BasicNameValuePair("sort", sort))
+			return uriParameterBuilder(server, section, filter).addParameter(new BasicNameValuePair("sort", sort))
 					.build();
 		} catch (URISyntaxException e) {
 			throw new PlexException(e); // TODO
@@ -56,20 +49,14 @@ public class GenericCollectionsHelper {
 				.addParameters(filter.getQueryParameters());
 	}
 
-	private GenericCollectionsHelper(PlexMetadata target, MediaServer server) {
+	protected GenericCollectionsHelper(M target, PlexMediaServer server) {
+		if (!(target instanceof PlexPlaylist || target instanceof PlexCollection))
+			throw new PlexException("The Generic Collections Helper works only with playlists and collections");
 		this.target = target;
 		this.server = server;
 	}
 
-	protected GenericCollectionsHelper(PlexPlaylist target, MediaServer server) {
-		this((PlexMetadata) target, server);
-	}
-
-	protected GenericCollectionsHelper(PlexCollection target, MediaServer server) {
-		this((PlexMetadata) target, server);
-	}
-
-	protected PlexMetadata add(PlexMediatag mediatag) {
+	protected M add(PlexMediatag<?> mediatag) {
 		URI uri;
 		try {
 			uri = new URIBuilder(target.key()).addParameter("uri", uriParameter(server, mediatag).toString()).build();
@@ -78,12 +65,12 @@ public class GenericCollectionsHelper {
 		}
 
 		server.getClient().put(uri, server.getToken(), Optional.empty());
-		MetadataContainer<Metadata, ?> container = new MetadataContainer<>(target.ratingKey(), server);
+		PlexGeneralPurposeMediaContainer<M, ?> container = new PlexGeneralPurposeMediaContainer<>(target.ratingKey(), server);
 		return container.getMetadata().get(0);
 	}
 
-	PlexMetadata remove(URI uri) {
-		MetadataContainer<Metadata, ?> container = new MetadataContainer<>(uri, server);
+	M remove(URI uri) {
+		PlexGeneralPurposeMediaContainer<M, ?> container = new PlexGeneralPurposeMediaContainer<>(uri, server);
 		return server.getClient().delete(server.getToken(), container).getMetadata().get(0);
 	}
 }

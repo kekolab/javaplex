@@ -5,13 +5,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.model.PlexConnection;
-import kekolab.javaplex.model.PlexDevice;
-import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexMediatag;
-import kekolab.javaplex.model.PlexMovie;
-import kekolab.javaplex.model.PlexMovieSecondaryDirectory;
-import kekolab.javaplex.model.PlexMovieSection;
+import kekolab.javaplex.PlexConnection;
+import kekolab.javaplex.PlexDevice;
+import kekolab.javaplex.PlexMediaServer;
+import kekolab.javaplex.PlexMediatag;
+import kekolab.javaplex.PlexMovie;
+import kekolab.javaplex.PlexMovieSection;
+import kekolab.javaplex.PlexSectionSecondaryDirectory;
 
 public class PlexMovieSectionTests extends PlexTests {
 	private PlexMovieSection section;
@@ -28,8 +28,8 @@ public class PlexMovieSectionTests extends PlexTests {
 
 	@Test
 	public void byCountries() {
-		PlexMovieSecondaryDirectory filter = section.byCountry().get(1);
-		List<PlexMovie> movies = filter.movies();
+		PlexSectionSecondaryDirectory<PlexMovie> filter = section.movieCountries().get(1);
+		List<PlexMovie> movies = filter.list();
 		System.out.println("Selected: " + filter.getTitle());
 		movies.stream().map(PlexMediatag::getTitle).forEach(System.out::println);
 	}

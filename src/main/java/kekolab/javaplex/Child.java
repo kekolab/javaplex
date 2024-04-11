@@ -2,10 +2,7 @@ package kekolab.javaplex;
 
 import java.net.URI;
 
-import kekolab.javaplex.model.PlexChild;
-import kekolab.javaplex.model.PlexMediatag;
-
-public abstract class Child extends Mediatag implements PlexChild {
+public abstract class Child<S extends PlexSection, P extends PlexMediatag<S>> extends PlexMediatag<S> implements PlexChild<S, P> {
 
     private UriProvider parentKey, parentRatingKey, parentTheme, parentThumb;
     private String parentGuid;
@@ -22,9 +19,9 @@ public abstract class Child extends Mediatag implements PlexChild {
     }
 
     @Override
-    void update(Metadata source) {
+    void update(PlexMetadata source) {
         super.update(source);
-        Child c = (Child) source;
+        Child<?, ?> c = (Child<?, ?>) source;
         setParentGuid(c.getParentGuid());
         setParentIndex(c.getParentIndex());
         setParentKey(c.getParentKey());
@@ -37,10 +34,10 @@ public abstract class Child extends Mediatag implements PlexChild {
     }
 
     @Override
-    public PlexMediatag parent() {
+    public P parent() {
         URI uri = parentKey() != null ? parentKey() : parentRatingKey() != null ? parentRatingKey() : null;
         if (uri != null)
-            return (PlexMediatag) new MetadataContainer<>(uri, getServer()).getMetadata().get(0);
+            return new PlexGeneralPurposeMediaContainer<P, PlexDirectory>(uri, getServer()).getMetadata().get(0);
         return null;
     }
 

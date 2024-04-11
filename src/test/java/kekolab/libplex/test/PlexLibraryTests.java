@@ -9,13 +9,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexConnection;
-import kekolab.javaplex.model.PlexDevice;
-import kekolab.javaplex.model.PlexLibrary;
-import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexMetadata;
-import kekolab.javaplex.model.PlexSearchResult;
+import kekolab.javaplex.PlexArtist;
+import kekolab.javaplex.PlexConnection;
+import kekolab.javaplex.PlexDevice;
+import kekolab.javaplex.PlexLibrary;
+import kekolab.javaplex.PlexMediaServer;
+import kekolab.javaplex.PlexMetadata;
+import kekolab.javaplex.PlexSearchResult;
 
 public class PlexLibraryTests extends PlexTests {
 	private PlexLibrary library;

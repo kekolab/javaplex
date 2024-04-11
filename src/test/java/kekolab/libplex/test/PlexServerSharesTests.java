@@ -14,10 +14,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.SharingSettings;
-import kekolab.javaplex.model.PlexServer;
-import kekolab.javaplex.model.PlexServerShare;
-import kekolab.javaplex.model.PlexServerShares;
+import kekolab.javaplex.PlexServer;
+import kekolab.javaplex.PlexServerShare;
+import kekolab.javaplex.PlexServerShares;
+import kekolab.javaplex.PlexSharingSettings;
 
 public class PlexServerSharesTests extends PlexTests {
 
@@ -71,7 +71,7 @@ public class PlexServerSharesTests extends PlexTests {
         PlexServerShares serverShares = server.serverShares();
         List<PlexServer.Section> sectionsToShare = server.getSections();
 
-        SharingSettings sharingSettings = new SharingSettings();
+        PlexSharingSettings sharingSettings = new PlexSharingSettings();
         sharingSettings.setAllowCameraUpload(true);
         sharingSettings.setAllowChannels(false);
         sharingSettings.setAllowSync(true);

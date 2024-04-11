@@ -8,17 +8,17 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import kekolab.javaplex.model.PlexAlbum;
-import kekolab.javaplex.model.PlexArtist;
-import kekolab.javaplex.model.PlexConnection;
-import kekolab.javaplex.model.PlexDevice;
-import kekolab.javaplex.model.PlexFilter;
-import kekolab.javaplex.model.PlexFilterBuilder;
-import kekolab.javaplex.model.PlexLibrary;
-import kekolab.javaplex.model.PlexMediaServer;
-import kekolab.javaplex.model.PlexMusicSection;
-import kekolab.javaplex.model.PlexSectionSecondaryDirectory;
-import kekolab.javaplex.model.PlexTrack;
+import kekolab.javaplex.PlexAlbum;
+import kekolab.javaplex.PlexArtist;
+import kekolab.javaplex.PlexConnection;
+import kekolab.javaplex.PlexDevice;
+import kekolab.javaplex.PlexLibrary;
+import kekolab.javaplex.PlexMediaServer;
+import kekolab.javaplex.PlexMusicSection;
+import kekolab.javaplex.PlexSectionSecondaryDirectory;
+import kekolab.javaplex.PlexTrack;
+import kekolab.javaplex.filtering.PlexFilter;
+import kekolab.javaplex.filtering.PlexFilterBuilder;
 
 public class PlexConditionsTests extends PlexTests {
 	private PlexLibrary library;
@@ -67,7 +67,7 @@ public class PlexConditionsTests extends PlexTests {
 
 	@Test
 	public void artistGenreCondition() {
-		PlexSectionSecondaryDirectory filter = section.byGenre().get(0);
+		PlexSectionSecondaryDirectory<PlexArtist> filter = section.artistGenres().get(0);
 		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.GENRE).is(filter);
 		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		System.out.println("Genre selected: " + filter.getTitle());
@@ -77,7 +77,7 @@ public class PlexConditionsTests extends PlexTests {
 
 	@Test
 	public void artistCountryCondition() {
-		PlexSectionSecondaryDirectory filter = section.byCountry().get(0);
+		PlexSectionSecondaryDirectory<PlexArtist> filter = section.artistCountries().get(0);
 		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.COUNTRY).is(filter);
 		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		System.out.println("Country selected: " + filter.getTitle());
@@ -87,7 +87,7 @@ public class PlexConditionsTests extends PlexTests {
 
 	@Test
 	public void artistMoodCondition() {
-		PlexSectionSecondaryDirectory filter = section.byMood().get(1);
+		PlexSectionSecondaryDirectory<PlexArtist> filter = section.artistMoods().get(1);
 		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.MOOD).is(filter);
 		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		System.out.println("Mood selected: " + filter.getTitle());
@@ -97,7 +97,7 @@ public class PlexConditionsTests extends PlexTests {
 
 	@Test
 	public void artistStyleCondition() {
-		PlexSectionSecondaryDirectory filter = section.byStyle().get(1);
+		PlexSectionSecondaryDirectory<PlexArtist> filter = section.artistStyles().get(1);
 		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.STYLE).is(filter);
 		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		System.out.println("Style selected: " + filter.getTitle());
@@ -107,7 +107,7 @@ public class PlexConditionsTests extends PlexTests {
 
 	@Test
 	public void artistCollectionCondition() {
-		PlexSectionSecondaryDirectory filter = section.byCollection().get(0);
+		PlexSectionSecondaryDirectory<PlexArtist> filter = section.artistCollections().get(0);
 		PlexFilter condition = PlexFilterBuilder.when(PlexArtist.COLLECTION).is(filter);
 		List<PlexArtist> artists = section.all().filtered(condition).execute();
 		System.out.println("Collection selected: " + filter.getTitle());
