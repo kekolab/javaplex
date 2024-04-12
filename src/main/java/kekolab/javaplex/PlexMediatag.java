@@ -16,16 +16,16 @@ import kekolab.javaplex.mappers.TimestampDeserializer;
 public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionItem<S> {
 	private Boolean allowSync;
 	@JsonProperty("Collection")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> collections;
 	@JsonProperty("Guid")
-	@JsonDeserialize(contentAs = PlexGuid.class)
 	private List<PlexGuid> guids;
 	private Integer index;
 	@JsonDeserialize(using = TimestampDeserializer.class)
 	private Date lastRatedAt;
 	private Date lastViewedAt;
 	private Integer playlistItemID;
+	private Integer playQueueItemID;
+
 	private Integer skipCount;
 	private Double userRating;
 	private Long viewOffset;
@@ -33,16 +33,12 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 	// Properties returned only when querying /status/sessions
 	// TODO Should I try to update them when requested?
 	@JsonProperty("User")
-	@JsonDeserialize(as = PlexUser.class)
 	private PlexUser user;
 	@JsonProperty("Player")
-	@JsonDeserialize(as = PlexPlayer.class)
 	private PlexPlayer player;
 	@JsonProperty("Session")
-	@JsonDeserialize(as = PlexSession.class)
 	private PlexSession session;
 	@JsonProperty("TranscodeSession")
-	@JsonDeserialize(as = PlexTranscodeSession.class)
 	private PlexTranscodeSession transcodeSession;
 	private Integer sessionKey;
 
@@ -62,12 +58,12 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		setLastRatedAt(mediatag.getLastRatedAt());
 		setLastViewedAt(mediatag.getLastViewedAt());
 		setPlaylistItemID(mediatag.getPlaylistItemID());
+		setPlayQueueItemID(mediatag.getPlayQueueItemID());
 		setSkipCount(mediatag.getSkipCount());
 		setUserRating(mediatag.getUserRating());
 		setViewOffset(mediatag.getViewOffset());
 	}
 
-	
 	public Boolean getAllowSync() {
 		ensureDetailed(allowSync);
 		return allowSync;
@@ -77,7 +73,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.allowSync = allowSync;
 	}
 
-	
 	public Double getUserRating() {
 		ensureDetailed(userRating);
 		return userRating;
@@ -87,7 +82,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.userRating = userRating;
 	}
 
-	
 	public Date getLastViewedAt() {
 		ensureDetailed(lastViewedAt);
 		return lastViewedAt;
@@ -97,7 +91,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.lastViewedAt = lastViewedAt;
 	}
 
-	
 	public Long getViewOffset() {
 		ensureDetailed(viewOffset);
 		return viewOffset;
@@ -107,7 +100,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.viewOffset = viewOffset;
 	}
 
-	
 	public Integer getSkipCount() {
 		ensureDetailed(skipCount);
 		return skipCount;
@@ -117,7 +109,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.skipCount = skipCount;
 	}
 
-	
 	public Integer getIndex() {
 		ensureDetailed(index);
 		return index;
@@ -127,7 +118,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.index = index;
 	}
 
-	
 	public Integer getPlaylistItemID() {
 		ensureDetailed(playlistItemID);
 		return playlistItemID;
@@ -137,7 +127,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.playlistItemID = playlistItemID;
 	}
 
-	
 	public List<PlexTag> getCollections() {
 		ensureDetailed(collections);
 		return collections;
@@ -147,7 +136,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.collections = collections;
 	}
 
-	
 	public List<PlexGuid> getGuids() {
 		ensureDetailed(guids);
 		return guids;
@@ -157,7 +145,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.guids = guids;
 	}
 
-	
 	public Date getLastRatedAt() {
 		ensureDetailed(lastRatedAt);
 		return lastRatedAt;
@@ -179,7 +166,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		return null;
 	}
 
-	
 	public PlexUser getUser() {
 		return user;
 	}
@@ -188,7 +174,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.user = user;
 	}
 
-	
 	public PlexPlayer getPlayer() {
 		return player;
 	}
@@ -197,7 +182,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.player = player;
 	}
 
-	
 	public PlexSession getSession() {
 		return session;
 	}
@@ -206,7 +190,6 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.session = session;
 	}
 
-	
 	public PlexTranscodeSession getTranscodeSession() {
 		if (transcodeSession != null)
 			((PlexTranscodeSession) transcodeSession).initialise(getServer(), uri());
@@ -217,13 +200,21 @@ public abstract class PlexMediatag<S extends PlexSection> extends PlexSectionIte
 		this.transcodeSession = transcodeSession;
 	}
 
-	
 	public Integer getSessionKey() {
 		return sessionKey;
 	}
 
 	public void setSessionKey(Integer sessionKey) {
 		this.sessionKey = sessionKey;
+	}
+
+	public Integer getPlayQueueItemID() {
+		ensureDetailed(playQueueItemID);
+		return playQueueItemID;
+	}
+
+	public void setPlayQueueItemID(Integer playQueueItemID) {
+		this.playQueueItemID = playQueueItemID;
 	}
 
 	@Override

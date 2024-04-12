@@ -21,7 +21,6 @@ public abstract class PlexMetadata extends PlexDirectory {
 	private Date addedAt;
 	private String guid;
 	@JsonProperty("Field")
-	@JsonDeserialize(contentAs = PlexField.class)
 	private List<PlexField> fields;
 	private Integer ratingKey;
 	private String summary;
@@ -101,12 +100,12 @@ public abstract class PlexMetadata extends PlexDirectory {
 	}
 
 	public String getTitleSort() {
-        return titleSort;
-    }
+		return titleSort;
+	}
 
-    public void setTitleSort(String titleSort) {
-        this.titleSort = titleSort;
-    }
+	public void setTitleSort(String titleSort) {
+		this.titleSort = titleSort;
+	}
 
 	void update(PlexMetadata source) {
 		setAddedAt(source.getAddedAt());
@@ -123,7 +122,8 @@ public abstract class PlexMetadata extends PlexDirectory {
 	}
 
 	void refresh() {
-		update(new PlexGeneralPurposeMediaContainer<PlexMetadata, PlexDirectory>(ratingKey(), getServer()).getMetadata().get(0));
+		update(new PlexGeneralPurposeMediaContainer<PlexMetadata, PlexDirectory>(ratingKey(), getServer()).getMetadata()
+				.get(0));
 	}
 
 	void ensureDetailed(Object field) {

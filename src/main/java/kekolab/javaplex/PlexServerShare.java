@@ -45,7 +45,6 @@ public class PlexServerShare extends PlexBaseItem {
 	private String filterTelevision;
 	@JsonProperty("Section")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonDeserialize(contentAs = PlexServer.Section.class)
 	private List<PlexServer.Section> sections;
 
 	public String getId() {

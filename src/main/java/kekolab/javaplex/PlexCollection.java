@@ -25,13 +25,6 @@ public class PlexCollection<S extends PlexSection, M extends PlexMediatag<S>> ex
 	private Integer minYear;
 	private Integer ratingCount;
 	private String subtype;
-	private UriProvider art;
-	private UriProvider thumb;
-
-	public PlexCollection() {
-		art = new UriProvider(this::uri);
-		thumb = new UriProvider(this::uri);
-	}
 
 	@Override
 	void update(PlexMetadata source) {
@@ -125,34 +118,6 @@ public class PlexCollection<S extends PlexSection, M extends PlexMediatag<S>> ex
 				throw new PlexException(e);
 			}
 		return null;
-	}
-
-	public String getArt() {
-		ensureDetailed(art.getValue());
-		return (String) art.getValue();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	public URI art() {
-		ensureDetailed(art.getValue());
-		return art.uri();
-	}
-
-	public String getThumb() {
-		ensureDetailed(thumb.getValue());
-		return (String) thumb.getValue();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
-	}
-
-	public URI thumb() {
-		ensureDetailed(thumb.getValue());
-		return thumb.uri();
 	}
 
 	@Override

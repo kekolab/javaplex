@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public abstract class PlexVideo<S extends PlexSection> extends PlexMediatag<S> {
 	private String contentRating;
 	private Long duration;
 	@JsonProperty("Media")
-	@JsonDeserialize(contentAs = PlexMedia.class)
 	private List<PlexMedia> media;
 	private Date originallyAvailableAt;
 	private String originalTitle;

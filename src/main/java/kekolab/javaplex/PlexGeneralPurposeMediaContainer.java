@@ -10,13 +10,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import kekolab.javaplex.mappers.DirectoryDeserializer;
 import kekolab.javaplex.mappers.MetadataDeserializer;
 
-public class PlexGeneralPurposeMediaContainer<M extends PlexMetadata, D extends PlexDirectory> extends PlexServerMediaContainer {
+public class PlexGeneralPurposeMediaContainer<M extends PlexMetadata, D extends PlexDirectory>
+		extends PlexServerMediaContainer {
 	@JsonProperty("Metadata")
 	@JsonDeserialize(contentUsing = MetadataDeserializer.class)
 	private List<M> metadata;
 
 	@JsonProperty("SearchResult")
-	@JsonDeserialize(contentAs = PlexSearchResult.class)
 	private List<PlexSearchResult> searchResults;
 
 	@JsonProperty("Directory")
@@ -24,7 +24,6 @@ public class PlexGeneralPurposeMediaContainer<M extends PlexMetadata, D extends 
 	private List<D> directories;
 
 	@JsonProperty("TranscodeSession")
-	@JsonDeserialize(contentAs = PlexTranscodeSession.class)
 	private List<PlexTranscodeSession> transcodeSessions;
 
 	PlexGeneralPurposeMediaContainer(URI uri, PlexMediaServer server) {

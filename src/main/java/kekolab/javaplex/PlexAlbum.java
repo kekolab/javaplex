@@ -1,13 +1,11 @@
 package kekolab.javaplex;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.filtering.PlexFilterableBoolean;
 import kekolab.javaplex.filtering.PlexFilterableDate;
@@ -17,64 +15,55 @@ import kekolab.javaplex.filtering.PlexFilterableTag;
 
 public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements PlexParent<PlexMusicSection, PlexTrack> {
 	public static final int TYPE_ID = 9;
-    public static final String TYPE_DESCRIPTION = "album";
+	public static final String TYPE_DESCRIPTION = "album";
 
 	public static final PlexFilterableString TITLE = () -> "album.title";
-    public static final PlexFilterableInteger YEAR = () -> "album.year";
-    public static final PlexFilterableInteger DECADE = () -> "album.decade";
-    public static final PlexFilterableTag GENRE = () -> "album.genre";
-    public static final PlexFilterableInteger PLAYS = () -> "album.viewCount";
-    public static final PlexFilterableDate LAST_PLAYED = () -> "album.lastViewedAt";
-    public static final PlexFilterableInteger RATING = () -> "album.userRating";
-    public static final PlexFilterableInteger CRITIC_RATING = () -> "album.rating";
-    public static final PlexFilterableString RECORD_LABEL = () -> "album.studio";
-    public static final PlexFilterableTag MOOD = () -> "album.mood";
-    public static final PlexFilterableTag STYLE = () -> "album.style";
-    public static final PlexFilterableTag FORMAT = () -> "album.format";
-    public static final PlexFilterableTag TYPE = () -> "album.subformat";
-    public static final PlexFilterableTag COLLECTION = () -> "album.collection";
-    public static final PlexFilterableDate DATE_ADDED = () -> "album.addedAt";
-    public static final PlexFilterableDate DATE_RELEASED = () -> "album.originallyAvailableAt";
-    public static final PlexFilterableBoolean UNMATCHED = () -> "album.unmatched";
-    public static final PlexFilterableTag SOURCE = () -> "album.source";
-    public static final PlexFilterableTag LABEL = () -> "album.label";
+	public static final PlexFilterableInteger YEAR = () -> "album.year";
+	public static final PlexFilterableInteger DECADE = () -> "album.decade";
+	public static final PlexFilterableTag GENRE = () -> "album.genre";
+	public static final PlexFilterableInteger PLAYS = () -> "album.viewCount";
+	public static final PlexFilterableDate LAST_PLAYED = () -> "album.lastViewedAt";
+	public static final PlexFilterableInteger RATING = () -> "album.userRating";
+	public static final PlexFilterableInteger CRITIC_RATING = () -> "album.rating";
+	public static final PlexFilterableString RECORD_LABEL = () -> "album.studio";
+	public static final PlexFilterableTag MOOD = () -> "album.mood";
+	public static final PlexFilterableTag STYLE = () -> "album.style";
+	public static final PlexFilterableTag FORMAT = () -> "album.format";
+	public static final PlexFilterableTag TYPE = () -> "album.subformat";
+	public static final PlexFilterableTag COLLECTION = () -> "album.collection";
+	public static final PlexFilterableDate DATE_ADDED = () -> "album.addedAt";
+	public static final PlexFilterableDate DATE_RELEASED = () -> "album.originallyAvailableAt";
+	public static final PlexFilterableBoolean UNMATCHED = () -> "album.unmatched";
+	public static final PlexFilterableTag SOURCE = () -> "album.source";
+	public static final PlexFilterableTag LABEL = () -> "album.label";
 
 	@JsonProperty("Director")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> directors;
 	@JsonProperty("Format")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> formats;
 	@JsonProperty("Genre")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> genres;
 	private Integer leafCount;
 	private Integer loudnessAnalysisVersion;
 	@JsonProperty("Mood")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> moods;
 	private Date originallyAvailableAt;
 	private String studio;
 	@JsonProperty("Subformat")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> subformats;
 	@JsonProperty("Style")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> styles;
 	private Double rating;
 	private Integer viewedLeafCount;
 	private Integer year;
-	private UriProvider art, thumb;
 
 	public PlexAlbum() {
-		art = new UriProvider(this::uri);
 		directors = new ArrayList<>();
 		formats = new ArrayList<>();
 		genres = new ArrayList<>();
 		moods = new ArrayList<>();
 		subformats = new ArrayList<>();
 		styles = new ArrayList<>();
-		thumb = new UriProvider(this::uri);
 	}
 
 	@Override
@@ -94,11 +83,9 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		setRating(a.getRating());
 		setViewedLeafCount(a.getViewedLeafCount());
 		setYear(a.getYear());
-		setArt(a.getArt());
-		setThumb(a.getThumb());
+
 	}
 
-	
 	public Double getRating() {
 		ensureDetailed(rating);
 		return rating;
@@ -108,7 +95,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.rating = rating;
 	}
 
-	
 	public List<PlexTag> getStyles() {
 		ensureDetailed(styles);
 		return styles;
@@ -118,7 +104,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.styles = styles;
 	}
 
-	
 	public List<PlexTag> getFormats() {
 		ensureDetailed(formats);
 		return formats;
@@ -128,7 +113,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.formats = formats;
 	}
 
-	
 	public Integer getLoudnessAnalysisVersion() {
 		ensureDetailed(loudnessAnalysisVersion);
 		return loudnessAnalysisVersion;
@@ -138,7 +122,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.loudnessAnalysisVersion = loudnessAnalysisVersion;
 	}
 
-	
 	public List<PlexTag> getSubformats() {
 		ensureDetailed(subformats);
 		return subformats;
@@ -148,7 +131,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.subformats = subformats;
 	}
 
-	
 	public List<PlexTag> getDirectors() {
 		ensureDetailed(directors);
 		return directors;
@@ -158,7 +140,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.directors = directors;
 	}
 
-	
 	public Integer getLeafCount() {
 		ensureDetailed(leafCount);
 		return leafCount;
@@ -168,7 +149,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.leafCount = leafCount;
 	}
 
-	
 	public List<PlexTag> getMoods() {
 		ensureDetailed(moods);
 		return moods;
@@ -178,7 +158,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.moods = moods;
 	}
 
-	
 	public String getStudio() {
 		ensureDetailed(studio);
 		return studio;
@@ -188,7 +167,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.studio = studio;
 	}
 
-	
 	public Integer getViewedLeafCount() {
 		ensureDetailed(viewedLeafCount);
 		return viewedLeafCount;
@@ -198,7 +176,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.viewedLeafCount = viewedLeafCount;
 	}
 
-	
 	public List<PlexTag> getGenres() {
 		ensureDetailed(genres);
 		return genres;
@@ -208,7 +185,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.genres = genres;
 	}
 
-	
 	public Date getOriginallyAvailableAt() {
 		ensureDetailed(originallyAvailableAt);
 		return originallyAvailableAt;
@@ -218,7 +194,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		this.originallyAvailableAt = originallyAvailableAt;
 	}
 
-	
 	public Integer getYear() {
 		ensureDetailed(year);
 		return year;
@@ -231,50 +206,15 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 	public List<PlexTrack> children() {
 		return new PlexGeneralPurposeMediaContainer<PlexTrack, PlexDirectory>(key(), getServer()).getMetadata();
 	}
-	
-	
-	public String getArt() {
-		ensureDetailed(art.getValue());
-		return (String) art.getValue();
-	}
 
-	
-	public URI art() {
-		ensureDetailed(art.getValue());
-		return art.uri();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	
-	public String getThumb() {
-		ensureDetailed(thumb.getValue());
-		return (String) thumb.getValue();
-	}
-
-	
-	public URI thumb() {
-		ensureDetailed(thumb.getValue());
-		return thumb.uri();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
-	}
-
-	
 	public Boolean getGenresLocked() {
 		return getFieldLocked("genre");
 	}
 
-	
 	public Boolean getMoodsLocked() {
 		return getFieldLocked("mood");
 	}
 
-	
 	public Boolean getStylesLocked() {
 		return getFieldLocked("style");
 	}
@@ -289,7 +229,6 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 			editField("genre.locked", lock.get() ? "1" : "0");
 	}
 
-	
 	public void editMoods(List<String> value, Optional<Boolean> lock) {
 		editList("mood", value, getMoods());
 		if (lock.isPresent())

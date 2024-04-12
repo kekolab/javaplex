@@ -1,5 +1,6 @@
 package kekolab.javaplex;
 
+import java.net.URI;
 import java.util.Optional;
 
 public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadata {
@@ -9,7 +10,13 @@ public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadat
     private String librarySectionTitle;
     private Integer librarySectionID;
     private String librarySectionKey;
-    
+    private UriProvider art;
+	private UriProvider thumb;
+
+    protected PlexSectionItem() {
+        this.art = new UriProvider(() -> uri());
+        this.thumb = new UriProvider(() -> uri());
+    }    
 
     @Override
     void update(PlexMetadata source) {
@@ -24,6 +31,35 @@ public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadat
         if (librarySectionID != null)
             return (S) getServer().library().sections().byId(librarySectionID);
         return null;
+    }
+
+    public String getArt() {
+        ensureDetailed(art.getValue());
+        return (String) art.getValue();
+    }
+
+    
+    public void setArt(String art) {
+        this.art.setValue(art);
+    }
+
+    public URI art() {
+        ensureDetailed(art.getValue());
+        return art.uri();
+    }
+
+    public String getThumb() {
+        ensureDetailed(thumb.getValue());
+        return (String) thumb.getValue();
+    }
+
+    public URI thumb() {
+        ensureDetailed(thumb.getValue());
+        return thumb.uri();
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb.setValue(thumb);
     }
 
     public String getLibrarySectionTitle() {

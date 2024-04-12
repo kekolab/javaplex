@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 public class PlexServerShares extends PlexMediaContainer {
@@ -25,7 +24,6 @@ public class PlexServerShares extends PlexMediaContainer {
 
     @JsonProperty("SharedServer")
     @JacksonXmlElementWrapper(useWrapping = false)
-    @JsonDeserialize(contentAs = PlexServerShare.class)
     private List<PlexServerShare> serverShares;
 
     PlexServerShares(PlexHTTPClient client, String token, String machineIdentifier) throws URISyntaxException {
@@ -34,7 +32,6 @@ public class PlexServerShares extends PlexMediaContainer {
         this.machineIdentifier = machineIdentifier;
     }
 
-    
     public List<PlexServerShare> getServerShares() {
         ensureFetched(serverShares);
         return serverShares;
@@ -44,7 +41,6 @@ public class PlexServerShares extends PlexMediaContainer {
         this.serverShares = serverShares;
     }
 
-    
     public List<PlexServerShare> list() {
         return getServerShares();
     }
@@ -59,7 +55,7 @@ public class PlexServerShares extends PlexMediaContainer {
      * @param sections
      * @return
      */
-    
+
     public PlexServerShare inviteFriend(String usernameOrEmail, List<PlexServer.Section> sections,
             PlexSharingSettings sharingSettings) {
         PlexInviteRequest inviteRequest = new PlexInviteRequest();
@@ -78,7 +74,6 @@ public class PlexServerShares extends PlexMediaContainer {
         }
     }
 
-    
     public void deleteServerShare(PlexServerShare serverShare) {
         try {
             getClient().delete(new URI(DELETE_URI_TEMPLATE.replace("{id}", serverShare.getId())), getToken(),
@@ -99,7 +94,7 @@ public class PlexServerShares extends PlexMediaContainer {
      * @param sections
      * @return
      */
-    
+
     public PlexServerShare inviteFriend(String usernameOrEmail, List<PlexServer.Section> sections) {
         return inviteFriend(usernameOrEmail, sections, PlexSharingSettings.DEFAULT);
     }

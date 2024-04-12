@@ -49,42 +49,32 @@ public class PlexMovie extends PlexVideo<PlexMovieSection> {
 	private String audienceRatingImage;
 	private String chapterSource;
 	@JsonProperty("Country")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> countries;
 	@JsonDeserialize(using = StringListDeserializer.class)
 	private List<String> createdAtAccuracy;
 	private Integer createdAtTZOffset;
 	@JsonProperty("Director")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> directors;
 	@JsonProperty("Genre")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> genres;
 	private Integer hasPremiumExtras;
 	private Integer hasPremiumPrimaryExtra;
 	@JsonProperty("Producer")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> producers;
 	private Double rating;
 	private String ratingImage;
 	@JsonProperty("Rating")
-	@JsonDeserialize(contentAs = PlexRating.class)
 	private List<PlexRating> ratings;
 	@JsonProperty("Role")
-	@JsonDeserialize(contentAs = PlexRole.class)
 	private List<PlexRole> roles;
 	@JsonProperty("Similar")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> similars;
 	private String subtype;
 	private String tagline;
 	@JsonProperty("Writer")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> writers;
-	private UriProvider art, thumb;
 
 	public PlexMovie() {
-		art = new UriProvider(this::uri);
 		countries = new ArrayList<>();
 		directors = new ArrayList<>();
 		genres = new ArrayList<>();
@@ -92,7 +82,6 @@ public class PlexMovie extends PlexVideo<PlexMovieSection> {
 		ratings = new ArrayList<>();
 		roles = new ArrayList<>();
 		similars = new ArrayList<>();
-		thumb = new UriProvider(this::uri);
 		writers = new ArrayList<>();
 	}
 
@@ -119,8 +108,7 @@ public class PlexMovie extends PlexVideo<PlexMovieSection> {
 		setSubtype(movie.getSubtype());
 		setTagline(movie.getTagline());
 		setWriters(movie.getWriters());
-		setArt(movie.getArt());
-		setThumb(movie.getThumb());
+
 	}
 
 	public Double getRating() {
@@ -292,34 +280,6 @@ public class PlexMovie extends PlexVideo<PlexMovieSection> {
 
 	public void setCreatedAtTZOffset(Integer createdAtTZOffset) {
 		this.createdAtTZOffset = createdAtTZOffset;
-	}
-
-	public String getArt() {
-		ensureDetailed(art.getValue());
-		return (String) art.getValue();
-	}
-
-	public URI art() {
-		ensureDetailed(art.uri());
-		return art.uri();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	public String getThumb() {
-		ensureDetailed(thumb.getValue());
-		return (String) thumb.getValue();
-	}
-
-	public URI thumb() {
-		ensureDetailed(thumb.uri());
-		return thumb.uri();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
 	}
 
 	public Boolean getCountriesLocked() {

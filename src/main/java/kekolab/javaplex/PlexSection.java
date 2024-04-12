@@ -24,7 +24,6 @@ public abstract class PlexSection extends PlexDirectory {
 	private Integer hidden;
 	private String language;
 	@JsonProperty("Location")
-	@JsonDeserialize(contentAs = PlexLocation.class)
 	private List<PlexLocation> locations = new ArrayList<>();
 	private Boolean refreshing;
 	@JsonDeserialize(using = TimestampDeserializer.class)
@@ -236,23 +235,26 @@ public abstract class PlexSection extends PlexDirectory {
 	protected <D extends PlexSectionSecondaryDirectory<?>> List<D> byFeature(String feature, int type) {
 		try {
 			URI uri = new URIBuilder(key()).appendPath(feature).build();
-			List<D> directories = new PlexGeneralPurposeMediaContainer<PlexMetadata, D>(uri, getServer()).getDirectories();
+			List<D> directories = new PlexGeneralPurposeMediaContainer<PlexMetadata, D>(uri, getServer())
+					.getDirectories();
 			directories.forEach(d -> d.initialise(getServer(), uri, this, type));
 			return directories;
 		} catch (URISyntaxException e) {
 			throw new PlexException(e); // TODO
 		}
 	}
-/*
-	<T> List<T> byFeature(String feature, Function<PlexSectionSecondaryDirectory, T> function) {
-		try {
-			URI uri = new URIBuilder(key()).appendPath(feature).build();
-			return new MetadataContainer<PlexMetadata, PlexSectionSecondaryDirectory>(uri, getServer()).getDirectories()
-					.stream()
-					.map(function).toList();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e); // TODO
-		}
-	}
+	/*
+	 * <T> List<T> byFeature(String feature, Function<PlexSectionSecondaryDirectory,
+	 * T> function) {
+	 * try {
+	 * URI uri = new URIBuilder(key()).appendPath(feature).build();
+	 * return new MetadataContainer<PlexMetadata,
+	 * PlexSectionSecondaryDirectory>(uri, getServer()).getDirectories()
+	 * .stream()
+	 * .map(function).toList();
+	 * } catch (URISyntaxException e) {
+	 * throw new PlexException(e); // TODO
+	 * }
+	 * }
 	 */
 }

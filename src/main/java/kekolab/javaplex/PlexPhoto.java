@@ -37,7 +37,6 @@ public class PlexPhoto extends Child<PlexPhotoSection, PlexPhotoalbum> {
 	@JsonDeserialize(using = StringListDeserializer.class)
 	private List<String> createdAtAccuracy;
 	@JsonProperty("Media")
-	@JsonDeserialize(contentAs = PlexMedia.class)
 	private List<PlexMedia> media;
 	private Date originallyAvailableAt;
 	private Integer year;

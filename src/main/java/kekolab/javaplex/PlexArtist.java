@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.apache.hc.core5.net.URIBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.filtering.PlexFilterableBoolean;
 import kekolab.javaplex.filtering.PlexFilterableDate;
@@ -17,52 +16,44 @@ import kekolab.javaplex.filtering.PlexFilterableInteger;
 import kekolab.javaplex.filtering.PlexFilterableString;
 import kekolab.javaplex.filtering.PlexFilterableTag;
 
-public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGrandparent<PlexMusicSection, PlexAlbum, PlexTrack> {
+public class PlexArtist extends PlexMediatag<PlexMusicSection>
+		implements PlexGrandparent<PlexMusicSection, PlexAlbum, PlexTrack> {
 	public static final int TYPE_ID = 8;
-    public static final String TYPE_DESCRIPTION = "artist";
+	public static final String TYPE_DESCRIPTION = "artist";
 
 	public static final PlexFilterableString TITLE = () -> "artist.title";
-    public static final PlexFilterableInteger USER_RATING = () -> "artist.userRating";
-    public static final PlexFilterableTag GENRE = () -> "artist.genre";
-    public static final PlexFilterableTag COLLECTION = () -> "artist.collection";
-    public static final PlexFilterableTag COUNTRY = () -> "artist.country";
-    public static final PlexFilterableTag MOOD = () -> "artist.mood";
-    public static final PlexFilterableTag STYLE = () -> "artist.style";
-    public static final PlexFilterableDate DATE_ADDED = () -> "artist.addedAt";
-    public static final PlexFilterableDate LAST_PLAYED = () -> "artist.lastViewedAt";
-    public static final PlexFilterableBoolean UNMATCHED = () -> "artist.unmatched";
+	public static final PlexFilterableInteger USER_RATING = () -> "artist.userRating";
+	public static final PlexFilterableTag GENRE = () -> "artist.genre";
+	public static final PlexFilterableTag COLLECTION = () -> "artist.collection";
+	public static final PlexFilterableTag COUNTRY = () -> "artist.country";
+	public static final PlexFilterableTag MOOD = () -> "artist.mood";
+	public static final PlexFilterableTag STYLE = () -> "artist.style";
+	public static final PlexFilterableDate DATE_ADDED = () -> "artist.addedAt";
+	public static final PlexFilterableDate LAST_PLAYED = () -> "artist.lastViewedAt";
+	public static final PlexFilterableBoolean UNMATCHED = () -> "artist.unmatched";
 
 	private Integer albumSort;
 	private Integer childCount;
 	@JsonProperty("Country")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> countries;
 	@JsonProperty("Genre")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> genres;
 	@JsonProperty("Location")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> locations;
 	@JsonProperty("Mood")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> moods;
 	@JsonProperty("Similar")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> similars;
 	@JsonProperty("Style")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> styles;
-	private UriProvider art, thumb;
 
 	public PlexArtist() {
-		art = new UriProvider(this::uri);
 		countries = new ArrayList<>();
 		genres = new ArrayList<>();
 		locations = new ArrayList<>();
 		moods = new ArrayList<>();
 		similars = new ArrayList<>();
 		styles = new ArrayList<>();
-		thumb = new UriProvider(this::uri);
 	}
 
 	@Override
@@ -77,11 +68,8 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		setMoods(a.getMoods());
 		setSimilars(a.getSimilars());
 		setStyles(a.getStyles());
-		setArt(a.getArt());
-		setThumb(a.getThumb());
 	}
 
-	
 	public List<PlexTag> getStyles() {
 		ensureDetailed(styles);
 		return styles;
@@ -91,7 +79,6 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.styles = styles;
 	}
 
-	
 	public Integer getAlbumSort() {
 		ensureDetailed(albumSort);
 		return albumSort;
@@ -101,7 +88,6 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.albumSort = albumSort;
 	}
 
-	
 	public List<PlexTag> getLocations() {
 		ensureDetailed(locations);
 		return locations;
@@ -111,7 +97,6 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.locations = locations;
 	}
 
-	
 	public List<PlexTag> getCountries() {
 		ensureDetailed(countries);
 		return countries;
@@ -121,7 +106,6 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.countries = countries;
 	}
 
-	
 	public List<PlexTag> getMoods() {
 		ensureDetailed(moods);
 		return moods;
@@ -131,7 +115,6 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.moods = moods;
 	}
 
-	
 	public List<PlexTag> getSimilars() {
 		ensureDetailed(similars);
 		return similars;
@@ -141,7 +124,6 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.similars = similars;
 	}
 
-	
 	public List<PlexTag> getGenres() {
 		ensureDetailed(genres);
 		return genres;
@@ -151,7 +133,6 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.genres = genres;
 	}
 
-	
 	public Integer getChildCount() {
 		ensureDetailed(childCount);
 		return childCount;
@@ -161,12 +142,10 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		this.childCount = childCount;
 	}
 
-	
 	public List<PlexAlbum> children() {
 		return new PlexGeneralPurposeMediaContainer<PlexAlbum, PlexDirectory>(key(), getServer()).getMetadata();
 	}
 
-	
 	public List<PlexTrack> grandchildren() {
 		URI uri;
 		try {
@@ -177,64 +156,26 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		return new PlexGeneralPurposeMediaContainer<PlexTrack, PlexDirectory>(uri, getServer()).getMetadata();
 	}
 
-	
-	public String getArt() {
-		ensureDetailed(art.getValue());
-		return (String) art.getValue();
-	}
-
-	
-	public URI art() {
-		ensureDetailed(art.getValue());
-		return art.uri();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	
-	public String getThumb() {
-		ensureDetailed(thumb.getValue());
-		return (String) thumb.getValue();
-	}
-
-	
-	public URI thumb() {
-		ensureDetailed(thumb.getValue());
-		return thumb.uri();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
-	}
-
-	
 	public Boolean getCountriesLocked() {
 		return getFieldLocked("country");
 	}
 
-	
 	public Boolean getGenresLocked() {
 		return getFieldLocked("genre");
 	}
 
-	
 	public Boolean getSimilarsLocked() {
 		return getFieldLocked("similar");
 	}
 
-	
 	public Boolean getMoodsLocked() {
 		return getFieldLocked("mood");
 	}
 
-	
 	public Boolean getStylesLocked() {
 		return getFieldLocked("style");
 	}
 
-	
 	public int typeId() {
 		return TYPE_ID;
 	}
@@ -268,6 +209,5 @@ public class PlexArtist extends PlexMediatag<PlexMusicSection> implements PlexGr
 		if (lock.isPresent())
 			editField("style.locked", lock.get() ? "1" : "0");
 	}
-	
 
 }

@@ -79,345 +79,246 @@ public class PlexMediaServer extends PlexMediaContainer {
 		super(uri, client, token);
 	}
 
-	
 	public Boolean getAllowCameraUpload() {
 		ensureFetched(allowCameraUpload);
 		return allowCameraUpload;
 	}
 
-	
 	public Boolean getAllowChannelAccess() {
 		ensureFetched(allowChannelAccess);
 		return allowChannelAccess;
 	}
 
-	
 	public Boolean getAllowMediaDeletion() {
 		ensureFetched(allowMediaDeletion);
 		return allowMediaDeletion;
 	}
 
-	
 	public Boolean getAllowSharing() {
 		ensureFetched(allowSharing);
 		return allowSharing;
 	}
 
-	
 	public Boolean getAllowSync() {
 		ensureFetched(allowSync);
 		return allowSync;
 	}
 
-	
 	public Boolean getAllowTuners() {
 		ensureFetched(allowTuners);
 		return allowTuners;
 	}
 
-
-	
 	public Boolean getBackgroundProcessing() {
 		ensureFetched(backgroundProcessing);
 		return backgroundProcessing;
 	}
 
-
-	
 	public Boolean getCertificate() {
 		ensureFetched(certificate);
 		return certificate;
 	}
 
-	
-	
 	public Boolean getCompanionProxy() {
 		ensureFetched(companionProxy);
 		return companionProxy;
 	}
 
-
-	
 	public String getCountryCode() {
 		ensureFetched(countryCode);
 		return countryCode;
 	}
 
-	
-
-	
 	public List<String> getDiagnostics() {
 		ensureFetched(diagnostics);
 		return diagnostics;
 	}
 
-	
-	
 	public Boolean getEventStream() {
 		ensureFetched(eventStream);
 		return eventStream;
 	}
 
-
-	
 	public String getFriendlyName() {
 		ensureFetched(friendlyName);
 		return friendlyName;
 	}
 
-	
-	
 	public Boolean getHubSearch() {
 		ensureFetched(hubSearch);
 		return hubSearch;
 	}
 
-	
-	
 	public Boolean getItemClusters() {
 		ensureFetched(itemClusters);
 		return itemClusters;
 	}
 
-	
-
-	
 	public Integer getLivetv() {
 		ensureFetched(livetv);
 		return livetv;
 	}
 
-	
-	
 	public String getMachineIdentifier() {
 		ensureFetched(machineIdentifier);
 		return machineIdentifier;
 	}
 
-	
 	public Boolean getMediaProviders() {
 		ensureFetched(mediaProviders);
 		return mediaProviders;
 	}
 
-
-	
 	public Boolean getMultiuser() {
 		ensureFetched(multiuser);
 		return multiuser;
 	}
 
-	
 	public Boolean getMyPlex() {
 		ensureFetched(myPlex);
 		return myPlex;
 	}
 
-	
 	public String getMyPlexMappingState() {
 		ensureFetched(myPlexMappingState);
 		return myPlexMappingState;
 	}
 
-
-	
 	public String getMyPlexSigninState() {
 		ensureFetched(myPlexSigninState);
 		return myPlexSigninState;
 	}
 
-	
 	public Boolean getMyPlexSubscription() {
 		ensureFetched(myPlexSubscription);
 		return myPlexSubscription;
 	}
 
-
-
-	
 	public String getMyPlexUsername() {
 		ensureFetched(myPlexUsername);
 		return myPlexUsername;
 	}
 
-	
 	public Integer getOfflineTranscode() {
 		ensureFetched(offlineTranscode);
 		return offlineTranscode;
 	}
 
-
-	
 	public List<String> getOwnerFeatures() {
 		ensureFetched(ownerFeatures);
 		return ownerFeatures;
 	}
 
-
-	
 	public Boolean getPhotoAutoTag() {
 		ensureFetched(photoAutoTag);
 		return photoAutoTag;
 	}
 
-	
 	public String getPlatform() {
 		ensureFetched(platform);
 		return platform;
 	}
 
-	
 	public String getPlatformVersion() {
 		ensureFetched(platformVersion);
 		return platformVersion;
 	}
 
-	
 	public Boolean getPluginHost() {
 		ensureFetched(pluginHost);
 		return pluginHost;
 	}
 
-	
 	public Boolean getPushNotifications() {
 		ensureFetched(pushNotifications);
 		return pushNotifications;
 	}
 
-	
 	public Boolean getReadOnlyLibraries() {
 		ensureFetched(readOnlyLibraries);
 		return readOnlyLibraries;
 	}
 
-
-
-	
 	public Integer getRequestParametersInCookie() {
 		ensureFetched(requestParametersInCookie);
 		return requestParametersInCookie;
 	}
 
-
-
-	
 	public Integer getStreamingBrainABRVersion() {
 		ensureFetched(streamingBrainABRVersion);
 		return streamingBrainABRVersion;
 	}
 
-	
-
-	
 	public Integer getStreamingBrainVersion() {
 		ensureFetched(streamingBrainVersion);
 		return streamingBrainVersion;
 	}
 
-
-	
 	public Boolean getSync() {
 		ensureFetched(sync);
 		return sync;
 	}
 
-
-
-	
 	public Integer getTranscoderActiveVideoSessions() {
 		ensureFetched(transcoderActiveVideoSessions);
 		return transcoderActiveVideoSessions;
 	}
 
-
-
-	
 	public Boolean getTranscoderAudio() {
 		ensureFetched(transcoderAudio);
 		return transcoderAudio;
 	}
 
-
-
-	
 	public Boolean getTranscoderLyrics() {
 		ensureFetched(transcoderLyrics);
 		return transcoderLyrics;
 	}
 
-	
-	
 	public Boolean getTranscoderPhoto() {
 		ensureFetched(transcoderPhoto);
 		return transcoderPhoto;
 	}
 
-
-
-	
 	public Boolean getTranscoderSubtitles() {
 		ensureFetched(transcoderSubtitles);
 		return transcoderSubtitles;
 	}
 
-
-
-	
 	public Boolean getTranscoderVideo() {
 		ensureFetched(transcoderVideo);
 		return transcoderVideo;
 	}
 
-
-
-	
 	public List<Integer> getTranscoderVideoBitrates() {
 		ensureFetched(transcoderVideoBitrates);
 		return transcoderVideoBitrates;
 	}
 
-
-
-	
 	public List<Integer> getTranscoderVideoQualities() {
 		ensureFetched(transcoderVideoQualities);
 		return transcoderVideoQualities;
 	}
 
-
-
-	
 	public List<Integer> getTranscoderVideoResolutions() {
 		ensureFetched(transcoderVideoResolutions);
 		return transcoderVideoResolutions;
 	}
 
-
-
-	
 	public Date getUpdatedAt() {
 		ensureFetched(updatedAt);
 		return updatedAt;
 	}
 
-
-
-	
 	public Boolean getUpdater() {
 		ensureFetched(updater);
 		return updater;
 	}
 
-
-
-	
 	public String getVersion() {
 		ensureFetched(version);
 		return version;
 	}
 
-
-	
 	public Boolean getVoiceSearch() {
 		ensureFetched(voiceSearch);
 		return voiceSearch;
@@ -619,7 +520,6 @@ public class PlexMediaServer extends PlexMediaContainer {
 		this.voiceSearch = voiceSearch;
 	}
 
-	
 	public PlexLibrary library() {
 		try {
 			return new PlexLibrary(this);
@@ -628,7 +528,6 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
-	
 	public PlexStatus status() {
 		try {
 			return new PlexStatus(this);
@@ -637,7 +536,6 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
-	
 	public PlexServer toPlexServer() {
 		if (getToken().isPresent())
 			try {
@@ -648,7 +546,6 @@ public class PlexMediaServer extends PlexMediaContainer {
 		throw new PlexException("Cannot call this method without a token");
 	}
 
-	
 	public PlexServerShares serverShares() {
 		try {
 			return new PlexServerShares(getClient(), getToken().get(), getMachineIdentifier());
@@ -657,7 +554,6 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
-	
 	public PlexTranscode transcode() {
 		try {
 			return new PlexTranscode(this);
@@ -666,8 +562,11 @@ public class PlexMediaServer extends PlexMediaContainer {
 		}
 	}
 
-	
 	public PlexPlaylists playlists() {
 		return new PlexPlaylists(this);
+	}
+
+	public PlexPlayQueues playQueues() {
+		return new PlexPlayQueues(this);
 	}
 }

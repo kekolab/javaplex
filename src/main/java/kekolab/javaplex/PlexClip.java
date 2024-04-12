@@ -18,7 +18,6 @@ public class PlexClip extends PlexVideo<PlexPhotoSection> {
 	private List<String> createdAtAccuracy;
 	private String subtype;
 	private String tagline;
-	private UriProvider art, thumb;
 
 	@JsonIgnore
 	private Child<PlexPhotoSection, PlexPhotoalbum> asChild;
@@ -31,8 +30,6 @@ public class PlexClip extends PlexVideo<PlexPhotoSection> {
 		setCreatedAtAccuracy(clip.getCreatedAtAccuracy());
 		setSubtype(clip.getSubtype());
 		setTagline(clip.getTagline());
-		setArt(clip.getArt());
-		setThumb(clip.getThumb());
 		asChild.update(clip);
 	}
 
@@ -129,7 +126,6 @@ public class PlexClip extends PlexVideo<PlexPhotoSection> {
 	}
 
 	public PlexClip() {
-		art = new UriProvider(this::uri);
 		createdAtAccuracy = new ArrayList<>();
 		asChild = new Child<>() {
 			@Override
@@ -137,7 +133,6 @@ public class PlexClip extends PlexVideo<PlexPhotoSection> {
 				return TYPE_ID;
 			}
 		};
-		thumb = new UriProvider(this::uri);
 	}
 
 	public Integer getCreatedAtTZOffset() {
@@ -174,34 +169,6 @@ public class PlexClip extends PlexVideo<PlexPhotoSection> {
 
 	public void setTagline(String tagline) {
 		this.tagline = tagline;
-	}
-
-	public String getArt() {
-		ensureDetailed(art.getValue());
-		return (String) art.getValue();
-	}
-
-	public URI art() {
-		ensureDetailed(art.uri());
-		return art.uri();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	public String getThumb() {
-		ensureDetailed(thumb.getValue());
-		return (String) thumb.getValue();
-	}
-
-	public URI thumb() {
-		ensureDetailed(thumb.uri());
-		return thumb.uri();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
 	}
 
 	public int typeId() {

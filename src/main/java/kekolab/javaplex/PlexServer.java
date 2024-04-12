@@ -34,7 +34,6 @@ public class PlexServer extends PlexBaseItem {
 	private Boolean synced;
 	@JsonProperty("Section")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonDeserialize(contentAs = PlexServer.Section.class)
 	private List<PlexServer.Section> sections;
 
 	@JsonIgnore

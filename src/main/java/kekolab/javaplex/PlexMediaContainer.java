@@ -28,17 +28,23 @@ public class PlexMediaContainer extends PlexBaseItem {
 	}
 
 	protected void ensureFetched(Object field) {
-		final boolean fieldIsNullOrEmpty = field == null || (field instanceof Collection collection && collection.isEmpty());
-		if (!fetched && fieldIsNullOrEmpty) {
-			// I set fetched to true here because Jackson will call the getters when deserializing
-			// and the getters will call fetch, thus causing a StackOverflowException
-			fetched = true; 
-			try {
-				client.get(token, this);
-			} catch (RuntimeException e) {
-				fetched = false;
-				throw e;
-			}
+		final boolean fieldIsNullOrEmpty = field == null
+				|| (field instanceof Collection collection && collection.isEmpty());
+		if (!fetched && fieldIsNullOrEmpty)
+			refresh();
+
+	}
+
+	protected void refresh() {
+		// I set fetched to true here because Jackson will call the getters when
+		// deserializing
+		// and the getters will call fetch, thus causing a StackOverflowException
+		fetched = true;
+		try {
+			client.get(token, this);
+		} catch (RuntimeException e) {
+			fetched = false;
+			throw e;
 		}
 	}
 

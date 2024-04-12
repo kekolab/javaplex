@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PlexMedia extends PlexMediatagAttribute { // TODO Forse sarebbe opportuno distinguere tra
 	// i media di audio, video e foto
 	@JsonProperty("Part")
-	@JsonDeserialize(contentAs = PlexPart.class)
 	private List<PlexPart> parts = new ArrayList<>();
 	private Integer id;
 	private Integer bitrate;

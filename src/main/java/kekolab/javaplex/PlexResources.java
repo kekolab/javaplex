@@ -9,10 +9,7 @@ import java.util.Optional;
 import org.apache.hc.core5.net.URIBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-
-
 
 public class PlexResources extends PlexMediaContainer {
 	private static final URI URI;
@@ -28,7 +25,6 @@ public class PlexResources extends PlexMediaContainer {
 
 	@JsonProperty("Device")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonDeserialize(contentAs = PlexDevice.class)
 	private List<PlexDevice> devices;
 
 	PlexResources(PlexHTTPClient client, String token) {
@@ -36,7 +32,6 @@ public class PlexResources extends PlexMediaContainer {
 		devices = new ArrayList<>();
 	}
 
-	
 	public List<PlexDevice> getDevices() {
 		ensureFetched(devices);
 		devices.forEach(d -> ((PlexDevice) d).setClient(getClient()));
@@ -47,7 +42,6 @@ public class PlexResources extends PlexMediaContainer {
 		this.devices = devices;
 	}
 
-	
 	public List<PlexDevice> list() {
 		return getDevices();
 	}

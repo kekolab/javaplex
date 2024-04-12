@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import kekolab.javaplex.mappers.StringListDeserializer;
 import kekolab.javaplex.mappers.TimestampDeserializer;
 
-public class PlexDevice extends PlexBaseItem  {
+public class PlexDevice extends PlexBaseItem {
 	private String name;
 	private String product;
 	private String productVersion;
@@ -37,7 +37,6 @@ public class PlexDevice extends PlexBaseItem  {
 	private Integer presence;
 	@JsonProperty("Connection")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonDeserialize(contentAs = PlexConnection.class)
 	private List<PlexConnection> connections;
 	private Integer synced;
 	@JsonIgnore
@@ -48,7 +47,6 @@ public class PlexDevice extends PlexBaseItem  {
 		provides = new ArrayList<>();
 	}
 
-	
 	public String getProduct() {
 		return product;
 	}
@@ -57,7 +55,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.product = product;
 	}
 
-	
 	public String getProductVersion() {
 		return productVersion;
 	}
@@ -66,7 +63,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.productVersion = productVersion;
 	}
 
-	
 	public String getPlatform() {
 		return platform;
 	}
@@ -75,7 +71,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.platform = platform;
 	}
 
-	
 	public String getPlatformVersion() {
 		return platformVersion;
 	}
@@ -84,7 +79,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.platformVersion = platformVersion;
 	}
 
-	
 	public String getDevice() {
 		return device;
 	}
@@ -93,7 +87,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.device = device;
 	}
 
-	
 	public String getClientIdentifier() {
 		return clientIdentifier;
 	}
@@ -102,7 +95,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.clientIdentifier = clientIdentifier;
 	}
 
-	
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -111,7 +103,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.createdAt = createdAt;
 	}
 
-	
 	public Date getLastSeenAt() {
 		return lastSeenAt;
 	}
@@ -120,7 +111,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.lastSeenAt = lastSeenAt;
 	}
 
-	
 	public List<String> getProvides() {
 		return provides;
 	}
@@ -129,7 +119,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.provides = provides;
 	}
 
-	
 	public Integer getOwned() {
 		return owned;
 	}
@@ -138,7 +127,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.owned = owned;
 	}
 
-	
 	public String getAccessToken() {
 		return accessToken;
 	}
@@ -147,7 +135,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.accessToken = accessToken;
 	}
 
-	
 	public String getPublicAddress() {
 		return publicAddress;
 	}
@@ -156,7 +143,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.publicAddress = publicAddress;
 	}
 
-	
 	public Integer getHttpsRequired() {
 		return httpsRequired;
 	}
@@ -165,7 +151,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.httpsRequired = httpsRequired;
 	}
 
-	
 	public Integer getRelay() {
 		return relay;
 	}
@@ -174,7 +159,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.relay = relay;
 	}
 
-	
 	public Integer getDnsRebindingProtection() {
 		return dnsRebindingProtection;
 	}
@@ -183,7 +167,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.dnsRebindingProtection = dnsRebindingProtection;
 	}
 
-	
 	public Integer getNatLoopbackSupported() {
 		return natLoopbackSupported;
 	}
@@ -192,7 +175,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.natLoopbackSupported = natLoopbackSupported;
 	}
 
-	
 	public Integer getPublicAddressMatches() {
 		return publicAddressMatches;
 	}
@@ -201,7 +183,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.publicAddressMatches = publicAddressMatches;
 	}
 
-	
 	public Integer getPresence() {
 		return presence;
 	}
@@ -210,7 +191,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.presence = presence;
 	}
 
-	
 	public List<PlexConnection> getConnections() {
 		return connections;
 	}
@@ -219,7 +199,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.connections = connections;
 	}
 
-	
 	public String getName() {
 		return name;
 	}
@@ -228,7 +207,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.name = name;
 	}
 
-	
 	public Integer getSynced() {
 		return synced;
 	}
@@ -241,7 +219,6 @@ public class PlexDevice extends PlexBaseItem  {
 		this.client = client;
 	}
 
-	
 	public boolean isServer() {
 		return getProvides().stream().anyMatch(p -> p.equalsIgnoreCase("server"));
 	}

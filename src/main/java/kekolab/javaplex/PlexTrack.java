@@ -38,63 +38,31 @@ public class PlexTrack extends Grandchild<PlexMusicSection, PlexAlbum, PlexArtis
 	private String createdAtTZOffset;
 	private Long duration;
 	@JsonProperty("Media")
-	@JsonDeserialize(contentAs = PlexMedia.class)
 	private List<PlexMedia> media;
 	@JsonProperty("Mood")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> moods;
 	private Date originallyAvailableAt;
 	private String originalTitle;
 	private Integer ratingCount;
-	private UriProvider art;
-	private UriProvider thumb;
 
 	public PlexTrack() {
 		createdAtAccuracy = new ArrayList<>();
 		media = new ArrayList<>();
 		moods = new ArrayList<>();
-		art = new UriProvider(this::uri);
-		thumb = new UriProvider(this::uri);
 	}
 
 	@Override
 	void update(PlexMetadata source) {
 		super.update(source);
-		PlexTrack t = (PlexTrack) source;
-		setCreatedAtAccuracy(t.getCreatedAtAccuracy());
-		setCreatedAtTZOffset(t.getCreatedAtTZOffset());
-		setDuration(t.getDuration());
-		setMedia(t.getMedia());
-		setMoods(t.getMoods());
-		setOriginallyAvailableAt(t.getOriginallyAvailableAt());
-		setOriginalTitle(t.getOriginalTitle());
-		setRatingCount(t.getRatingCount());
-		setArt(t.getArt());
-		setThumb(t.getThumb());
-	}
-
-	public String getArt() {
-		return (String) art.getValue();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	public URI art() {
-		return this.art.uri();
-	}
-
-	public String getThumb() {
-		return (String) thumb.getValue();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
-	}
-
-	public URI thumb() {
-		return this.thumb.uri();
+		PlexTrack track = (PlexTrack) source;
+		setCreatedAtAccuracy(track.getCreatedAtAccuracy());
+		setCreatedAtTZOffset(track.getCreatedAtTZOffset());
+		setDuration(track.getDuration());
+		setMedia(track.getMedia());
+		setMoods(track.getMoods());
+		setOriginallyAvailableAt(track.getOriginallyAvailableAt());
+		setOriginalTitle(track.getOriginalTitle());
+		setRatingCount(track.getRatingCount());
 	}
 
 	public List<PlexMedia> getMedia() {

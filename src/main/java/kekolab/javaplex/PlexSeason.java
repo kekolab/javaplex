@@ -12,13 +12,6 @@ public class PlexSeason extends Child<PlexShowSection, PlexShow> implements Plex
 	private Integer leafCount;
 	private Integer viewedLeafCount;
 	private Integer year;
-	@JsonIgnore
-	private UriProvider art, thumb;
-
-	public PlexSeason() {
-		art = new UriProvider(this::uri);
-		thumb = new UriProvider(this::uri);
-	}
 
 	@Override
 	void update(PlexMetadata source) {
@@ -27,8 +20,6 @@ public class PlexSeason extends Child<PlexShowSection, PlexShow> implements Plex
 		setLeafCount(s.getLeafCount());
 		setViewedLeafCount(s.getViewedLeafCount());
 		setYear(s.getYear());
-		setArt(s.getArt());
-		setThumb(s.getThumb());
 	}
 
 	public Integer getLeafCount() {
@@ -58,34 +49,6 @@ public class PlexSeason extends Child<PlexShowSection, PlexShow> implements Plex
 	public List<PlexEpisode> children() {
 		return new PlexGeneralPurposeMediaContainer<PlexEpisode, PlexDirectory>(key(), getServer())
 				.getMetadata();
-	}
-
-	public String getArt() {
-		ensureDetailed(art.getValue());
-		return (String) art.getValue();
-	}
-
-	public URI art() {
-		ensureDetailed(art.uri());
-		return art.uri();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	public String getThumb() {
-		ensureDetailed(thumb.getValue());
-		return (String) thumb.getValue();
-	}
-
-	public URI thumb() {
-		ensureDetailed(thumb.uri());
-		return thumb.uri();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
 	}
 
 	@Override

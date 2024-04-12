@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 public class PlexServers extends PlexMediaContainer {
@@ -24,7 +23,6 @@ public class PlexServers extends PlexMediaContainer {
 
 	@JsonProperty("Server")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	@JsonDeserialize(contentAs = PlexServer.class)
 	private List<PlexServer> servers;
 
 	public PlexServers(PlexHTTPClient client, String token) {
@@ -38,7 +36,6 @@ public class PlexServers extends PlexMediaContainer {
 		servers = new ArrayList<>();
 	}
 
-	
 	public List<PlexServer> getServers() {
 		ensureFetched(servers);
 		servers.forEach(s -> {
@@ -52,12 +49,10 @@ public class PlexServers extends PlexMediaContainer {
 		this.servers = servers;
 	}
 
-	
 	public List<PlexServer> list() {
 		return getServers();
 	}
 
-	
 	public PlexServer getFromMachineIdentifier(String machineIdentifier) {
 		try {
 			return new PlexServers(getClient(), getToken().get(), machineIdentifier).getServers().get(0);

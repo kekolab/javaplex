@@ -10,7 +10,6 @@ import java.util.Optional;
 import org.apache.hc.core5.net.URIBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.filtering.PlexFilterableBoolean;
 import kekolab.javaplex.filtering.PlexFilterableDate;
@@ -18,68 +17,60 @@ import kekolab.javaplex.filtering.PlexFilterableInteger;
 import kekolab.javaplex.filtering.PlexFilterableString;
 import kekolab.javaplex.filtering.PlexFilterableTag;
 
-public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrandparent<PlexShowSection, PlexSeason, PlexEpisode>  {
+public class PlexShow extends PlexMediatag<PlexShowSection>
+		implements PlexGrandparent<PlexShowSection, PlexSeason, PlexEpisode> {
 	public static final int TYPE_ID = 2;
-    public static final String TYPE_DESCRIPTION = "show";
+	public static final String TYPE_DESCRIPTION = "show";
 
 	public static PlexFilterableString TITLE = () -> "show.title";
-    public static PlexFilterableString STUDIO = () -> "show.title";
-    public static PlexFilterableTag NETWORK = () -> "show.network";
-    public static PlexFilterableTag COUNTRY = () -> "show.country";
-    public static PlexFilterableInteger RATING = () -> "show.userRating";
-    public static PlexFilterableTag CONTENT_RATING = () -> "show.contentRating";
-    public static PlexFilterableInteger YEAR = () -> "show.year";
-    public static PlexFilterableInteger PLAYS = () -> "show.viewCount";
-    public static PlexFilterableDate LAST_PLAYED = () -> "show.lastViewedAt";
-    public static PlexFilterableTag GENRE = () -> "show.genre";
-    public static PlexFilterableTag COLLECTION = () -> "show.collection";
-    public static PlexFilterableTag DIRECTOR = () -> "show.director";
-    public static PlexFilterableTag WRITER = () -> "show.writer";
-    public static PlexFilterableTag PRODUCER = () -> "show.producer";
-    public static PlexFilterableTag ACTOR = () -> "show.actor";
-    public static PlexFilterableDate DATE_ADDED = () -> "show.addedAt";
-    public static PlexFilterableBoolean UNMATCHED = () -> "show.unmatched";
-    public static PlexFilterableBoolean UNPLAYED_EPISODES = () -> "show.unwatchedLeaves";
-    public static PlexFilterableString LABEL = () -> "show.label";
+	public static PlexFilterableString STUDIO = () -> "show.title";
+	public static PlexFilterableTag NETWORK = () -> "show.network";
+	public static PlexFilterableTag COUNTRY = () -> "show.country";
+	public static PlexFilterableInteger RATING = () -> "show.userRating";
+	public static PlexFilterableTag CONTENT_RATING = () -> "show.contentRating";
+	public static PlexFilterableInteger YEAR = () -> "show.year";
+	public static PlexFilterableInteger PLAYS = () -> "show.viewCount";
+	public static PlexFilterableDate LAST_PLAYED = () -> "show.lastViewedAt";
+	public static PlexFilterableTag GENRE = () -> "show.genre";
+	public static PlexFilterableTag COLLECTION = () -> "show.collection";
+	public static PlexFilterableTag DIRECTOR = () -> "show.director";
+	public static PlexFilterableTag WRITER = () -> "show.writer";
+	public static PlexFilterableTag PRODUCER = () -> "show.producer";
+	public static PlexFilterableTag ACTOR = () -> "show.actor";
+	public static PlexFilterableDate DATE_ADDED = () -> "show.addedAt";
+	public static PlexFilterableBoolean UNMATCHED = () -> "show.unmatched";
+	public static PlexFilterableBoolean UNPLAYED_EPISODES = () -> "show.unwatchedLeaves";
+	public static PlexFilterableString LABEL = () -> "show.label";
 
 	private Double audienceRating;
 	private String audienceRatingImage;
 	private Integer childCount;
 	private String contentRating;
 	@JsonProperty("Country")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> countries;
 	private Long duration;
 	@JsonProperty("Genre")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> genres;
 	private Integer leafCount;
 	@JsonProperty("Location")
-	@JsonDeserialize(contentAs = PlexLocation.class)
 	private List<PlexLocation> locations;
 	private Date originallyAvailableAt;
 	private String originalTitle;
 	private Double rating;
 	@JsonProperty("Rating")
-	@JsonDeserialize(contentAs = PlexRating.class)
 	private List<PlexRating> ratings;
 	@JsonProperty("Role")
-	@JsonDeserialize(contentAs = PlexRole.class)
 	private List<PlexRole> roles;
 	@JsonProperty("Similar")
-	@JsonDeserialize(contentAs = PlexTag.class)
 	private List<PlexTag> similars;
 	private String studio;
 	private String tagline;
 	private Integer viewedLeafCount;
 	private Integer year;
-	private UriProvider art;
 	private UriProvider banner;
 	private UriProvider theme;
-	private UriProvider thumb;
 
 	public PlexShow() {
-		art = new UriProvider(this::uri);
 		banner = new UriProvider(this::uri);
 		countries = new ArrayList<>();
 		genres = new ArrayList<>();
@@ -88,7 +79,6 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		roles = new ArrayList<>();
 		similars = new ArrayList<>();
 		theme = new UriProvider(this::uri);
-		thumb = new UriProvider(this::uri);
 	}
 
 	@Override
@@ -123,55 +113,46 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		this.similars = similars;
 	}
 
-	
 	public String getStudio() {
 		ensureDetailed(studio);
 		return studio;
 	}
 
-	
 	public String getContentRating() {
 		ensureDetailed(contentRating);
 		return contentRating;
 	}
 
-	
 	public Double getRating() {
 		ensureDetailed(rating);
 		return rating;
 	}
 
-	
 	public Integer getYear() {
 		ensureDetailed(year);
 		return year;
 	}
 
-	
 	public Long getDuration() {
 		ensureDetailed(duration);
 		return duration;
 	}
 
-	
 	public Integer getLeafCount() {
 		ensureDetailed(leafCount);
 		return leafCount;
 	}
 
-	
 	public Integer getViewedLeafCount() {
 		ensureDetailed(viewedLeafCount);
 		return viewedLeafCount;
 	}
 
-	
 	public Integer getChildCount() {
 		ensureDetailed(childCount);
 		return childCount;
 	}
 
-	
 	public List<PlexTag> getGenres() {
 		ensureDetailed(genres);
 		return genres;
@@ -217,7 +198,6 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		this.banner.setValue(banner);
 	}
 
-	
 	public String getBanner() {
 		ensureDetailed(banner.getValue());
 		return (String) banner.getValue();
@@ -227,49 +207,41 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		this.theme.setValue(theme);
 	}
 
-	
 	public String getTheme() {
 		ensureDetailed(theme.getValue());
 		return (String) theme.getValue();
 	}
 
-	
 	public Date getOriginallyAvailableAt() {
 		ensureDetailed(originallyAvailableAt);
 		return originallyAvailableAt;
 	}
 
-	
 	public List<PlexRole> getRoles() {
 		ensureDetailed(roles);
 		return roles;
 	}
 
-	
 	public String getOriginalTitle() {
 		ensureDetailed(originalTitle);
 		return originalTitle;
 	}
 
-	
 	public Double getAudienceRating() {
 		ensureDetailed(audienceRating);
 		return audienceRating;
 	}
 
-	
 	public String getTagline() {
 		ensureDetailed(tagline);
 		return tagline;
 	}
 
-	
 	public String getAudienceRatingImage() {
 		ensureDetailed(audienceRatingImage);
 		return audienceRatingImage;
 	}
 
-	
 	public List<PlexTag> getCountries() {
 		ensureDetailed(countries);
 		return countries;
@@ -303,7 +275,6 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		this.countries = countries;
 	}
 
-	
 	public List<PlexLocation> getLocations() {
 		ensureDetailed(locations);
 		return locations;
@@ -313,13 +284,11 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		this.locations = locations;
 	}
 
-	
 	public List<PlexTag> getSimilars() {
 		ensureDetailed(similars);
 		return similars;
 	}
 
-	
 	public List<PlexRating> getRatings() {
 		ensureDetailed(ratings);
 		return ratings;
@@ -329,13 +298,11 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		this.ratings = ratings;
 	}
 
-	
 	public List<PlexSeason> children() {
 		ensureDetailed(key());
 		return new PlexGeneralPurposeMediaContainer<PlexSeason, PlexDirectory>(key(), getServer()).getMetadata();
 	}
 
-	
 	public List<PlexEpisode> grandchildren() {
 		ensureDetailed(ratingKey());
 		URI uri;
@@ -347,51 +314,16 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 		return new PlexGeneralPurposeMediaContainer<PlexEpisode, PlexDirectory>(uri, getServer()).getMetadata();
 	}
 
-	
 	public URI banner() {
 		ensureDetailed(banner.getValue());
 		return banner.uri();
 	}
 
-	
 	public URI theme() {
 		ensureDetailed(theme.getValue());
 		return theme.uri();
 	}
 
-	
-	public String getArt() {
-		ensureDetailed(art.getValue());
-		return (String) art.getValue();
-	}
-
-	
-	public URI art() {
-		ensureDetailed(art.uri());
-		return art.uri();
-	}
-
-	public void setArt(String art) {
-		this.art.setValue(art);
-	}
-
-	
-	public String getThumb() {
-		ensureDetailed(thumb.getValue());
-		return (String) thumb.getValue();
-	}
-
-	
-	public URI thumb() {
-		ensureDetailed(thumb.uri());
-		return thumb.uri();
-	}
-
-	public void setThumb(String thumb) {
-		this.thumb.setValue(thumb);
-	}
-
-	
 	public Boolean getGenresLocked() {
 		return getFieldLocked("genre");
 	}
@@ -400,7 +332,7 @@ public class PlexShow extends PlexMediatag<PlexShowSection> implements PlexGrand
 	public int typeId() {
 		return TYPE_ID;
 	}
-	
+
 	public void editGenres(List<String> value, Optional<Boolean> lock) {
 		editList("genre", value, getGenres());
 		if (lock.isPresent())
