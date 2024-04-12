@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import kekolab.javaplex.PlexConnection;
 import kekolab.javaplex.PlexDevice;
 import kekolab.javaplex.PlexMediaServer;
-import kekolab.javaplex.PlexMediatag;
 import kekolab.javaplex.PlexMovie;
 import kekolab.javaplex.PlexMovieSection;
 import kekolab.javaplex.PlexSectionSecondaryDirectory;
