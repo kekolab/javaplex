@@ -21,7 +21,7 @@ public class PlexCollectionsTest extends PlexTests {
 		PlexConnection connection = server.getConnections().stream().filter(c -> c.getLocal() == 0).findAny()
 				.orElseThrow();
 		PlexMediaServer mediaServer = getApi().getMediaServer(connection);
-        section = mediaServer.library().movieSections().get(0);
+        section = mediaServer.library().sections().movieSections().get(0);
     }
 
     

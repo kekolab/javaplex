@@ -32,8 +32,7 @@ public class PlexFiltersTests extends PlexTests {
 				.orElseThrow();
 		PlexMediaServer mediaServer = getApi().getMediaServer(connection);
 		library = mediaServer.library();
-		section = library.sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get();
+		section = library.sections().musicSections().get(0);
 	}
 
 	@Test

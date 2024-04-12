@@ -39,8 +39,8 @@ public class PlexLibraryTests extends PlexTests {
 		assertNotNull(library.onDeck());
 		assertNotNull(library.recentlyAdded());
 		
-		int aSectionId = Integer.parseInt(library.sections().get(0).getKey());
-		assertNotNull(library.section(aSectionId));
+		int aSectionId = Integer.parseInt(library.sections().list().get(0).getKey());
+		assertNotNull(library.sections().byId(aSectionId));
 
 		// Searching
 		PlexMediatag<?> aMediatag = library.all().stream().filter(PlexMediatag.class::isInstance).map(PlexMediatag.class::cast).findAny().get();

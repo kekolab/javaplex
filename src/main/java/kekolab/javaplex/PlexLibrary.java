@@ -141,38 +141,7 @@ public class PlexLibrary extends PlexServerMediaContainer {
 		return new PlexGeneralPurposeMediaContainer<>(uri, server()).getSearchResults();
 	}
 
-	public List<PlexSection> sections() {
-		URI uri;
-		try {
-			uri = new URIBuilder(getUri()).appendPath("sections").build();
-		} catch (URISyntaxException e) {
-			throw new PlexException(e);
-		}
-		return new PlexGeneralPurposeMediaContainer<PlexMetadata, PlexSection>(uri, server())
-				.getDirectories();
-	}
-
-	protected <S extends PlexSection> List<S> sectionsByClass(Class<S> cls) {
-		return sections().stream().filter(cls::isInstance).map(cls::cast).toList();
-	}
-
-	public List<PlexMusicSection> musicSections() {
-		return sectionsByClass(PlexMusicSection.class);
-	}
-
-	public List<PlexMovieSection> movieSections() {
-		return sectionsByClass(PlexMovieSection.class);
-	}
-
-	public List<PlexShowSection> showSections() {
-		return sectionsByClass(PlexShowSection.class);
-	}
-
-	public List<PlexPhotoSection> photoSections() {
-		return sectionsByClass(PlexPhotoSection.class);
-	}
-
-	public PlexSection section(int id) {
-		return sections().stream().filter(s -> s.getKey().equals(Integer.toString(id))).findAny().get();
+	public PlexSections sections() {
+		return new PlexSections(server());
 	}
 }

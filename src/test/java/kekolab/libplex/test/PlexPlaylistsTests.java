@@ -39,7 +39,7 @@ public class PlexPlaylistsTests extends PlexTests {
 		int playlistsCount = playlists.list().size();
 
 		// Creation
-		List<PlexTrack> tracks = server.library().musicSections().get(0).tracks().execute();
+		List<PlexTrack> tracks = server.library().sections().musicSections().get(0).tracks().execute();
 		PlexTrack aTrack = tracks.get(0);
 		PlexTrack anotherTrack = tracks.get(1);
 		PlexClassicPlaylist<PlexTrack> audioPlaylist = playlists.create("a test playlist", aTrack);
@@ -69,7 +69,7 @@ public class PlexPlaylistsTests extends PlexTests {
 		int playlistsCount = playlists.list().size();
 
 		// Creation
-		PlexMusicSection section = server.library().musicSections().get(0);
+		PlexMusicSection section = server.library().sections().musicSections().get(0);
 		List<PlexSectionSecondaryDirectory<PlexArtist>> countries = section.artistCountries();
 		PlexSectionSecondaryDirectory<PlexArtist> aCountry = countries.get(0);
 		PlexSectionSecondaryDirectory<PlexArtist> anotherCountry = countries.get(1);

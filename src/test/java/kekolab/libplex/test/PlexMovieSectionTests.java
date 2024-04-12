@@ -25,8 +25,7 @@ public class PlexMovieSectionTests extends PlexTests {
 		PlexConnection connection = server.getConnections().stream().filter(c -> c.getLocal() == 0).findAny()
 				.orElseThrow();
 		PlexMediaServer mediaServer = getApi().getMediaServer(connection);
-		section = mediaServer.library().sections().stream().filter(PlexMovieSection.class::isInstance)
-				.map(PlexMovieSection.class::cast).findAny().get();
+		section = mediaServer.library().sections().movieSections().get(0);
 	}
 
 	@Test

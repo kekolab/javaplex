@@ -19,7 +19,7 @@ public class PlexAttributeEditingTests extends PlexMediaServerTests {
 
     @BeforeEach
     public void init() {
-        anArtist = getServer().library().sections().stream().filter(PlexMusicSection.class::isInstance)
+        anArtist = getServer().library().sections().list().stream().filter(PlexMusicSection.class::isInstance)
                 .map(PlexMusicSection.class::cast).findFirst().get().all().execute().get(0);
     }
 

@@ -29,7 +29,7 @@ public class PlexSmartPlaylist<S extends PlexSection, M extends PlexMediatag<S>>
 	public S section() {
 		Matcher matcher = Pattern.compile(".*/(\\d+)/.*").matcher(contentURIBuilder().getPath());
 		if (matcher.matches())
-			return (S) getServer().library().section(Integer.parseInt(matcher.group(1)));
+			return (S) getServer().library().sections().byId(Integer.parseInt(matcher.group(1)));
 
 		throw new PlexException("Cannot determine section for PlexSmartPlaylist");
 	}

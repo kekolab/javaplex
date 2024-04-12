@@ -24,8 +24,7 @@ public class PlexMusicSectionTests extends PlexTests {
 		PlexConnection connection = server.getConnections().stream().filter(c -> c.getLocal() == 0).findAny()
 				.orElseThrow();
 		PlexMediaServer mediaServer = getApi().getMediaServer(connection);
-		section = mediaServer.library().sections().stream().filter(PlexMusicSection.class::isInstance)
-				.map(PlexMusicSection.class::cast).findAny().get();
+		section = mediaServer.library().sections().musicSections().get(0);
 	}
 
 	@Test

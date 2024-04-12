@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadata {
     // TODO Delete a sectionItem? It is deleted just like a PlexCollection (see
-    // classes PlexCollections and Collections)
+    // classes PlexCollections)
 
     private String librarySectionTitle;
     private Integer librarySectionID;
@@ -22,7 +22,7 @@ public abstract class PlexSectionItem<S extends PlexSection> extends PlexMetadat
 
     public S section() {
         if (librarySectionID != null)
-            return (S) getServer().library().section(librarySectionID);
+            return (S) getServer().library().sections().byId(librarySectionID);
         return null;
     }
 
