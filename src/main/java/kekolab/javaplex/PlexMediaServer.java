@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.hc.core5.net.URIBuilder;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.mappers.IntegerListDeserializer;
@@ -568,5 +570,25 @@ public class PlexMediaServer extends PlexMediaContainer {
 
 	public PlexPlayQueues playQueues() {
 		return new PlexPlayQueues(this);
+	}
+
+	public PlexClients clients() {
+		return new PlexClients(this);
+	}
+
+	protected String createTemporaryToken() {
+		try {
+			URI uri = new URIBuilder(getUri())
+					.appendPath("security")
+					.appendPath("token")
+					.addParameter("type", "delegation")
+					.addParameter("scope", "all")
+					.build();
+			PlexGeneralPurposeMediaContainer<?, ?> mc = new PlexGeneralPurposeMediaContainer<>(uri, this);
+			getClient().get(getToken(), mc);
+			return (String) mc.getUnmappedProperties().get("token").get(0);
+		} catch (URISyntaxException e) {
+			throw new PlexException(e);
+		}
 	}
 }

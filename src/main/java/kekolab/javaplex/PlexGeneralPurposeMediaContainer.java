@@ -26,15 +26,28 @@ public class PlexGeneralPurposeMediaContainer<M extends PlexMetadata, D extends 
 	@JsonProperty("TranscodeSession")
 	private List<PlexTranscodeSession> transcodeSessions;
 
+	@JsonProperty("Server")
+	private List<PlexClient> clients;
+
 	PlexGeneralPurposeMediaContainer(URI uri, PlexMediaServer server) {
 		super(uri, server);
 		metadata = new ArrayList<>();
 		searchResults = new ArrayList<>();
 		transcodeSessions = new ArrayList<>();
+		clients = new ArrayList<>();
 	}
 
 	private void initialiseItems(List<? extends PlexInitialisableItem> list) {
 		list.stream().forEach(d -> d.initialise(server(), getUri()));
+	}
+
+	public List<PlexClient> getClients() {
+		ensureFetched(clients);
+		return clients;
+	}
+
+	public void setClients(List<PlexClient> clients) {
+		this.clients = clients;
 	}
 
 	public List<M> getMetadata() {

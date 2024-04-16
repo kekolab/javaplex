@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.hc.core5.net.URIBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -168,4 +169,13 @@ public class PlexPlayQueue extends PlexServerMediaContainer {
         this.playQueueLastAddedItemID = playQueueLastAddedItemID;
     }
 
+    @JsonIgnore
+    public String getKey() {
+        return "/playQueues/" + getPlayQueueID();
+    }
+
+    @JsonIgnore
+    public PlexMediatag<?> getSelectedItem() {
+        return this.getItems().stream().filter(item -> item.getPlayQueueItemID().equals(this.getPlayQueueSelectedItemID())).findAny().get();
+    }
 }
