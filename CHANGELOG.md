@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] 2024-04-18
+
+### Added
+
+#### PlexPlayQueues and PlexPlayQueue
+
+- Introduced classes `PlexPlayQueues` and `PlexPlayQueue`. With `PlexPlayQueues` you can operate on `PlexPlauQueue`s:
+  - create a play queue
+  - add items to it
+  - remove items from it
+- Added method `PlexMediaServer.playQueues`
+
+#### PlexClients and PlexClient
+
+- Added classes `PlexClients` and `PlexClient`. With `PlexClients` you can operate on `PlexClient`s, i.e.:
+  - list the clients connected to the server;
+  - issue remote commands to clients (play, stop, resume, navigate, a.s.o...)
+- Added method `PlexMediaServer.clients`
+
+### Changed
+
+- Created class `PlexSections` to interact with `PlexSection`s just like it's done with `PlexPlaylists` or `PlexCollections`. Consequently:
+  - this **_breaks compatibility_** with 5.x.x
+  - all the methods in PlexLibrary working on PlexSection were moved to PlexSections;
+  - the method PlexLibrary.sections does not return anymore List, but PlexSections
+- Deleted some useless Jackson annotations
+- Moved art and thumb in PlexMetadata as all PlexMetadatas have art and thumb
+- Refactored MediaContainer.ensureFetched method
+- Separated MetadataDeserializer in two classes: MetadataDeserializer and MediatagDeserializer  
+
 ## [5.0.1] 2024-04-11
 
 ### Fixed

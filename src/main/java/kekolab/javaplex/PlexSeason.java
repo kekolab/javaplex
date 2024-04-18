@@ -1,9 +1,6 @@
 package kekolab.javaplex;
 
-import java.net.URI;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class PlexSeason extends Child<PlexShowSection, PlexShow> implements PlexParent<PlexShowSection, PlexEpisode> {
 	public static final int TYPE_ID = 3;

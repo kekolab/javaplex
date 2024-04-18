@@ -79,7 +79,6 @@ public class PlexAccount extends PlexBaseItem {
 		}
 	}
 
-	
 	public String getEmail() {
 		fetch();
 		return email;
@@ -89,7 +88,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.email = email;
 	}
 
-	
 	public Integer getId() {
 		fetch();
 		return id;
@@ -99,7 +97,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.id = id;
 	}
 
-	
 	public String getUuid() {
 		fetch();
 		return uuid;
@@ -109,7 +106,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.uuid = uuid;
 	}
 
-	
 	public String getMailingListStatus() {
 		fetch();
 		return mailingListStatus;
@@ -119,7 +115,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.mailingListStatus = mailingListStatus;
 	}
 
-	
 	public String getUsername() {
 		fetch();
 		return username;
@@ -129,7 +124,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.username = username;
 	}
 
-	
 	public String getTitle() {
 		fetch();
 		return title;
@@ -139,7 +133,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.title = title;
 	}
 
-	
 	public String getCloudSyncDevice() {
 		fetch();
 		return cloudSyncDevice;
@@ -149,7 +142,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.cloudSyncDevice = cloudSyncDevice;
 	}
 
-	
 	public String getLocale() {
 		fetch();
 		return locale;
@@ -159,7 +151,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.locale = locale;
 	}
 
-	
 	public String getAuthenticationToken() {
 		fetch();
 		return authenticationToken;
@@ -169,7 +160,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.authenticationToken = authenticationToken;
 	}
 
-	
 	public String getAuthToken() {
 		fetch();
 		return authToken;
@@ -179,7 +169,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.authToken = authToken;
 	}
 
-	
 	public String getScrobbleTypes() {
 		fetch();
 		return scrobbleTypes;
@@ -189,7 +178,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.scrobbleTypes = scrobbleTypes;
 	}
 
-	
 	public Boolean getRestricted() {
 		fetch();
 		return restricted;
@@ -199,7 +187,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.restricted = restricted;
 	}
 
-	
 	public Boolean getHome() {
 		fetch();
 		return home;
@@ -209,7 +196,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.home = home;
 	}
 
-	
 	public Boolean getGuest() {
 		fetch();
 		return guest;
@@ -219,7 +205,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.guest = guest;
 	}
 
-	
 	public String getQueueEmail() {
 		fetch();
 		return queueEmail;
@@ -229,7 +214,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.queueEmail = queueEmail;
 	}
 
-	
 	public Boolean getHasPassword() {
 		fetch();
 		return hasPassword;
@@ -239,7 +223,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.hasPassword = hasPassword;
 	}
 
-	
 	public Integer getHomeSize() {
 		fetch();
 		return homeSize;
@@ -249,7 +232,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.homeSize = homeSize;
 	}
 
-	
 	public Integer getMaxHomeSize() {
 		fetch();
 		return maxHomeSize;
@@ -259,7 +241,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.maxHomeSize = maxHomeSize;
 	}
 
-	
 	public Boolean getSecure() {
 		fetch();
 		return secure;
@@ -269,7 +250,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.secure = secure;
 	}
 
-	
 	public Integer getCertificateVersion() {
 		fetch();
 		return certificateVersion;
@@ -279,7 +259,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.certificateVersion = certificateVersion;
 	}
 
-	
 	public String getAuthentication_Token() {
 		fetch();
 		return authentication_Token;
@@ -289,7 +268,6 @@ public class PlexAccount extends PlexBaseItem {
 		this.authentication_Token = authentication_Token;
 	}
 
-	
 	public String getQueueUid() {
 		fetch();
 		return queueUid;
@@ -303,13 +281,11 @@ public class PlexAccount extends PlexBaseItem {
 		this.thumb = thumb;
 	}
 
-	
 	public String getThumb() {
 		fetch();
 		return thumb;
 	}
 
-	
 	public URI thumb() {
 		fetch();
 		if (thumb != null)

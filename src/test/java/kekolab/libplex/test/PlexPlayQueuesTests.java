@@ -11,14 +11,14 @@ import kekolab.javaplex.PlexPlayQueue;
 import kekolab.javaplex.PlexPlayQueues;
 
 public class PlexPlayQueuesTests extends PlexMediaServerTests {
-    private final PlexMediaServer server;
+	private final PlexMediaServer server;
 
-    public PlexPlayQueuesTests() {
-        this.server = getServer();
-    }    
+	public PlexPlayQueuesTests() {
+		this.server = getServer();
+	}
 
-    @Test
-	public void test() {
+	@Test
+	public void createAddRemove() {
 		PlexPlayQueues playQueues = getServer().playQueues();
 		PlexMediatag<?> aTrack = server.library().sections().musicSections().get(0).tracks().execute().get(0);
 		PlexMediatag<?> anotherTrack = server.library().sections().musicSections().get(0).tracks().execute().get(1);
@@ -40,5 +40,5 @@ public class PlexPlayQueuesTests extends PlexMediaServerTests {
 		assertTrue(playQueue.getItems().stream().anyMatch(i -> i.getRatingKey().equals(anotherTrack.getRatingKey())));
 		assertTrue(playQueue.getItems().stream().noneMatch(i -> i.getRatingKey().equals(aMovie.getRatingKey())));
 	}
-    
+
 }

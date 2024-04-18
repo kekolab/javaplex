@@ -282,7 +282,9 @@ In the test classes you can find more examples... Navigate them all... I do not 
 
 Some thigs which could be integrated, but I do not know when I will have the time to do:
 
-- [x] **Smart playlists**: creating, deleting, listing, altering the filters, ...
+- [x] Smart Playlists: creating, deleting, listing, altering the filters, ...
+- [x] Listing and controlling clients
+- [x] Playqueues management
 - [ ] Add some meaningful logging
 
 Feel free to create a discussion, send an issue or contact me in any way you can think of to suggest, emend, correct add stuff.
@@ -325,7 +327,7 @@ Thanks go to these wonderful people ([emoji key](https://allcontributors.org/doc
 <table>
   <tbody>
     <tr>
-      <td align="left" valign="top" width="14.28%"><a href="https://github.com/JZomDev"><img src="https://avatars.githubusercontent.com/u/14265490?v=4" width="100px;" alt="JZomDev"/><br /><sub><b>JZomDev</b></sub></a><br /><a href="https://github.com/kekolab/javaplex/commits?author=JZomDev" title="Code">💻</a></td>
+      <td halign="left" valign="top" width="14.28%"><a href="https://github.com/JZomDev"><img src="https://avatars.githubusercontent.com/u/14265490?v=4" width="100px;" alt="JZomDev"/><br /><sub><b>JZomDev</b></sub></a><br /><a href="https://github.com/kekolab/javaplex/commits?author=JZomDev" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

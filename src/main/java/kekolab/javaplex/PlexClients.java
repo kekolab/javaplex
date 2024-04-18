@@ -127,14 +127,14 @@ public class PlexClients {
 
     // Playback
 
-    public void pause(PlexClient client, PlexPlayQueue queue, Optional<MediaType> type) {
+    public void pause(PlexClient client, Optional<MediaType> type) {
         ensureCapability(client, "playback");
         Map<String, String> params = new HashMap<>();
         type.ifPresent(t -> params.put("type", t.toString()));
         sendCommand(client, Arrays.asList("playback", "pause"), params);
     }
 
-    public void play(PlexClient client, PlexPlayQueue queue, Optional<MediaType> type) {
+    public void play(PlexClient client, Optional<MediaType> type) {
         ensureCapability(client, "playback");
         Map<String, String> params = new HashMap<>();
         type.ifPresent(t -> params.put("type", t.toString()));
@@ -173,14 +173,14 @@ public class PlexClients {
         sendCommand(client, Arrays.asList("playback", "seekTo"), params);
     }
 
-    public void skipNext(PlexClient client, PlexPlayQueue queue, Optional<MediaType> type) {
+    public void skipNext(PlexClient client, Optional<MediaType> type) {
         ensureCapability(client, "playback");
         Map<String, String> params = new HashMap<>();
         type.ifPresent(t -> params.put("type", t.toString()));
         sendCommand(client, Arrays.asList("playback", "skipNext"));
     }
 
-    public void skipPrevious(PlexClient client, PlexPlayQueue queue, Optional<MediaType> type) {
+    public void skipPrevious(PlexClient client, Optional<MediaType> type) {
         ensureCapability(client, "playback");
         Map<String, String> params = new HashMap<>();
         type.ifPresent(t -> params.put("type", t.toString()));
@@ -204,17 +204,17 @@ public class PlexClients {
         sendCommand(client, Arrays.asList("playback", "skipTo"), params);
     }
 
-    public void stepBack(PlexClient client, PlexPlayQueue queue) {
+    public void stepBack(PlexClient client) {
         ensureCapability(client, "playback");
         sendCommand(client, Arrays.asList("playback", "stepBack"));
     }
 
-    public void stepForward(PlexClient client, PlexPlayQueue queue) {
+    public void stepForward(PlexClient client) {
         ensureCapability(client, "playback");
         sendCommand(client, Arrays.asList("playback", "stepForward"));
     }
 
-    public void stop(PlexClient client, PlexPlayQueue queue, Optional<MediaType> type) {
+    public void stop(PlexClient client, Optional<MediaType> type) {
         ensureCapability(client, "playback");
         Map<String, String> params = new HashMap<>();
         type.ifPresent(t -> params.put("type", t.toString()));

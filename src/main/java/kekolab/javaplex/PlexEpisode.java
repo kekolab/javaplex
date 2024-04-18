@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.filtering.PlexFilterableBoolean;
 import kekolab.javaplex.filtering.PlexFilterableDate;
