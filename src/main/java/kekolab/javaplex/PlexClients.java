@@ -28,23 +28,6 @@ public class PlexClients {
         }
     }
 
-    public static enum Repeat {
-        NONE, ONE, ALL;
-
-        @Override
-        public String toString() {
-            switch (this) {
-                case NONE:
-                    return "0";
-                case ONE:
-                    return "1";
-                case ALL:
-                    return "2";
-            }
-            throw new PlexException(); // unreachable code
-        }
-    }
-
     private final PlexMediaServer server;
     private int commandId;
 
@@ -239,7 +222,7 @@ public class PlexClients {
     }
 
     public void setPlaybackParameters(PlexClient client, Optional<Integer> volume, Optional<Boolean> shuffle,
-            Optional<Repeat> repeat, MediaType type) {
+            Optional<PlexRepeatPolicy> repeat, MediaType type) {
         Map<String, String> params = new HashMap<>();
         volume.ifPresent(v -> params.put("volume", Integer.toString(v < 0 ? 0 : v > 100 ? 100 : v)));
         shuffle.ifPresent(s -> params.put("shuffle", s ? "1" : "0"));
