@@ -4,7 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
-class PlexAuthorizer {
+public class PlexAuthorizer {
 	private static final URI URI_PIN_REQUEST;
 	private static final String URI_TEMPLATE_PIN_VERIFICATION = "https://plex.tv/pins/{pinId}.xml";
 

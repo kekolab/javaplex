@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.1] 2024-04-18
+
+### Added
+
+### Changed
+
+- Class `PlexAuthorizer` in now public
+
 ## [6.0.0] 2024-04-18
 
 ### Added
@@ -60,7 +68,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `PlexPlaylist` has become a parameterized class: no more three specific class (`PlexAudioPlaylist`, `PlexVideoPlaylist`, `PlexPhotoPlaylist`), which would've become six with the smart playlists
 - `PlexCollection` has become a parameterized class: no more six specific classes
 
-
 ## [4.1.1] 2024-03-28
 
 ### Fixed
@@ -104,6 +111,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for listing all the active sessions (endpoint `/status/sessions`)
 
-### Fixed 
+### Fixed
 
 - Bug fix on class PlexMedia
