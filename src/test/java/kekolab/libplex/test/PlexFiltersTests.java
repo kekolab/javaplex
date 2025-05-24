@@ -63,7 +63,7 @@ public class PlexFiltersTests extends PlexTests {
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 		assertTrue(artists.stream()
-				.allMatch(a -> a.getGenres().stream().anyMatch(g -> g.getTag().equals(genre.getKey()))));
+				.allMatch(a -> a.getGenres().stream().anyMatch(g -> g.getTag().equals(genre.getTitle()))));
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class PlexFiltersTests extends PlexTests {
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 		assertTrue(artists.stream()
-				.allMatch(a -> a.getCountries().stream().anyMatch(g -> g.getTag().equals(country.getKey()))));
+				.allMatch(a -> a.getCountries().stream().anyMatch(g -> g.getTag().equals(country.getTitle()))));
 	}
 
 	@Test
@@ -85,7 +85,7 @@ public class PlexFiltersTests extends PlexTests {
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 		assertTrue(artists.stream()
-				.allMatch(a -> a.getMoods().stream().anyMatch(g -> g.getTag().equals(mood.getKey()))));
+				.allMatch(a -> a.getMoods().stream().anyMatch(g -> g.getTag().equals(mood.getTitle()))));
 	}
 
 	@Test
@@ -96,7 +96,7 @@ public class PlexFiltersTests extends PlexTests {
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 		assertTrue(artists.stream()
-				.allMatch(a -> a.getMoods().stream().anyMatch(g -> g.getTag().equals(style.getKey()))));
+				.allMatch(a -> a.getStyles().stream().anyMatch(g -> g.getTag().equals(style.getTitle()))));
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class PlexFiltersTests extends PlexTests {
 		artists.stream().map(PlexArtist::getTitle).forEach(System.out::println);
 		assertTrue(artists.size() > 0);
 		assertTrue(artists.stream()
-				.allMatch(a -> a.getMoods().stream().anyMatch(g -> g.getTag().equals(collection.getKey()))));
+				.allMatch(a -> a.getCollections().stream().anyMatch(g -> g.getTag().equals(collection.getTitle()))));
 	}
 
 	@Test
