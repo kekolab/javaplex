@@ -21,8 +21,16 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0-rc2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
     implementation 'org.slf4j:slf4j-api:1.7.36'
-    testImplementation 'org.slf4j:slf4j-simple:1.7.36'    
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'    
+    testImplementation(platform('org.junit:junit-bom:5.12.2'))
+	testImplementation('org.junit.jupiter:junit-jupiter')
+	testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
 
 task sourceJar(type: Jar) {
