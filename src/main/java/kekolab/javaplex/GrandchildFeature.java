@@ -1,34 +1,34 @@
 package kekolab.javaplex;
 
 import java.net.URI;
+import java.util.function.Supplier;
 
-public abstract class Grandchild<S extends PlexSection, P extends PlexMediatag<S>, GP extends PlexMediatag<S>>
-        extends Child<S, P> implements PlexGrandchild<S, P, GP> {
+public class GrandchildFeature<S extends PlexSection, P extends PlexMediatag<S>, GP extends PlexMediatag<S>>
+        extends ChildFeature<S, P> implements PlexGrandchild<S, P, GP> {
     private UriProvider grandparentArt, grandparentKey, grandparentRatingKey, grandparentTheme, grandparentThumb;
     private String grandparentGuid;
     private String grandparentTitle;
     private Integer grandparentYear;
 
-    Grandchild() {
-        grandparentArt = new UriProvider(() -> getServer().getUri());
-        grandparentKey = new UriProvider(() -> getServer().getUri());
-        grandparentRatingKey = new UriProvider(() -> getServer().getUri());
-        grandparentTheme = new UriProvider(() -> getServer().getUri());
-        grandparentThumb = new UriProvider(() -> getServer().getUri());
+    GrandchildFeature(PlexMediatag<S> mediatag) {
+        super(mediatag);
+        Supplier<URI> serverUriSupplier = () -> mediatag.getServer().getUri();
+        grandparentArt = new UriProvider(serverUriSupplier);
+        grandparentKey = new UriProvider(serverUriSupplier);
+        grandparentRatingKey = new UriProvider(serverUriSupplier);
+        grandparentTheme = new UriProvider(serverUriSupplier);
+        grandparentThumb = new UriProvider(serverUriSupplier);
     }
 
-    @Override
-    void update(PlexMetadata source) {
-        super.update(source);
-        Grandchild<?, ?, ?> g = (Grandchild<?, ?, ?>) source;
-        setGrandparentArt(g.getGrandparentArt());
-        setGrandparentGuid(g.getGrandparentGuid());
-        setGrandparentKey(g.getGrandparentKey());
-        setGrandparentRatingKey(g.getGrandparentRatingKey());
-        setGrandparentTheme(g.getGrandparentTheme());
-        setGrandparentThumb(g.getGrandparentThumb());
-        setGrandparentTitle(g.getGrandparentTitle());
-        setGrandparentYear(g.getGrandparentYear());
+    void update(PlexGrandchild<S, P, GP> source) {
+        setGrandparentArt(source.getGrandparentArt());
+        setGrandparentGuid(source.getGrandparentGuid());
+        setGrandparentKey(source.getGrandparentKey());
+        setGrandparentRatingKey(source.getGrandparentRatingKey());
+        setGrandparentTheme(source.getGrandparentTheme());
+        setGrandparentThumb(source.getGrandparentThumb());
+        setGrandparentTitle(source.getGrandparentTitle());
+        setGrandparentYear(source.getGrandparentYear());
     }
 
     @Override
@@ -36,85 +36,85 @@ public abstract class Grandchild<S extends PlexSection, P extends PlexMediatag<S
         URI uri = grandparentKey() != null ? grandparentKey()
                 : grandparentRatingKey() != null ? grandparentRatingKey() : null;
         if (uri != null)
-            return new PlexGeneralPurposeMediaContainer<GP, PlexDirectory>(uri, getServer()).getMetadata().get(0);
+            return new PlexGeneralPurposeMediaContainer<GP, PlexDirectory>(uri, getMediatag().getServer()).getMetadata().get(0);
         return null;
     }
 
     @Override
     public String getGrandparentArt() {
-        ensureDetailed(grandparentArt.getValue());
+        getMediatag().ensureDetailed(grandparentArt.getValue());
         return (String) grandparentArt.getValue();
     }
 
     @Override
     public URI grandparentArt() {
-        ensureDetailed(grandparentArt.getValue());
+        getMediatag().ensureDetailed(grandparentArt.getValue());
         return grandparentArt.uri();
     }
 
     @Override
     public String getGrandparentGuid() {
-        ensureDetailed(grandparentGuid);
+        getMediatag().ensureDetailed(grandparentGuid);
         return grandparentGuid;
     }
 
     @Override
     public String getGrandparentKey() {
-        ensureDetailed(grandparentKey.getValue());
+        getMediatag().ensureDetailed(grandparentKey.getValue());
         return (String) grandparentKey.getValue();
     }
 
     @Override
     public URI grandparentKey() {
-        ensureDetailed(grandparentKey.getValue());
+        getMediatag().ensureDetailed(grandparentKey.getValue());
         return grandparentKey.uri();
     }
 
     @Override
     public Integer getGrandparentRatingKey() {
-        ensureDetailed(grandparentRatingKey.getValue());
+        getMediatag().ensureDetailed(grandparentRatingKey.getValue());
         return (Integer) grandparentRatingKey.getValue();
     }
 
     @Override
     public URI grandparentRatingKey() {
-        ensureDetailed(grandparentRatingKey.getValue());
+        getMediatag().ensureDetailed(grandparentRatingKey.getValue());
         return grandparentRatingKey.uri();
     }
 
     @Override
     public String getGrandparentTheme() {
-        ensureDetailed(grandparentTheme.getValue());
+        getMediatag().ensureDetailed(grandparentTheme.getValue());
         return (String) grandparentTheme.getValue();
     }
 
     @Override
     public URI grandparentTheme() {
-        ensureDetailed(grandparentTheme.getValue());
+        getMediatag().ensureDetailed(grandparentTheme.getValue());
         return grandparentTheme.uri();
     }
 
     @Override
     public String getGrandparentThumb() {
-        ensureDetailed(grandparentThumb.getValue());
+        getMediatag().ensureDetailed(grandparentThumb.getValue());
         return (String) grandparentThumb.getValue();
     }
 
     @Override
     public URI grandparentThumb() {
-        ensureDetailed(grandparentThumb.getValue());
+        getMediatag().ensureDetailed(grandparentThumb.getValue());
         return grandparentThumb.uri();
     }
 
     @Override
     public String getGrandparentTitle() {
-        ensureDetailed(grandparentTitle);
+        getMediatag().ensureDetailed(grandparentTitle);
         return grandparentTitle;
     }
 
     @Override
     public Integer getGrandparentYear() {
-        ensureDetailed(grandparentYear);
+        getMediatag().ensureDetailed(grandparentYear);
         return grandparentYear;
     }
 

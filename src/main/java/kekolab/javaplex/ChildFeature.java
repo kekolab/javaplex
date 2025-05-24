@@ -1,8 +1,9 @@
 package kekolab.javaplex;
 
 import java.net.URI;
+import java.util.function.Supplier;
 
-public abstract class Child<S extends PlexSection, P extends PlexMediatag<S>> extends PlexMediatag<S> implements PlexChild<S, P> {
+public class ChildFeature<S extends PlexSection, P extends PlexMediatag<S>> implements PlexChild<S, P> {
 
     private UriProvider parentKey, parentRatingKey, parentTheme, parentThumb;
     private String parentGuid;
@@ -11,111 +12,116 @@ public abstract class Child<S extends PlexSection, P extends PlexMediatag<S>> ex
     private String parentTitle;
     private Integer parentYear;
 
-    Child() {
-        parentKey = new UriProvider(() -> getServer().getUri());
-        parentRatingKey = new UriProvider(() -> getServer().getUri());
-        parentTheme = new UriProvider(() -> getServer().getUri());
-        parentThumb = new UriProvider(() -> getServer().getUri());
+    private PlexMediatag<S> mediatag;
+
+    ChildFeature(PlexMediatag<S> mediatag) {
+        this.mediatag = mediatag;
+        Supplier<URI> serverUriSupplier = () -> mediatag.getServer().getUri();
+        parentKey = new UriProvider(serverUriSupplier);
+        parentRatingKey = new UriProvider(serverUriSupplier);
+        parentTheme = new UriProvider(serverUriSupplier);
+        parentThumb = new UriProvider(serverUriSupplier);
     }
 
-    @Override
-    void update(PlexMetadata source) {
-        super.update(source);
-        Child<?, ?> c = (Child<?, ?>) source;
-        setParentGuid(c.getParentGuid());
-        setParentIndex(c.getParentIndex());
-        setParentKey(c.getParentKey());
-        setParentRatingKey(c.getParentRatingKey());
-        setParentStudio(c.getParentStudio());
-        setParentTheme(c.getParentTheme());
-        setParentThumb(c.getParentThumb());
-        setParentTitle(c.getParentTitle());
-        setParentYear(c.getParentYear());
+    void update(PlexChild<S, P> source) {
+        setParentGuid(source.getParentGuid());
+        setParentIndex(source.getParentIndex());
+        setParentKey(source.getParentKey());
+        setParentRatingKey(source.getParentRatingKey());
+        setParentStudio(source.getParentStudio());
+        setParentTheme(source.getParentTheme());
+        setParentThumb(source.getParentThumb());
+        setParentTitle(source.getParentTitle());
+        setParentYear(source.getParentYear());
+    }
+
+    protected PlexMediatag<S> getMediatag() {
+        return mediatag;
     }
 
     @Override
     public P parent() {
         URI uri = parentKey() != null ? parentKey() : parentRatingKey() != null ? parentRatingKey() : null;
         if (uri != null)
-            return new PlexGeneralPurposeMediaContainer<P, PlexDirectory>(uri, getServer()).getMetadata().get(0);
+            return new PlexGeneralPurposeMediaContainer<P, PlexDirectory>(uri, mediatag.getServer()).getMetadata().get(0);
         return null;
     }
 
     @Override
     public String getParentGuid() {
-        ensureDetailed(parentGuid);
+        mediatag.ensureDetailed(parentGuid);
         return parentGuid;
     }
 
     @Override
     public Integer getParentIndex() {
-        ensureDetailed(parentIndex);
+        mediatag.ensureDetailed(parentIndex);
         return parentIndex;
     }
 
     @Override
     public String getParentKey() {
-        ensureDetailed(parentKey.getValue());
+        mediatag.ensureDetailed(parentKey.getValue());
         return (String) parentKey.getValue();
     }
 
     @Override
     public URI parentKey() {
-        ensureDetailed(parentKey.getValue());
+        mediatag.ensureDetailed(parentKey.getValue());
         return parentKey.uri();
     }
 
     @Override
     public Integer getParentRatingKey() {
-        ensureDetailed(parentRatingKey.getValue());
+        mediatag.ensureDetailed(parentRatingKey.getValue());
         return (Integer) parentRatingKey.getValue();
     }
 
     @Override
     public URI parentRatingKey() {
-        ensureDetailed(parentRatingKey.getValue());
+        mediatag.ensureDetailed(parentRatingKey.getValue());
         return parentRatingKey.uri();
     }
 
     @Override
     public String getParentStudio() {
-        ensureDetailed(parentStudio);
+        mediatag.ensureDetailed(parentStudio);
         return parentStudio;
     }
 
     @Override
     public String getParentTheme() {
-        ensureDetailed(parentTheme.getValue());
+        mediatag.ensureDetailed(parentTheme.getValue());
         return (String) parentTheme.getValue();
     }
 
     @Override
     public URI parentTheme() {
-        ensureDetailed(parentTheme.getValue());
+        mediatag.ensureDetailed(parentTheme.getValue());
         return parentTheme.uri();
     }
 
     @Override
     public String getParentThumb() {
-        ensureDetailed(parentThumb.getValue());
+        mediatag.ensureDetailed(parentThumb.getValue());
         return (String) parentThumb.getValue();
     }
 
     @Override
     public URI parentThumb() {
-        ensureDetailed(parentThumb.getValue());
+        mediatag.ensureDetailed(parentThumb.getValue());
         return parentThumb.uri();
     }
 
     @Override
     public String getParentTitle() {
-        ensureDetailed(parentTitle);
+        mediatag.ensureDetailed(parentTitle);
         return parentTitle;
     }
 
     @Override
     public Integer getParentYear() {
-        ensureDetailed(parentYear);
+        mediatag.ensureDetailed(parentYear);
         return parentYear;
     }
 

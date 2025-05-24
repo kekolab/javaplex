@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -16,7 +17,7 @@ import kekolab.javaplex.filtering.PlexFilterableString;
 import kekolab.javaplex.filtering.PlexFilterableTag;
 import kekolab.javaplex.mappers.StringListDeserializer;
 
-public class PlexTrack extends Grandchild<PlexMusicSection, PlexAlbum, PlexArtist> {
+public class PlexTrack extends PlexMediatag<PlexMusicSection> implements PlexGrandchild<PlexMusicSection, PlexAlbum, PlexArtist> {
 	public static final int TYPE_ID = 10;
 	public static final String TYPE_DESCRIPTION = "track";
 
@@ -45,10 +46,14 @@ public class PlexTrack extends Grandchild<PlexMusicSection, PlexAlbum, PlexArtis
 	private String originalTitle;
 	private Integer ratingCount;
 
+	@JsonIgnore
+	private GrandchildFeature<PlexMusicSection, PlexAlbum, PlexArtist> grandchildFeature;
+
 	public PlexTrack() {
 		createdAtAccuracy = new ArrayList<>();
 		media = new ArrayList<>();
 		moods = new ArrayList<>();
+		grandchildFeature = new GrandchildFeature<>(this);
 	}
 
 	@Override
@@ -63,6 +68,7 @@ public class PlexTrack extends Grandchild<PlexMusicSection, PlexAlbum, PlexArtis
 		setOriginallyAvailableAt(track.getOriginallyAvailableAt());
 		setOriginalTitle(track.getOriginalTitle());
 		setRatingCount(track.getRatingCount());
+		grandchildFeature.update(track);
 	}
 
 	public List<PlexMedia> getMedia() {
@@ -154,6 +160,178 @@ public class PlexTrack extends Grandchild<PlexMusicSection, PlexAlbum, PlexArtis
 	@Override
 	public int typeId() {
 		return TYPE_ID;
+	}
+
+	public PlexAlbum parent() {
+		return grandchildFeature.parent();
+	}
+
+	public PlexArtist grandparent() {
+		return grandchildFeature.grandparent();
+	}
+
+	public String getParentGuid() {
+		return grandchildFeature.getParentGuid();
+	}
+
+	public String getGrandparentArt() {
+		return grandchildFeature.getGrandparentArt();
+	}
+
+	public Integer getParentIndex() {
+		return grandchildFeature.getParentIndex();
+	}
+
+	public String getParentKey() {
+		return grandchildFeature.getParentKey();
+	}
+
+	public URI grandparentArt() {
+		return grandchildFeature.grandparentArt();
+	}
+
+	public URI parentKey() {
+		return grandchildFeature.parentKey();
+	}
+
+	public String getGrandparentGuid() {
+		return grandchildFeature.getGrandparentGuid();
+	}
+
+	public Integer getParentRatingKey() {
+		return grandchildFeature.getParentRatingKey();
+	}
+
+	public String getGrandparentKey() {
+		return grandchildFeature.getGrandparentKey();
+	}
+
+	public URI parentRatingKey() {
+		return grandchildFeature.parentRatingKey();
+	}
+
+	public URI grandparentKey() {
+		return grandchildFeature.grandparentKey();
+	}
+
+	public String getParentStudio() {
+		return grandchildFeature.getParentStudio();
+	}
+
+	public Integer getGrandparentRatingKey() {
+		return grandchildFeature.getGrandparentRatingKey();
+	}
+
+	public String getParentTheme() {
+		return grandchildFeature.getParentTheme();
+	}
+
+	public URI grandparentRatingKey() {
+		return grandchildFeature.grandparentRatingKey();
+	}
+
+	public String getGrandparentTheme() {
+		return grandchildFeature.getGrandparentTheme();
+	}
+
+	public String getParentThumb() {
+		return grandchildFeature.getParentThumb();
+	}
+
+	public URI grandparentTheme() {
+		return grandchildFeature.grandparentTheme();
+	}
+
+	public String getParentTitle() {
+		return grandchildFeature.getParentTitle();
+	}
+
+	public String getGrandparentThumb() {
+		return grandchildFeature.getGrandparentThumb();
+	}
+
+	public Integer getParentYear() {
+		return grandchildFeature.getParentYear();
+	}
+
+	public URI grandparentThumb() {
+		return grandchildFeature.grandparentThumb();
+	}
+
+	public void setParentGuid(String guid) {
+		grandchildFeature.setParentGuid(guid);
+	}
+
+	public void setParentIndex(Integer index) {
+		grandchildFeature.setParentIndex(index);
+	}
+
+	public String getGrandparentTitle() {
+		return grandchildFeature.getGrandparentTitle();
+	}
+
+	public void setParentStudio(String studio) {
+		grandchildFeature.setParentStudio(studio);
+	}
+
+	public Integer getGrandparentYear() {
+		return grandchildFeature.getGrandparentYear();
+	}
+
+	public void setParentTitle(String title) {
+		grandchildFeature.setParentTitle(title);
+	}
+
+	public void setParentYear(Integer year) {
+		grandchildFeature.setParentYear(year);
+	}
+
+	public void setGrandparentGuid(String grandParentGuid) {
+		grandchildFeature.setGrandparentGuid(grandParentGuid);
+	}
+
+	public void setParentKey(String key) {
+		grandchildFeature.setParentKey(key);
+	}
+
+	public void setGrandparentTitle(String grandparentTitle) {
+		grandchildFeature.setGrandparentTitle(grandparentTitle);
+	}
+
+	public void setParentRatingKey(Integer ratingKey) {
+		grandchildFeature.setParentRatingKey(ratingKey);
+	}
+
+	public void setGrandparentYear(Integer grandparentYear) {
+		grandchildFeature.setGrandparentYear(grandparentYear);
+	}
+
+	public void setParentThumb(String thumb) {
+		grandchildFeature.setParentThumb(thumb);
+	}
+
+	public void setParentTheme(String theme) {
+		grandchildFeature.setParentTheme(theme);
+	}
+
+	public void setGrandparentArt(String art) {
+		grandchildFeature.setGrandparentArt(art);
+	}
+
+	public void setGrandparentKey(String key) {
+		grandchildFeature.setGrandparentKey(key);
+	}
+
+	public void setGrandparentRatingKey(Integer ratingKey) {
+		grandchildFeature.setGrandparentRatingKey(ratingKey);
+	}
+
+	public void setGrandparentTheme(String theme) {
+		grandchildFeature.setGrandparentTheme(theme);
+	}
+
+	public void setGrandparentThumb(String thumb) {
+		grandchildFeature.setGrandparentThumb(thumb);
 	}
 
 	public void editMoods(List<String> value, Optional<Boolean> lock) {

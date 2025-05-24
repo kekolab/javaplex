@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import kekolab.javaplex.mappers.StringListDeserializer;
 
-public class PlexClip extends PlexVideo<PlexPhotoSection> {
+public class PlexClip extends PlexVideo<PlexPhotoSection> implements PlexChild<PlexPhotoSection, PlexPhotoalbum> {
 	public static final int TYPE_ID = 14;
 	public static final String TYPE_DESCRIPTION = "clip";
 
@@ -20,7 +20,12 @@ public class PlexClip extends PlexVideo<PlexPhotoSection> {
 	private String tagline;
 
 	@JsonIgnore
-	private Child<PlexPhotoSection, PlexPhotoalbum> asChild;
+	private ChildFeature<PlexPhotoSection, PlexPhotoalbum> childFeature;
+
+	public PlexClip() {
+		createdAtAccuracy = new ArrayList<>();
+		childFeature = new ChildFeature<>(this);
+	}
 
 	@Override
 	void update(PlexMetadata source) {
@@ -30,109 +35,99 @@ public class PlexClip extends PlexVideo<PlexPhotoSection> {
 		setCreatedAtAccuracy(clip.getCreatedAtAccuracy());
 		setSubtype(clip.getSubtype());
 		setTagline(clip.getTagline());
-		asChild.update(clip);
+		childFeature.update(clip);
 	}
 
 	public void setParentGuid(String guid) {
-		asChild.setParentGuid(guid);
+		childFeature.setParentGuid(guid);
 	}
 
 	public void setParentIndex(Integer index) {
-		asChild.setParentIndex(index);
+		childFeature.setParentIndex(index);
 	}
 
 	public void setParentStudio(String studio) {
-		asChild.setParentStudio(studio);
+		childFeature.setParentStudio(studio);
 	}
 
 	public void setParentTitle(String title) {
-		asChild.setParentTitle(title);
+		childFeature.setParentTitle(title);
 	}
 
 	public void setParentYear(Integer year) {
-		asChild.setParentYear(year);
+		childFeature.setParentYear(year);
 	}
 
 	public void setParentKey(String key) {
-		asChild.setParentKey(key);
+		childFeature.setParentKey(key);
 	}
 
 	public void setParentRatingKey(Integer ratingKey) {
-		asChild.setParentRatingKey(ratingKey);
+		childFeature.setParentRatingKey(ratingKey);
 	}
 
 	public void setParentThumb(String thumb) {
-		asChild.setParentThumb(thumb);
+		childFeature.setParentThumb(thumb);
 	}
 
 	public void setParentTheme(String theme) {
-		asChild.setParentTheme(theme);
+		childFeature.setParentTheme(theme);
 	}
 
 	public PlexPhotoalbum parent() {
-		return asChild.parent();
+		return childFeature.parent();
 	}
 
 	public String getParentGuid() {
-		return asChild.getParentGuid();
+		return childFeature.getParentGuid();
 	}
 
 	public Integer getParentIndex() {
-		return asChild.getParentIndex();
+		return childFeature.getParentIndex();
 	}
 
 	public String getParentKey() {
-		return asChild.getParentKey();
+		return childFeature.getParentKey();
 	}
 
 	public URI parentKey() {
-		return asChild.parentKey();
+		return childFeature.parentKey();
 	}
 
 	public Integer getParentRatingKey() {
-		return asChild.getParentRatingKey();
+		return childFeature.getParentRatingKey();
 	}
 
 	public URI parentRatingKey() {
-		return asChild.parentRatingKey();
+		return childFeature.parentRatingKey();
 	}
 
 	public String getParentStudio() {
-		return asChild.getParentStudio();
+		return childFeature.getParentStudio();
 	}
 
 	public String getParentTheme() {
-		return asChild.getParentTheme();
+		return childFeature.getParentTheme();
 	}
 
 	public URI parentTheme() {
-		return asChild.parentTheme();
+		return childFeature.parentTheme();
 	}
 
 	public String getParentThumb() {
-		return asChild.getParentThumb();
+		return childFeature.getParentThumb();
 	}
 
 	public URI parentThumb() {
-		return asChild.parentThumb();
+		return childFeature.parentThumb();
 	}
 
 	public String getParentTitle() {
-		return asChild.getParentTitle();
+		return childFeature.getParentTitle();
 	}
 
 	public Integer getParentYear() {
-		return asChild.getParentYear();
-	}
-
-	public PlexClip() {
-		createdAtAccuracy = new ArrayList<>();
-		asChild = new Child<>() {
-			@Override
-			public int typeId() {
-				return TYPE_ID;
-			}
-		};
+		return childFeature.getParentYear();
 	}
 
 	public Integer getCreatedAtTZOffset() {

@@ -54,7 +54,17 @@ public class PlexEpisode extends PlexVideo<PlexShowSection>
 	private Double audienceRating;
 
 	@JsonIgnore
-	private Grandchild<PlexShowSection, PlexSeason, PlexShow> asGrandchild;
+	private GrandchildFeature<PlexShowSection, PlexSeason, PlexShow> grandchildFeature;
+	
+	public PlexEpisode() {
+		directors = new ArrayList<>();
+		roles = new ArrayList<>();
+		writers = new ArrayList<>();
+		producers = new ArrayList<>();
+		ratings = new ArrayList<>();
+		grandchildFeature = new GrandchildFeature<>(this);
+	}
+
 
 	@Override
 	void update(PlexMetadata source) {
@@ -68,202 +78,7 @@ public class PlexEpisode extends PlexVideo<PlexShowSection>
 		setRatings(episode.getRatings());
 		setChapterSource(episode.getChapterSource());
 		setAudienceRating(episode.getAudienceRating());
-		asGrandchild.update(episode);
-	}
-
-	public void setParentGuid(String guid) {
-		asGrandchild.setParentGuid(guid);
-	}
-
-	public void setParentIndex(Integer index) {
-		asGrandchild.setParentIndex(index);
-	}
-
-	public void setParentStudio(String studio) {
-		asGrandchild.setParentStudio(studio);
-	}
-
-	public void setParentTitle(String title) {
-		asGrandchild.setParentTitle(title);
-	}
-
-	public void setParentYear(Integer year) {
-		asGrandchild.setParentYear(year);
-	}
-
-	public void setParentKey(String key) {
-		asGrandchild.setParentKey(key);
-	}
-
-	public void setGrandparentGuid(String grandParentGuid) {
-		asGrandchild.setGrandparentGuid(grandParentGuid);
-	}
-
-	public void setParentRatingKey(Integer ratingKey) {
-		asGrandchild.setParentRatingKey(ratingKey);
-	}
-
-	public void setGrandparentTitle(String grandparentTitle) {
-		asGrandchild.setGrandparentTitle(grandparentTitle);
-	}
-
-	public void setParentThumb(String thumb) {
-		asGrandchild.setParentThumb(thumb);
-	}
-
-	public void setParentTheme(String theme) {
-		asGrandchild.setParentTheme(theme);
-	}
-
-	public void setGrandparentYear(Integer grandparentYear) {
-		asGrandchild.setGrandparentYear(grandparentYear);
-	}
-
-	public void setGrandparentArt(String art) {
-		asGrandchild.setGrandparentArt(art);
-	}
-
-	public void setGrandparentKey(String key) {
-		asGrandchild.setGrandparentKey(key);
-	}
-
-	public void setGrandparentRatingKey(Integer ratingKey) {
-		asGrandchild.setGrandparentRatingKey(ratingKey);
-	}
-
-	public void setGrandparentTheme(String theme) {
-		asGrandchild.setGrandparentTheme(theme);
-	}
-
-	public void setGrandparentThumb(String thumb) {
-		asGrandchild.setGrandparentThumb(thumb);
-	}
-
-	public PlexSeason parent() {
-		return asGrandchild.parent();
-	}
-
-	public PlexShow grandparent() {
-		return asGrandchild.grandparent();
-	}
-
-	public String getParentGuid() {
-		return asGrandchild.getParentGuid();
-	}
-
-	public Integer getParentIndex() {
-		return asGrandchild.getParentIndex();
-	}
-
-	public String getParentKey() {
-		return asGrandchild.getParentKey();
-	}
-
-	public String getGrandparentArt() {
-		return asGrandchild.getGrandparentArt();
-	}
-
-	public URI parentKey() {
-		return asGrandchild.parentKey();
-	}
-
-	public URI grandparentArt() {
-		return asGrandchild.grandparentArt();
-	}
-
-	public Integer getParentRatingKey() {
-		return asGrandchild.getParentRatingKey();
-	}
-
-	public String getGrandparentGuid() {
-		return asGrandchild.getGrandparentGuid();
-	}
-
-	public URI parentRatingKey() {
-		return asGrandchild.parentRatingKey();
-	}
-
-	public String getGrandparentKey() {
-		return asGrandchild.getGrandparentKey();
-	}
-
-	public String getParentStudio() {
-		return asGrandchild.getParentStudio();
-	}
-
-	public URI grandparentKey() {
-		return asGrandchild.grandparentKey();
-	}
-
-	public String getParentTheme() {
-		return asGrandchild.getParentTheme();
-	}
-
-	public Integer getGrandparentRatingKey() {
-		return asGrandchild.getGrandparentRatingKey();
-	}
-
-	public URI parentTheme() {
-		return asGrandchild.parentTheme();
-	}
-
-	public URI grandparentRatingKey() {
-		return asGrandchild.grandparentRatingKey();
-	}
-
-	public String getParentThumb() {
-		return asGrandchild.getParentThumb();
-	}
-
-	public String getGrandparentTheme() {
-		return asGrandchild.getGrandparentTheme();
-	}
-
-	public URI parentThumb() {
-		return asGrandchild.parentThumb();
-	}
-
-	public String getParentTitle() {
-		return asGrandchild.getParentTitle();
-	}
-
-	public URI grandparentTheme() {
-		return asGrandchild.grandparentTheme();
-	}
-
-	public Integer getParentYear() {
-		return asGrandchild.getParentYear();
-	}
-
-	public String getGrandparentThumb() {
-		return asGrandchild.getGrandparentThumb();
-	}
-
-	public URI grandparentThumb() {
-		return asGrandchild.grandparentThumb();
-	}
-
-	public String getGrandparentTitle() {
-		return asGrandchild.getGrandparentTitle();
-	}
-
-	public Integer getGrandparentYear() {
-		return asGrandchild.getGrandparentYear();
-	}
-
-	public PlexEpisode() {
-		directors = new ArrayList<>();
-		roles = new ArrayList<>();
-		writers = new ArrayList<>();
-		producers = new ArrayList<>();
-		ratings = new ArrayList<>();
-		asGrandchild = new Grandchild<>() {
-			@Override
-			public int typeId() {
-				return TYPE_ID;
-			}
-		};
-
+		grandchildFeature.update(episode);
 	}
 
 	public List<PlexTag> getWriters() {
@@ -359,6 +174,231 @@ public class PlexEpisode extends PlexVideo<PlexShowSection>
 	public int typeId() {
 		return TYPE_ID;
 	}
+
+	public PlexSeason parent() {
+		return grandchildFeature.parent();
+	}
+
+
+	public PlexShow grandparent() {
+		return grandchildFeature.grandparent();
+	}
+
+
+	public String getParentGuid() {
+		return grandchildFeature.getParentGuid();
+	}
+
+
+	public String getGrandparentArt() {
+		return grandchildFeature.getGrandparentArt();
+	}
+
+
+	public Integer getParentIndex() {
+		return grandchildFeature.getParentIndex();
+	}
+
+
+	public String getParentKey() {
+		return grandchildFeature.getParentKey();
+	}
+
+
+	public URI grandparentArt() {
+		return grandchildFeature.grandparentArt();
+	}
+
+
+	public URI parentKey() {
+		return grandchildFeature.parentKey();
+	}
+
+
+	public String getGrandparentGuid() {
+		return grandchildFeature.getGrandparentGuid();
+	}
+
+
+	public Integer getParentRatingKey() {
+		return grandchildFeature.getParentRatingKey();
+	}
+
+
+	public String getGrandparentKey() {
+		return grandchildFeature.getGrandparentKey();
+	}
+
+
+	public URI parentRatingKey() {
+		return grandchildFeature.parentRatingKey();
+	}
+
+
+	public URI grandparentKey() {
+		return grandchildFeature.grandparentKey();
+	}
+
+
+	public String getParentStudio() {
+		return grandchildFeature.getParentStudio();
+	}
+
+
+	public Integer getGrandparentRatingKey() {
+		return grandchildFeature.getGrandparentRatingKey();
+	}
+
+
+	public String getParentTheme() {
+		return grandchildFeature.getParentTheme();
+	}
+
+
+	public URI grandparentRatingKey() {
+		return grandchildFeature.grandparentRatingKey();
+	}
+
+
+	public URI parentTheme() {
+		return grandchildFeature.parentTheme();
+	}
+
+
+	public String getGrandparentTheme() {
+		return grandchildFeature.getGrandparentTheme();
+	}
+
+
+	public String getParentThumb() {
+		return grandchildFeature.getParentThumb();
+	}
+
+
+	public URI grandparentTheme() {
+		return grandchildFeature.grandparentTheme();
+	}
+
+
+	public URI parentThumb() {
+		return grandchildFeature.parentThumb();
+	}
+
+
+	public String getParentTitle() {
+		return grandchildFeature.getParentTitle();
+	}
+
+
+	public String getGrandparentThumb() {
+		return grandchildFeature.getGrandparentThumb();
+	}
+
+
+	public Integer getParentYear() {
+		return grandchildFeature.getParentYear();
+	}
+
+
+	public URI grandparentThumb() {
+		return grandchildFeature.grandparentThumb();
+	}
+
+
+	public void setParentGuid(String guid) {
+		grandchildFeature.setParentGuid(guid);
+	}
+
+
+	public void setParentIndex(Integer index) {
+		grandchildFeature.setParentIndex(index);
+	}
+
+
+	public String getGrandparentTitle() {
+		return grandchildFeature.getGrandparentTitle();
+	}
+
+
+	public void setParentStudio(String studio) {
+		grandchildFeature.setParentStudio(studio);
+	}
+
+
+	public Integer getGrandparentYear() {
+		return grandchildFeature.getGrandparentYear();
+	}
+
+
+	public void setParentTitle(String title) {
+		grandchildFeature.setParentTitle(title);
+	}
+
+
+	public void setParentYear(Integer year) {
+		grandchildFeature.setParentYear(year);
+	}
+
+
+	public void setGrandparentGuid(String grandParentGuid) {
+		grandchildFeature.setGrandparentGuid(grandParentGuid);
+	}
+
+
+	public void setParentKey(String key) {
+		grandchildFeature.setParentKey(key);
+	}
+
+
+	public void setGrandparentTitle(String grandparentTitle) {
+		grandchildFeature.setGrandparentTitle(grandparentTitle);
+	}
+
+
+	public void setParentRatingKey(Integer ratingKey) {
+		grandchildFeature.setParentRatingKey(ratingKey);
+	}
+
+
+	public void setGrandparentYear(Integer grandparentYear) {
+		grandchildFeature.setGrandparentYear(grandparentYear);
+	}
+
+
+	public void setParentThumb(String thumb) {
+		grandchildFeature.setParentThumb(thumb);
+	}
+
+
+	public void setParentTheme(String theme) {
+		grandchildFeature.setParentTheme(theme);
+	}
+
+
+	public void setGrandparentArt(String art) {
+		grandchildFeature.setGrandparentArt(art);
+	}
+
+
+	public void setGrandparentKey(String key) {
+		grandchildFeature.setGrandparentKey(key);
+	}
+
+
+	public void setGrandparentRatingKey(Integer ratingKey) {
+		grandchildFeature.setGrandparentRatingKey(ratingKey);
+	}
+
+
+	public void setGrandparentTheme(String theme) {
+		grandchildFeature.setGrandparentTheme(theme);
+	}
+
+
+	public void setGrandparentThumb(String thumb) {
+		grandchildFeature.setGrandparentThumb(thumb);
+	}
+
 
 	public void editWriters(List<String> value, Optional<Boolean> lock) {
 		editList("writer", value, getWriters());

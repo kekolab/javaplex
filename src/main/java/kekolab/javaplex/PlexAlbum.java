@@ -1,10 +1,12 @@
 package kekolab.javaplex;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import kekolab.javaplex.filtering.PlexFilterableBoolean;
@@ -13,7 +15,7 @@ import kekolab.javaplex.filtering.PlexFilterableInteger;
 import kekolab.javaplex.filtering.PlexFilterableString;
 import kekolab.javaplex.filtering.PlexFilterableTag;
 
-public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements PlexParent<PlexMusicSection, PlexTrack> {
+public class PlexAlbum extends PlexMediatag<PlexMusicSection> implements PlexChild<PlexMusicSection, PlexArtist>, PlexParent<PlexMusicSection, PlexTrack> {
 	public static final int TYPE_ID = 9;
 	public static final String TYPE_DESCRIPTION = "album";
 
@@ -57,6 +59,9 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 	private Integer viewedLeafCount;
 	private Integer year;
 
+	@JsonIgnore
+	private ChildFeature<PlexMusicSection, PlexArtist> childFeature;
+
 	public PlexAlbum() {
 		directors = new ArrayList<>();
 		formats = new ArrayList<>();
@@ -64,6 +69,7 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		moods = new ArrayList<>();
 		subformats = new ArrayList<>();
 		styles = new ArrayList<>();
+		childFeature = new ChildFeature<>(this);
 	}
 
 	@Override
@@ -83,7 +89,7 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		setRating(a.getRating());
 		setViewedLeafCount(a.getViewedLeafCount());
 		setYear(a.getYear());
-
+		childFeature.update(a);
 	}
 
 	public Double getRating() {
@@ -239,5 +245,97 @@ public class PlexAlbum extends Child<PlexMusicSection, PlexArtist> implements Pl
 		editList("style", value, getStyles());
 		if (lock.isPresent())
 			editField("style.locked", lock.get() ? "1" : "0");
+	}
+
+	public PlexArtist parent() {
+		return childFeature.parent();
+	}
+
+	public String getParentGuid() {
+		return childFeature.getParentGuid();
+	}
+
+	public Integer getParentIndex() {
+		return childFeature.getParentIndex();
+	}
+
+	public String getParentKey() {
+		return childFeature.getParentKey();
+	}
+
+	public URI parentKey() {
+		return childFeature.parentKey();
+	}
+
+	public Integer getParentRatingKey() {
+		return childFeature.getParentRatingKey();
+	}
+
+	public URI parentRatingKey() {
+		return childFeature.parentRatingKey();
+	}
+
+	public String getParentStudio() {
+		return childFeature.getParentStudio();
+	}
+
+	public String getParentTheme() {
+		return childFeature.getParentTheme();
+	}
+
+	public URI parentTheme() {
+		return childFeature.parentTheme();
+	}
+
+	public String getParentThumb() {
+		return childFeature.getParentThumb();
+	}
+
+	public URI parentThumb() {
+		return childFeature.parentThumb();
+	}
+
+	public String getParentTitle() {
+		return childFeature.getParentTitle();
+	}
+
+	public Integer getParentYear() {
+		return childFeature.getParentYear();
+	}
+
+	public void setParentGuid(String guid) {
+		childFeature.setParentGuid(guid);
+	}
+
+	public void setParentIndex(Integer index) {
+		childFeature.setParentIndex(index);
+	}
+
+	public void setParentStudio(String studio) {
+		childFeature.setParentStudio(studio);
+	}
+
+	public void setParentTitle(String title) {
+		childFeature.setParentTitle(title);
+	}
+
+	public void setParentYear(Integer year) {
+		childFeature.setParentYear(year);
+	}
+
+	public void setParentKey(String key) {
+		childFeature.setParentKey(key);
+	}
+
+	public void setParentRatingKey(Integer ratingKey) {
+		childFeature.setParentRatingKey(ratingKey);
+	}
+
+	public void setParentThumb(String thumb) {
+		childFeature.setParentThumb(thumb);
+	}
+
+	public void setParentTheme(String theme) {
+		childFeature.setParentTheme(theme);
 	}
 }

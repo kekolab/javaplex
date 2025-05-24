@@ -1,9 +1,11 @@
 package kekolab.javaplex;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -14,7 +16,7 @@ import kekolab.javaplex.filtering.PlexFilterableString;
 import kekolab.javaplex.filtering.PlexFilterableTag;
 import kekolab.javaplex.mappers.StringListDeserializer;
 
-public class PlexPhoto extends Child<PlexPhotoSection, PlexPhotoalbum> {
+public class PlexPhoto extends PlexMediatag<PlexPhotoSection> implements PlexChild<PlexPhotoSection, PlexPhotoalbum> {
 	public static final int TYPE_ID = 13;
 	public static final String TYPE_DESCRIPTION = "photo";
 
@@ -41,9 +43,14 @@ public class PlexPhoto extends Child<PlexPhotoSection, PlexPhotoalbum> {
 	private Date originallyAvailableAt;
 	private Integer year;
 
+	@JsonIgnore
+	private ChildFeature<PlexPhotoSection, PlexPhotoalbum> childFeature;
+
+
 	public PlexPhoto() {
 		createdAtAccuracy = new ArrayList<>();
 		media = new ArrayList<>();
+		childFeature = new ChildFeature<>(this);
 	}
 
 	@Override
@@ -55,6 +62,7 @@ public class PlexPhoto extends Child<PlexPhotoSection, PlexPhotoalbum> {
 		setMedia(p.getMedia());
 		setOriginallyAvailableAt(p.getOriginallyAvailableAt());
 		setYear(p.getYear());
+		childFeature.update(p);
 	}
 
 	public Integer getCreatedAtTZOffset() {
@@ -100,6 +108,98 @@ public class PlexPhoto extends Child<PlexPhotoSection, PlexPhotoalbum> {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public PlexPhotoalbum parent() {
+		return childFeature.parent();
+	}
+
+	public String getParentGuid() {
+		return childFeature.getParentGuid();
+	}
+
+	public Integer getParentIndex() {
+		return childFeature.getParentIndex();
+	}
+
+	public String getParentKey() {
+		return childFeature.getParentKey();
+	}
+
+	public URI parentKey() {
+		return childFeature.parentKey();
+	}
+
+	public Integer getParentRatingKey() {
+		return childFeature.getParentRatingKey();
+	}
+
+	public URI parentRatingKey() {
+		return childFeature.parentRatingKey();
+	}
+
+	public String getParentStudio() {
+		return childFeature.getParentStudio();
+	}
+
+	public String getParentTheme() {
+		return childFeature.getParentTheme();
+	}
+
+	public URI parentTheme() {
+		return childFeature.parentTheme();
+	}
+
+	public String getParentThumb() {
+		return childFeature.getParentThumb();
+	}
+
+	public URI parentThumb() {
+		return childFeature.parentThumb();
+	}
+
+	public String getParentTitle() {
+		return childFeature.getParentTitle();
+	}
+
+	public Integer getParentYear() {
+		return childFeature.getParentYear();
+	}
+
+	public void setParentGuid(String guid) {
+		childFeature.setParentGuid(guid);
+	}
+
+	public void setParentIndex(Integer index) {
+		childFeature.setParentIndex(index);
+	}
+
+	public void setParentStudio(String studio) {
+		childFeature.setParentStudio(studio);
+	}
+
+	public void setParentTitle(String title) {
+		childFeature.setParentTitle(title);
+	}
+
+	public void setParentYear(Integer year) {
+		childFeature.setParentYear(year);
+	}
+
+	public void setParentKey(String key) {
+		childFeature.setParentKey(key);
+	}
+
+	public void setParentRatingKey(Integer ratingKey) {
+		childFeature.setParentRatingKey(ratingKey);
+	}
+
+	public void setParentThumb(String thumb) {
+		childFeature.setParentThumb(thumb);
+	}
+
+	public void setParentTheme(String theme) {
+		childFeature.setParentTheme(theme);
 	}
 
 	@Override
