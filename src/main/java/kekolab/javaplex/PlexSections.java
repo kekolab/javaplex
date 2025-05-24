@@ -44,13 +44,10 @@ public class PlexSections {
 
     public PlexSection byId(int id) {
         try {
-            URI uri = new URIBuilder(server.library().getUri()).appendPath("sections").appendPath(Integer.toString(id))
-                    .build();
+            URI uri = new URIBuilder(server.library().getUri()).appendPath("sections").build();
             List<PlexSection> sections = new PlexGeneralPurposeMediaContainer<PlexMetadata, PlexSection>(uri, server)
                     .getDirectories();
-            if (sections.size() == 0)
-                throw new PlexException("Section with id " + id + " does not exist");
-            return sections.get(0);
+            return sections.stream().filter(section -> section.getKey().equals(Integer.toString(id))).findFirst().orElseThrow(() -> new PlexException("Section with id " + id + " does not exist"));
         } catch (URISyntaxException e) {
             throw new PlexException(e);
         }
